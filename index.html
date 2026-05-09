@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -17,6 +18,7 @@
             --dragon-venom: #9b00ff;
             --bg-deep: #050508;
             --bg-card: rgba(13,13,26,0.85);
+            --bg-input: rgba(15,15,30,0.9);
             --text-dim: #7a7a9a;
             --text-body: #c0c0e0;
             --text-bright: #e8e8ff;
@@ -27,10 +29,11 @@
         body {
             background: var(--bg-deep);
             background-image:
+                url('photo_2026-02-22_00-18-30.jpg'),
                 linear-gradient(rgba(255,0,255,0.02) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(255,0,255,0.02) 1px, transparent 1px),
                 radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.8) 100%);
-            background-size: 40px 40px, 40px 40px, 100% 100%;
+            background-size: cover, 40px 40px, 40px 40px, 100% 100%;
             background-position: center;
             background-repeat: no-repeat;
             background-attachment: fixed;
@@ -67,7 +70,7 @@
 
         .content-wrapper { position: relative; z-index: 1; display: none; }
 
-        /* LOGIN */
+        /* ============ LOGIN ============ */
         #loginScreen {
             position: fixed;
             top: 0; left: 0;
@@ -173,7 +176,7 @@
 
         @keyframes shake { 0%,100% { transform: translateX(0); } 20% { transform: translateX(-8px); } 40% { transform: translateX(8px); } 60% { transform: translateX(-5px); } 80% { transform: translateX(5px); } }
 
-        /* PANTALLA BIENVENIDA */
+        /* ============ PANTALLA BIENVENIDA DRAGÓN ============ */
         #welcomeScreen {
             position: fixed;
             top: 0; left: 0;
@@ -218,6 +221,7 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            text-shadow: none;
         }
 
         .dragon-info {
@@ -257,7 +261,15 @@
 
         .dragon-status { font-size: 0.65em; color: var(--neon-orange); letter-spacing: 2px; margin: 8px 0; }
 
-        .lang-selector { display: flex; gap: 10px; justify-content: center; margin-top: 15px; flex-wrap: wrap; }
+        /* Selector de idioma */
+        .lang-selector {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
         .lang-btn {
             font-size: 1.8em;
             cursor: pointer;
@@ -269,6 +281,7 @@
             filter: grayscale(30%);
             opacity: 0.7;
         }
+
         .lang-btn:hover {
             border-color: var(--dragon-fire);
             box-shadow: 0 0 20px rgba(255,69,0,0.5);
@@ -276,6 +289,7 @@
             opacity: 1;
             transform: scale(1.1);
         }
+
         .lang-btn.selected {
             border-color: var(--dragon-fire);
             box-shadow: 0 0 30px rgba(255,69,0,0.7), 0 0 60px rgba(155,0,255,0.5);
@@ -283,10 +297,21 @@
             opacity: 1;
             animation: selectedGlow 2s ease-in-out infinite;
         }
-        @keyframes selectedGlow { 0%,100% { box-shadow: 0 0 20px rgba(255,69,0,0.5); } 50% { box-shadow: 0 0 40px rgba(255,69,0,0.8), 0 0 80px rgba(155,0,255,0.6); } }
-        .lang-label { font-size: 0.55em; color: var(--text-dim); letter-spacing: 2px; margin-top: 5px; text-transform: uppercase; }
 
-        /* DASHBOARD */
+        @keyframes selectedGlow {
+            0%,100% { box-shadow: 0 0 20px rgba(255,69,0,0.5); }
+            50% { box-shadow: 0 0 40px rgba(255,69,0,0.8), 0 0 80px rgba(155,0,255,0.6); }
+        }
+
+        .lang-label {
+            font-size: 0.55em;
+            color: var(--text-dim);
+            letter-spacing: 2px;
+            margin-top: 5px;
+            text-transform: uppercase;
+        }
+
+        /* ============ DASHBOARD ============ */
         .banner {
             background: linear-gradient(135deg, rgba(10,5,20,0.9), rgba(20,5,35,0.9), rgba(5,15,30,0.9));
             border: 2px solid var(--neon-magenta);
@@ -306,6 +331,7 @@
             justify-content: center;
             gap: 10px;
         }
+
         @keyframes banGlow { 0% { box-shadow: 0 0 5px var(--neon-magenta); } 100% { box-shadow: 0 0 15px var(--neon-purple), 0 0 30px var(--neon-magenta); } }
 
         .signature { text-align: center; font-size: 0.55em; letter-spacing: 2px; color: var(--neon-magenta); text-shadow: 0 0 5px var(--neon-magenta); opacity: 0.7; }
@@ -455,7 +481,7 @@
         .m3u-link-text { flex: 1; min-width: 80px; max-width: 200px; color: var(--neon-cyan); cursor: pointer; font-size: 0.75em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-decoration: underline; text-decoration-color: rgba(0,255,255,0.3); -webkit-user-select: text; user-select: text; }
         .cat-badge { background: rgba(255,0,255,0.12); border: 1px solid rgba(255,0,255,0.3); border-radius: 3px; padding: 2px 6px; font-size: 0.7em; color: var(--neon-magenta); white-space: nowrap; cursor: pointer; font-weight: bold; }
 
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 10000; display: none; align-items: center; justify-content: center; animation: fadeIn 0.2s ease; padding: 15px; }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 10000; display: flex; align-items: center; justify-content: center; animation: fadeIn 0.2s ease; padding: 15px; display: none; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         .modal { background: rgba(10,10,22,0.98); border: 2px solid var(--neon-magenta); border-radius: 5px; padding: 15px; max-width: 750px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 0 50px rgba(255,0,255,0.35); -webkit-overflow-scrolling: touch; }
@@ -527,12 +553,12 @@
 </head>
 <body>
 
-    <!-- LOGIN -->
+    <!-- ============ LOGIN ============ -->
     <div id="loginScreen">
         <div class="login-box">
             <div class="login-logo">☢️</div>
             <div class="login-brand">ALEXTEAMVENENO</div>
-            <div class="login-version">[ DRAGÓN CYBERPUNK v14.1 · AUTO-SAVE ]</div>
+            <div class="login-version">[ DRAGÓN CYBERPUNK v14.0 ]</div>
             <div class="input-group">
                 <label>👤 USUARIO</label>
                 <input type="text" id="loginUser" placeholder="Ingresa tu usuario..." autocomplete="off">
@@ -547,11 +573,17 @@
         </div>
     </div>
 
-    <!-- BIENVENIDA -->
+    <!-- ============ PANTALLA BIENVENIDA DRAGÓN ============ -->
     <div id="welcomeScreen">
         <div class="dragon-container">
             <div class="fire-particles">
-                <span class="fire-particle">🔥</span><span class="fire-particle">🔥</span><span class="fire-particle">🔥</span><span class="fire-particle">🔥</span><span class="fire-particle">🔥</span><span class="fire-particle">🔥</span><span class="fire-particle">🔥</span>
+                <span class="fire-particle">🔥</span>
+                <span class="fire-particle">🔥</span>
+                <span class="fire-particle">🔥</span>
+                <span class="fire-particle">🔥</span>
+                <span class="fire-particle">🔥</span>
+                <span class="fire-particle">🔥</span>
+                <span class="fire-particle">🔥</span>
             </div>
             <div class="dragon-row">
                 <span class="dragon-fire-breath">💨</span>
@@ -561,7 +593,11 @@
                 <span class="dragon-fire-breath">💨</span>
             </div>
             <div class="fire-particles" style="margin-top:-10px;">
-                <span class="fire-particle" style="animation-delay:0.5s;">🔥</span><span class="fire-particle" style="animation-delay:0.65s;">🔥</span><span class="fire-particle" style="animation-delay:0.8s;">🔥</span><span class="fire-particle" style="animation-delay:0.95s;">🔥</span><span class="fire-particle" style="animation-delay:1.1s;">🔥</span>
+                <span class="fire-particle" style="animation-delay:0.5s;">🔥</span>
+                <span class="fire-particle" style="animation-delay:0.65s;">🔥</span>
+                <span class="fire-particle" style="animation-delay:0.8s;">🔥</span>
+                <span class="fire-particle" style="animation-delay:0.95s;">🔥</span>
+                <span class="fire-particle" style="animation-delay:1.1s;">🔥</span>
             </div>
             <div class="dragon-title" id="dragonTitle">EL DRAGÓN HA DESPERTADO</div>
             <div class="dragon-info">
@@ -571,22 +607,40 @@
                 <span>🎯 ESTADO:</span> <span id="dragonStatus">CAZANDO</span>
             </div>
             <div class="dragon-status" id="dragonLoading">🔥 INYECTANDO VENENO AL SISTEMA...</div>
-            <div class="dragon-progress"><div class="dragon-progress-fill"></div></div>
+            <div class="dragon-progress">
+                <div class="dragon-progress-fill"></div>
+            </div>
+
+            <!-- SELECTOR DE IDIOMA -->
             <div style="margin-top:15px; text-align:center;">
                 <div style="font-size:0.6em; color:var(--text-dim); letter-spacing:2px; margin-bottom:8px;">🌍 SELECCIONA IDIOMA / SELECT LANGUAGE / SELECTEAZĂ LIMBA</div>
                 <div class="lang-selector">
-                    <div class="lang-btn selected" onclick="selectLanguage('es', this)">🇪🇸<div class="lang-label">ESPAÑOL</div></div>
-                    <div class="lang-btn" onclick="selectLanguage('ro', this)">🇷🇴<div class="lang-label">ROMÂNĂ</div></div>
-                    <div class="lang-btn" onclick="selectLanguage('en', this)">🇬🇧<div class="lang-label">ENGLISH</div></div>
+                    <div class="lang-btn selected" onclick="selectLanguage('es', this)" title="Español">
+                        🇪🇸
+                        <div class="lang-label">ESPAÑOL</div>
+                    </div>
+                    <div class="lang-btn" onclick="selectLanguage('ro', this)" title="Română">
+                        🇷🇴
+                        <div class="lang-label">ROMÂNĂ</div>
+                    </div>
+                    <div class="lang-btn" onclick="selectLanguage('en', this)" title="English">
+                        🇬🇧
+                        <div class="lang-label">ENGLISH</div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- DASHBOARD -->
+    <!-- ============ DASHBOARD ============ -->
     <div class="content-wrapper" id="dashboard">
-        <div class="banner"><span>☢️</span><span>TEAM VENENO · ALEX92</span><span>☢️</span></div>
+        <div class="banner">
+            <span>☢️</span>
+            <span>TEAM VENENO · ALEX92</span>
+            <span>☢️</span>
+        </div>
         <div class="signature">[ ALEXTEAMVENENO ]</div>
+
         <div class="main-container">
             <div class="left-panel">
                 <div class="card">
@@ -597,6 +651,7 @@
                         <span id="comboStatus" style="font-size:0.65em; color: var(--neon-cyan);">0 lines</span>
                     </div>
                 </div>
+
                 <div class="card">
                     <div class="card-title" data-key="proxy_matrix">🌐 // PROXY_MATRIX</div>
                     <select id="proxyType" style="margin-bottom:4px;">
@@ -612,6 +667,7 @@
                     </div>
                     <span id="proxyStatus" style="font-size:0.65em; color: var(--neon-cyan);">> 0 proxies</span>
                 </div>
+
                 <div class="card">
                     <div class="card-title" data-key="config">⚙️ // CONFIG</div>
                     <label data-key="target_url">🌐 TARGET URL (comma separated)</label>
@@ -624,6 +680,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="card">
                     <div class="card-title" data-key="filter">🎛️ // FILTER</div>
                     <div class="checkbox-row">
@@ -632,11 +689,13 @@
                         <label style="color:var(--neon-red);"><input type="checkbox" id="logErrors"> ERR</label>
                     </div>
                 </div>
+
                 <div class="card" style="flex:1; display:flex; flex-direction:column;">
                     <div class="card-title" data-key="console_title">📟 // CONSOLE</div>
-                    <div class="console" id="console">> ALEXTEAMVENENO · v14.1<br>> Sistema bloqueado. Inicia sesión...</div>
+                    <div class="console" id="console">> ALEXTEAMVENENO · v14.0<br>> Sistema bloqueado. Inicia sesión...</div>
                 </div>
             </div>
+
             <div class="right-panel">
                 <div class="card">
                     <div class="stats-grid">
@@ -652,37 +711,65 @@
                     <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
                     <div class="progress-text" id="progressText">[ 0 / 0 ] 0%</div>
                 </div>
+
                 <div class="row" style="gap:4px;">
                     <button class="btn-save" onclick="saveHitsToTxt()" style="flex:1;" data-key="save_hits">💾 SAVE HITS TXT</button>
                     <button class="btn-clear" onclick="clearHits()" style="flex:1;" data-key="clear_hits">🗑️ CLEAR HITS</button>
                     <button class="btn-clear" onclick="doLogout()" style="flex:0; background:rgba(80,0,30,0.9); border-color:rgba(255,100,0,0.5); color:var(--neon-orange);" data-key="exit">🚪 EXIT</button>
                 </div>
+
                 <div class="card" style="flex:1; display:flex; flex-direction:column; padding:6px;">
                     <div class="card-title" style="margin-bottom:4px;" data-key="hit_database">⭐ // HIT DATABASE</div>
                     <div class="table-container">
                         <table class="hits-table" id="hitsTable">
-                            <thead><tr><th data-key="th_user">USER</th><th data-key="th_pass">PASS</th><th data-key="th_status">STATUS</th><th data-key="th_exp">EXP</th><th data-key="th_panel">PANEL</th><th>📺</th><th>🇪🇸</th><th>🎬</th><th>🍿</th><th data-key="th_cats">CATS</th><th>M3U</th></tr></thead>
+                            <thead>
+                                <tr>
+                                    <th data-key="th_user">USER</th>
+                                    <th data-key="th_pass">PASS</th>
+                                    <th data-key="th_status">STATUS</th>
+                                    <th data-key="th_exp">EXP</th>
+                                    <th data-key="th_panel">PANEL</th>
+                                    <th>📺</th>
+                                    <th>🇪🇸</th>
+                                    <th>🎬</th>
+                                    <th>🍿</th>
+                                    <th data-key="th_cats">CATS</th>
+                                    <th>M3U</th>
+                                </tr>
+                            </thead>
                             <tbody id="hitsBody"></tbody>
                         </table>
                     </div>
                 </div>
+
                 <div class="row">
                     <button class="btn-start" id="btnStart" onclick="startScan()" data-key="deploy">🚀 DEPLOY ATTACK</button>
                     <button class="btn-stop" id="btnStop" onclick="stopScan()" disabled data-key="abort">⬛ ABORT</button>
                 </div>
             </div>
         </div>
+
         <div class="footer-signature">[ ALEXTEAMVENENO ] · CYBERPUNK NEON · 2026</div>
     </div>
 
+    <!-- ============ INDICADOR IDIOMA ============ -->
     <div class="lang-indicator" onclick="changeLanguageFromDashboard()" title="Cambiar idioma" id="langIndicator">🇪🇸</div>
 
-    <!-- MODAL -->
+    <!-- ============ MODAL ============ -->
     <div class="modal-overlay" id="m3uModal" onclick="closeM3uModal(event)">
         <div class="modal" onclick="event.stopPropagation()">
-            <div class="modal-header"><span class="modal-logo">☢️</span><div><div class="modal-title" data-key="modal_title">HIT DETAILS</div><div class="modal-subtitle">ALEXTEAMVENENO</div></div></div>
+            <div class="modal-header">
+                <span class="modal-logo">☢️</span>
+                <div>
+                    <div class="modal-title" data-key="modal_title">HIT DETAILS</div>
+                    <div class="modal-subtitle">ALEXTEAMVENENO</div>
+                </div>
+            </div>
             <div class="hit-info-grid" id="modalHitInfo"></div>
-            <div class="categories-section" id="modalCategories" style="display:none;"><div class="categories-title" data-key="modal_cats">📂 CATEGORIES</div><div class="categories-grid" id="modalCategoriesGrid"></div></div>
+            <div class="categories-section" id="modalCategories" style="display:none;">
+                <div class="categories-title" data-key="modal_cats">📂 CATEGORIES</div>
+                <div class="categories-grid" id="modalCategoriesGrid"></div>
+            </div>
             <div class="m3u-link-full" id="m3uModalLink" onclick="copyM3uFromModal()"></div>
             <div class="modal-buttons">
                 <button class="btn-copy-m3u" onclick="copyM3uFromModal()" style="font-size:0.85em; padding:12px 20px;" data-key="copy_m3u">📋 COPY M3U</button>
@@ -704,46 +791,261 @@
 
         // ==================== TRADUCCIONES ====================
         const translations = {
-            es: { combo_loader:'📁 // CARGAR_COMBOS',load_file:'📂 CARGAR ARCHIVO',proxy_matrix:'🌐 // MATRIZ_PROXY',load:'🔄 CARGAR',scrape:'🌐 SCRAPEAR',config:'⚙️ // CONFIGURACIÓN',target_url:'🌐 URL DEL PANEL (separadas por comas)',threads:'🤖 HILOS',filter:'🎛️ // FILTROS',console_title:'📟 // CONSOLA',scanned:'🔍 REVISADOS',hits:'✅ HITS',errors:'❌ ERRORES',rate:'🎯 ÉXITO',channels:'📺 CANALES',spain:'🇪🇸 ESPAÑA',save_hits:'💾 GUARDAR HITS',clear_hits:'🗑️ LIMPIAR HITS',exit:'🚪 SALIR',hit_database:'⭐ // BASE_DE_HITS',th_user:'USUARIO',th_pass:'CONTRASEÑA',th_status:'ESTADO',th_exp:'EXPIRA',th_panel:'PANEL',th_cats:'CATS',deploy:'🚀 INICIAR ATAQUE',abort:'⬛ DETENER',modal_title:'DETALLES DEL HIT',modal_cats:'📂 CATEGORÍAS',copy_m3u:'📋 COPIAR M3U',copy_all:'📄 COPIAR TODO',close:'❌ CERRAR',welcome_title:'EL DRAGÓN HA DESPERTADO',welcome_status:'CAZANDO',welcome_loading:'🔥 INYECTANDO VENENO AL SISTEMA...',toast_copied:'✅ ¡Copiado!',toast_saved:'💾 ¡Hits guardados!',toast_cleared:'🗑️ Hits limpiados',toast_welcome:'✅ ¡Bienvenido ALEX!',login_error:'⚠️ Credenciales incorrectas',console_ready:'> Sistema listo. Carga un combo para comenzar.',console_locked:'> Sistema bloqueado. Inicia sesión...',attack_deployed:'🚀 ATAQUE DESPLEGADO [ALEXTEAMVENENO]',attack_finished:'🎯 ATAQUE FINALIZADO',hit_log:'💥 HIT!',abort_log:'⬛ ABORTADO [ALEXTEAMVENENO]',no_combos:'⚠️ Carga un archivo de combos primero',no_urls:'⚠️ Ingresa URLs de paneles',proxies_loaded:'🌐 proxies cargados',combos_loaded:'✅ combos cargados [ALEXTEAMVENENO]',proxies_ready:'✅ proxies élite listos [ALEXTEAMVENENO]',session_restored:'💾 Sesión restaurada',modal_user:'👤 USUARIO',modal_pass:'🔑 CONTRASEÑA',modal_panel:'🌐 PANEL',modal_status:'🟢 ESTADO',modal_exp:'📅 EXPIRA',modal_proxy:'🛡️ PROXY',modal_channels:'📺 CANALES',modal_spain:'🇪🇸 ESPAÑA',modal_movies:'🎬 PELÍCULAS',modal_series:'🍿 SERIES',modal_cats_count:'📂 CATEGORÍAS',modal_conn:'🔌 CONEXIÓN' },
-            ro: { combo_loader:'📁 // ÎNCARCĂ_COMBOURI',load_file:'📂 ÎNCARCĂ FIȘIER',proxy_matrix:'🌐 // MATRICE_PROXY',load:'🔄 ÎNCARCĂ',scrape:'🌐 SCRAPEAZĂ',config:'⚙️ // CONFIGURARE',target_url:'🌐 URL PANEL (separate prin virgulă)',threads:'🤖 FIRE',filter:'🎛️ // FILTRE',console_title:'📟 // CONSOLĂ',scanned:'🔍 VERIFICAȚI',hits:'✅ HIT-URI',errors:'❌ ERORI',rate:'🎯 SUCCES',channels:'📺 CANALE',spain:'🇪🇸 SPANIA',save_hits:'💾 SALVEAZĂ HIT-URI',clear_hits:'🗑️ CURĂȚĂ HIT-URI',exit:'🚪 IEȘI',hit_database:'⭐ // BAZĂ_HIT-URI',th_user:'UTILIZATOR',th_pass:'PAROLĂ',th_status:'STARE',th_exp:'EXPIRĂ',th_panel:'PANEL',th_cats:'CATEG',deploy:'🚀 PORNЕȘTE ATACUL',abort:'⬛ OPREȘTE',modal_title:'DETALII HIT',modal_cats:'📂 CATEGORII',copy_m3u:'📋 COPIAZĂ M3U',copy_all:'📄 COPIAZĂ TOT',close:'❌ ÎNCHIDE',welcome_title:'DRAGONUL S-A TREZIT',welcome_status:'VÂNÂND',welcome_loading:'🔥 INJECTÂND VENIN ÎN SISTEM...',toast_copied:'✅ Copiat!',toast_saved:'💾 Hit-uri salvate!',toast_cleared:'🗑️ Hit-uri curățate',toast_welcome:'✅ Bine ai venit ALEX!',login_error:'⚠️ Credențiale incorecte',console_ready:'> Sistem pregătit. Încarcă un combo pentru a începe.',console_locked:'> Sistem blocat. Autentifică-te...',attack_deployed:'🚀 ATAC PORNIT [ALEXTEAMVENENO]',attack_finished:'🎯 ATAC FINALIZAT',hit_log:'💥 HIT!',abort_log:'⬛ ABORTAT [ALEXTEAMVENENO]',no_combos:'⚠️ Încarcă mai întâi un fișier combo',no_urls:'⚠️ Introdu URL-uri de panel',proxies_loaded:'🌐 proxy-uri încărcate',combos_loaded:'✅ combo-uri încărcate [ALEXTEAMVENENO]',proxies_ready:'✅ proxy-uri elite pregătite [ALEXTEAMVENENO]',session_restored:'💾 Sesiune restaurată',modal_user:'👤 UTILIZATOR',modal_pass:'🔑 PAROLĂ',modal_panel:'🌐 PANEL',modal_status:'🟢 STARE',modal_exp:'📅 EXPIRĂ',modal_proxy:'🛡️ PROXY',modal_channels:'📺 CANALE',modal_spain:'🇪🇸 SPANIA',modal_movies:'🎬 FILME',modal_series:'🍿 SERIALE',modal_cats_count:'📂 CATEGORII',modal_conn:'🔌 CONEXIUNE' },
-            en: { combo_loader:'📁 // COMBO_LOADER',load_file:'📂 LOAD FILE',proxy_matrix:'🌐 // PROXY_MATRIX',load:'🔄 LOAD',scrape:'🌐 SCRAPE',config:'⚙️ // SETTINGS',target_url:'🌐 PANEL URL (comma separated)',threads:'🤖 THREADS',filter:'🎛️ // FILTERS',console_title:'📟 // CONSOLE',scanned:'🔍 SCANNED',hits:'✅ HITS',errors:'❌ ERRORS',rate:'🎯 RATE',channels:'📺 CHANNELS',spain:'🇪🇸 SPAIN',save_hits:'💾 SAVE HITS',clear_hits:'🗑️ CLEAR HITS',exit:'🚪 EXIT',hit_database:'⭐ // HIT_DATABASE',th_user:'USER',th_pass:'PASS',th_status:'STATUS',th_exp:'EXP',th_panel:'PANEL',th_cats:'CATS',deploy:'🚀 DEPLOY ATTACK',abort:'⬛ ABORT',modal_title:'HIT DETAILS',modal_cats:'📂 CATEGORIES',copy_m3u:'📋 COPY M3U',copy_all:'📄 COPY ALL',close:'❌ CLOSE',welcome_title:'THE DRAGON HAS AWAKENED',welcome_status:'HUNTING',welcome_loading:'🔥 INJECTING VENOM INTO SYSTEM...',toast_copied:'✅ Copied!',toast_saved:'💾 Hits saved!',toast_cleared:'🗑️ Hits cleared',toast_welcome:'✅ Welcome ALEX!',login_error:'⚠️ Invalid credentials',console_ready:'> System ready. Load combo to begin.',console_locked:'> System locked. Please login...',attack_deployed:'🚀 ATTACK DEPLOYED [ALEXTEAMVENENO]',attack_finished:'🎯 ATTACK FINISHED',hit_log:'💥 HIT!',abort_log:'⬛ ABORTED [ALEXTEAMVENENO]',no_combos:'⚠️ Load a combo file first',no_urls:'⚠️ Enter panel URLs',proxies_loaded:'🌐 proxies loaded',combos_loaded:'✅ combos loaded [ALEXTEAMVENENO]',proxies_ready:'✅ elite proxies ready [ALEXTEAMVENENO]',session_restored:'💾 Session restored',modal_user:'👤 USER',modal_pass:'🔑 PASS',modal_panel:'🌐 PANEL',modal_status:'🟢 STATUS',modal_exp:'📅 EXPIRES',modal_proxy:'🛡️ PROXY',modal_channels:'📺 CHANNELS',modal_spain:'🇪🇸 SPAIN',modal_movies:'🎬 MOVIES',modal_series:'🍿 SERIES',modal_cats_count:'📂 CATEGORIES',modal_conn:'🔌 CONNECTION' }
+            es: {
+                combo_loader: '📁 // CARGAR_COMBOS',
+                load_file: '📂 CARGAR ARCHIVO',
+                proxy_matrix: '🌐 // MATRIZ_PROXY',
+                load: '🔄 CARGAR',
+                scrape: '🌐 SCRAPEAR',
+                config: '⚙️ // CONFIGURACIÓN',
+                target_url: '🌐 URL DEL PANEL (separadas por comas)',
+                threads: '🤖 HILOS',
+                filter: '🎛️ // FILTROS',
+                console_title: '📟 // CONSOLA',
+                scanned: '🔍 REVISADOS',
+                hits: '✅ HITS',
+                errors: '❌ ERRORES',
+                rate: '🎯 ÉXITO',
+                channels: '📺 CANALES',
+                spain: '🇪🇸 ESPAÑA',
+                save_hits: '💾 GUARDAR HITS',
+                clear_hits: '🗑️ LIMPIAR HITS',
+                exit: '🚪 SALIR',
+                hit_database: '⭐ // BASE_DE_HITS',
+                th_user: 'USUARIO',
+                th_pass: 'CONTRASEÑA',
+                th_status: 'ESTADO',
+                th_exp: 'EXPIRA',
+                th_panel: 'PANEL',
+                th_cats: 'CATS',
+                deploy: '🚀 INICIAR ATAQUE',
+                abort: '⬛ DETENER',
+                modal_title: 'DETALLES DEL HIT',
+                modal_cats: '📂 CATEGORÍAS',
+                copy_m3u: '📋 COPIAR M3U',
+                copy_all: '📄 COPIAR TODO',
+                close: '❌ CERRAR',
+                welcome_title: 'EL DRAGÓN HA DESPERTADO',
+                welcome_status: 'CAZANDO',
+                welcome_loading: '🔥 INYECTANDO VENENO AL SISTEMA...',
+                toast_copied: '✅ ¡Copiado!',
+                toast_saved: '💾 ¡Hits guardados!',
+                toast_cleared: '🗑️ Hits limpiados',
+                toast_welcome: '✅ ¡Bienvenido ALEX!',
+                login_error: '⚠️ Credenciales incorrectas',
+                console_ready: '> Sistema listo. Carga un combo para comenzar.',
+                console_locked: '> Sistema bloqueado. Inicia sesión...',
+                attack_deployed: '🚀 ATAQUE DESPLEGADO [ALEXTEAMVENENO]',
+                attack_finished: '🎯 ATAQUE FINALIZADO',
+                hit_log: '💥 HIT!',
+                abort_log: '⬛ ABORTADO [ALEXTEAMVENENO]',
+                no_combos: '⚠️ Carga un archivo de combos primero',
+                no_urls: '⚠️ Ingresa URLs de paneles',
+                proxies_loaded: '🌐 proxies cargados',
+                combos_loaded: '✅ combos cargados [ALEXTEAMVENENO]',
+                proxies_ready: '✅ proxies élite listos [ALEXTEAMVENENO]',
+                modal_user: '👤 USUARIO',
+                modal_pass: '🔑 CONTRASEÑA',
+                modal_panel: '🌐 PANEL',
+                modal_status: '🟢 ESTADO',
+                modal_exp: '📅 EXPIRA',
+                modal_proxy: '🛡️ PROXY',
+                modal_channels: '📺 CANALES',
+                modal_spain: '🇪🇸 ESPAÑA',
+                modal_movies: '🎬 PELÍCULAS',
+                modal_series: '🍿 SERIES',
+                modal_cats_count: '📂 CATEGORÍAS',
+                modal_conn: '🔌 CONEXIÓN',
+            },
+            ro: {
+                combo_loader: '📁 // ÎNCARCĂ_COMBOURI',
+                load_file: '📂 ÎNCARCĂ FIȘIER',
+                proxy_matrix: '🌐 // MATRICE_PROXY',
+                load: '🔄 ÎNCARCĂ',
+                scrape: '🌐 SCRAPEAZĂ',
+                config: '⚙️ // CONFIGURARE',
+                target_url: '🌐 URL PANEL (separate prin virgulă)',
+                threads: '🤖 FIRE',
+                filter: '🎛️ // FILTRE',
+                console_title: '📟 // CONSOLĂ',
+                scanned: '🔍 VERIFICAȚI',
+                hits: '✅ HIT-URI',
+                errors: '❌ ERORI',
+                rate: '🎯 SUCCES',
+                channels: '📺 CANALE',
+                spain: '🇪🇸 SPANIA',
+                save_hits: '💾 SALVEAZĂ HIT-URI',
+                clear_hits: '🗑️ CURĂȚĂ HIT-URI',
+                exit: '🚪 IEȘI',
+                hit_database: '⭐ // BAZĂ_HIT-URI',
+                th_user: 'UTILIZATOR',
+                th_pass: 'PAROLĂ',
+                th_status: 'STARE',
+                th_exp: 'EXPIRĂ',
+                th_panel: 'PANEL',
+                th_cats: 'CATEG',
+                deploy: '🚀 PORNЕȘTE ATACUL',
+                abort: '⬛ OPREȘTE',
+                modal_title: 'DETALII HIT',
+                modal_cats: '📂 CATEGORII',
+                copy_m3u: '📋 COPIAZĂ M3U',
+                copy_all: '📄 COPIAZĂ TOT',
+                close: '❌ ÎNCHIDE',
+                welcome_title: 'DRAGONUL S-A TREZIT',
+                welcome_status: 'VÂNÂND',
+                welcome_loading: '🔥 INJECTÂND VENIN ÎN SISTEM...',
+                toast_copied: '✅ Copiat!',
+                toast_saved: '💾 Hit-uri salvate!',
+                toast_cleared: '🗑️ Hit-uri curățate',
+                toast_welcome: '✅ Bine ai venit ALEX!',
+                login_error: '⚠️ Credențiale incorecte',
+                console_ready: '> Sistem pregătit. Încarcă un combo pentru a începe.',
+                console_locked: '> Sistem blocat. Autentifică-te...',
+                attack_deployed: '🚀 ATAC PORNIT [ALEXTEAMVENENO]',
+                attack_finished: '🎯 ATAC FINALIZAT',
+                hit_log: '💥 HIT!',
+                abort_log: '⬛ ABORTAT [ALEXTEAMVENENO]',
+                no_combos: '⚠️ Încarcă mai întâi un fișier combo',
+                no_urls: '⚠️ Introdu URL-uri de panel',
+                proxies_loaded: '🌐 proxy-uri încărcate',
+                combos_loaded: '✅ combo-uri încărcate [ALEXTEAMVENENO]',
+                proxies_ready: '✅ proxy-uri elite pregătite [ALEXTEAMVENENO]',
+                modal_user: '👤 UTILIZATOR',
+                modal_pass: '🔑 PAROLĂ',
+                modal_panel: '🌐 PANEL',
+                modal_status: '🟢 STARE',
+                modal_exp: '📅 EXPIRĂ',
+                modal_proxy: '🛡️ PROXY',
+                modal_channels: '📺 CANALE',
+                modal_spain: '🇪🇸 SPANIA',
+                modal_movies: '🎬 FILME',
+                modal_series: '🍿 SERIALE',
+                modal_cats_count: '📂 CATEGORII',
+                modal_conn: '🔌 CONEXIUNE',
+            },
+            en: {
+                combo_loader: '📁 // COMBO_LOADER',
+                load_file: '📂 LOAD FILE',
+                proxy_matrix: '🌐 // PROXY_MATRIX',
+                load: '🔄 LOAD',
+                scrape: '🌐 SCRAPE',
+                config: '⚙️ // SETTINGS',
+                target_url: '🌐 PANEL URL (comma separated)',
+                threads: '🤖 THREADS',
+                filter: '🎛️ // FILTERS',
+                console_title: '📟 // CONSOLE',
+                scanned: '🔍 SCANNED',
+                hits: '✅ HITS',
+                errors: '❌ ERRORS',
+                rate: '🎯 RATE',
+                channels: '📺 CHANNELS',
+                spain: '🇪🇸 SPAIN',
+                save_hits: '💾 SAVE HITS',
+                clear_hits: '🗑️ CLEAR HITS',
+                exit: '🚪 EXIT',
+                hit_database: '⭐ // HIT_DATABASE',
+                th_user: 'USER',
+                th_pass: 'PASS',
+                th_status: 'STATUS',
+                th_exp: 'EXP',
+                th_panel: 'PANEL',
+                th_cats: 'CATS',
+                deploy: '🚀 DEPLOY ATTACK',
+                abort: '⬛ ABORT',
+                modal_title: 'HIT DETAILS',
+                modal_cats: '📂 CATEGORIES',
+                copy_m3u: '📋 COPY M3U',
+                copy_all: '📄 COPY ALL',
+                close: '❌ CLOSE',
+                welcome_title: 'THE DRAGON HAS AWAKENED',
+                welcome_status: 'HUNTING',
+                welcome_loading: '🔥 INJECTING VENOM INTO SYSTEM...',
+                toast_copied: '✅ Copied!',
+                toast_saved: '💾 Hits saved!',
+                toast_cleared: '🗑️ Hits cleared',
+                toast_welcome: '✅ Welcome ALEX!',
+                login_error: '⚠️ Invalid credentials',
+                console_ready: '> System ready. Load combo to begin.',
+                console_locked: '> System locked. Please login...',
+                attack_deployed: '🚀 ATTACK DEPLOYED [ALEXTEAMVENENO]',
+                attack_finished: '🎯 ATTACK FINISHED',
+                hit_log: '💥 HIT!',
+                abort_log: '⬛ ABORTED [ALEXTEAMVENENO]',
+                no_combos: '⚠️ Load a combo file first',
+                no_urls: '⚠️ Enter panel URLs',
+                proxies_loaded: '🌐 proxies loaded',
+                combos_loaded: '✅ combos loaded [ALEXTEAMVENENO]',
+                proxies_ready: '✅ elite proxies ready [ALEXTEAMVENENO]',
+                modal_user: '👤 USER',
+                modal_pass: '🔑 PASS',
+                modal_panel: '🌐 PANEL',
+                modal_status: '🟢 STATUS',
+                modal_exp: '📅 EXPIRES',
+                modal_proxy: '🛡️ PROXY',
+                modal_channels: '📺 CHANNELS',
+                modal_spain: '🇪🇸 SPAIN',
+                modal_movies: '🎬 MOVIES',
+                modal_series: '🍿 SERIES',
+                modal_cats_count: '📂 CATEGORIES',
+                modal_conn: '🔌 CONNECTION',
+            }
         };
 
-        function t(key) { return translations[currentLang]?.[key] || translations['es'][key] || key; }
+        function t(key) {
+            return translations[currentLang]?.[key] || translations['es'][key] || key;
+        }
 
-        // ==================== IDIOMA ====================
+        // ==================== CAMBIO DE IDIOMA ====================
         function selectLanguage(lang, btn) {
             currentLang = lang;
             localStorage.setItem('alexLang', lang);
+
+            // Actualizar botones de idioma
             document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('selected'));
             if (btn) btn.classList.add('selected');
+
+            // Actualizar indicador
             const flags = { es: '🇪🇸', ro: '🇷🇴', en: '🇬🇧' };
             const indicator = document.getElementById('langIndicator');
             if (indicator) indicator.textContent = flags[lang];
-            if (isLoggedIn) { applyTranslations(); updateModalIfOpen(); }
+
+            // Traducir dashboard si está visible
+            if (isLoggedIn) {
+                applyTranslations();
+                updateModalIfOpen();
+            }
         }
 
         function applyTranslations() {
+            // Elementos con data-key
             document.querySelectorAll('[data-key]').forEach(el => {
                 const key = el.getAttribute('data-key');
                 if (translations[currentLang]?.[key]) {
+                    // Preservar emojis/icons si los hay
                     const text = el.textContent.trim();
                     const iconMatch = text.match(/^([\p{Emoji}\p{Emoji_Presentation}]{1,4}\s*)/u);
                     const icon = iconMatch ? iconMatch[0] : '';
-                    el.textContent = icon ? icon + translations[currentLang][key] : translations[currentLang][key];
+                    const translated = translations[currentLang][key];
+                    el.textContent = icon ? icon + translated : translated;
                 }
             });
+
+            // Actualizar placeholder del input de portales
             const portalsInput = document.getElementById('portals');
             if (portalsInput) portalsInput.placeholder = t('target_url').replace('🌐 ', '');
+
+            // Actualizar logs iniciales
             const consoleEl = document.getElementById('console');
             if (consoleEl && consoleEl.children.length <= 2) {
-                consoleEl.innerHTML = `> ALEXTEAMVENENO · v14.1<br>> ${t('console_ready')}`;
+                consoleEl.innerHTML = `> ALEXTEAMVENENO · v14.0<br>> ${t('console_ready')}`;
             }
         }
 
         function updateModalIfOpen() {
             const modal = document.getElementById('m3uModal');
-            if (modal.style.display === 'flex' && state.currentModalHit) showModal(state.currentModalHit);
+            if (modal.style.display === 'flex' && state.currentModalHit) {
+                showModal(state.currentModalHit);
+            }
         }
 
         function changeLanguageFromDashboard() {
@@ -752,9 +1054,12 @@
             const nextIndex = (currentIndex + 1) % langs.length;
             const nextLang = langs[nextIndex];
             selectLanguage(nextLang);
+
+            // Actualizar botones en la pantalla de bienvenida si está visible
             const btns = document.querySelectorAll('.lang-btn');
             btns.forEach(b => b.classList.remove('selected'));
             if (btns[nextIndex]) btns[nextIndex].classList.add('selected');
+
             showToast(`🌍 ${nextLang === 'es' ? 'Español' : nextLang === 'ro' ? 'Română' : 'English'}!`);
         }
 
@@ -763,6 +1068,7 @@
             const user = document.getElementById('loginUser').value.trim();
             const pass = document.getElementById('loginPass').value;
             const errorEl = document.getElementById('loginError');
+
             if (user === VALID_USER && pass === VALID_PASS) {
                 isLoggedIn = true;
                 document.getElementById('loginScreen').style.display = 'none';
@@ -781,7 +1087,6 @@
         }
 
         function doLogout() {
-            saveState();
             isLoggedIn = false;
             if (state.isRunning) stopScan();
             document.getElementById('dashboard').style.display = 'none';
@@ -791,33 +1096,34 @@
             document.getElementById('loginError').style.display = 'none';
         }
 
-        // ==================== BIENVENIDA ====================
+        // ==================== PANTALLA BIENVENIDA ====================
         function showWelcomeScreen() {
             const welcomeScreen = document.getElementById('welcomeScreen');
             welcomeScreen.style.display = 'flex';
+
+            // Traducir textos de bienvenida
             document.getElementById('dragonTitle').textContent = t('welcome_title');
             document.getElementById('dragonStatus').textContent = t('welcome_status');
             document.getElementById('dragonLoading').textContent = t('welcome_loading');
+
+            // Actualizar selector de idioma
             document.querySelectorAll('.lang-btn').forEach((btn, i) => {
                 btn.classList.remove('selected');
                 if (['es', 'ro', 'en'][i] === currentLang) btn.classList.add('selected');
             });
+
+            // Después de 3.5 segundos, mostrar dashboard
             setTimeout(() => {
                 welcomeScreen.style.display = 'none';
                 document.getElementById('dashboard').style.display = 'block';
                 applyTranslations();
-                // Cargar estado guardado
-                const restored = loadState();
-                if (restored) {
-                    log('🔓 ' + t('toast_welcome'), 'hit');
-                } else {
-                    log('🔓 ' + t('toast_welcome'), 'hit');
-                    log('> ' + t('console_ready'), 'info');
-                }
+                log('🔓 ' + t('toast_welcome'), 'hit');
+                log('> ' + t('console_ready'), 'info');
                 showToast(t('toast_welcome'));
             }, 3500);
         }
 
+        // Enter key en login
         document.addEventListener('keydown', function(e) {
             if (!isLoggedIn && e.key === 'Enter') doLogin();
         });
@@ -836,98 +1142,6 @@
             totalSpain: 0,
             currentModalHit: null
         };
-
-        // ==================== AUTO-GUARDADO ====================
-        function saveState() {
-            if (!isLoggedIn) return;
-            const toSave = {
-                comboLines: state.comboLines.slice(0, 10000),
-                proxies: state.proxies.slice(0, 1000),
-                hits: state.hits.slice(-500),
-                totalCombos: state.totalCombos,
-                totalChannels: state.totalChannels,
-                totalSpain: state.totalSpain,
-                portals: document.getElementById('portals').value,
-                threads: document.getElementById('threads').value,
-                useHttps: document.getElementById('useHttps').checked,
-                useProxies: document.getElementById('useProxies').checked,
-                proxyType: document.getElementById('proxyType').value,
-                logInfo: document.getElementById('logInfo').checked,
-                logHits: document.getElementById('logHits').checked,
-                logErrors: document.getElementById('logErrors').checked,
-                lastUpdate: new Date().toISOString()
-            };
-            try {
-                localStorage.setItem('alexCheckerState', JSON.stringify(toSave));
-            } catch(e) {
-                // Si falla, guardar versión reducida
-                const minimal = {
-                    comboLines: state.comboLines.slice(0, 3000),
-                    proxies: state.proxies.slice(0, 300),
-                    hits: state.hits.slice(-100),
-                    totalCombos: state.totalCombos,
-                    totalChannels: state.totalChannels,
-                    totalSpain: state.totalSpain,
-                    portals: document.getElementById('portals').value,
-                    threads: document.getElementById('threads').value,
-                    useHttps: document.getElementById('useHttps').checked,
-                    useProxies: document.getElementById('useProxies').checked,
-                    proxyType: document.getElementById('proxyType').value,
-                    logInfo: document.getElementById('logInfo').checked,
-                    logHits: document.getElementById('logHits').checked,
-                    logErrors: document.getElementById('logErrors').checked,
-                    lastUpdate: new Date().toISOString()
-                };
-                try { localStorage.setItem('alexCheckerState', JSON.stringify(minimal)); } catch(e2) {}
-            }
-        }
-
-        function loadState() {
-            try {
-                const saved = localStorage.getItem('alexCheckerState');
-                if (!saved) return false;
-                const data = JSON.parse(saved);
-                
-                state.comboLines = data.comboLines || [];
-                state.proxies = data.proxies || [];
-                state.totalCombos = data.totalCombos || state.comboLines.length;
-                state.totalChannels = data.totalChannels || 0;
-                state.totalSpain = data.totalSpain || 0;
-                
-                if (data.hits && data.hits.length > 0) {
-                    state.hits = [];
-                    document.getElementById('hitsBody').innerHTML = '';
-                    data.hits.forEach(h => addHitToTableSilent(h));
-                }
-                
-                document.getElementById('portals').value = data.portals || '';
-                document.getElementById('threads').value = data.threads || '20';
-                document.getElementById('useHttps').checked = data.useHttps || false;
-                document.getElementById('useProxies').checked = data.useProxies !== false;
-                document.getElementById('proxyType').value = data.proxyType || '0';
-                document.getElementById('logInfo').checked = data.logInfo !== false;
-                document.getElementById('logHits').checked = data.logHits !== false;
-                document.getElementById('logErrors').checked = data.logErrors || false;
-                
-                document.getElementById('comboStatus').textContent = `${state.totalCombos} lines`;
-                document.getElementById('proxyStatus').textContent = `> ${state.proxies.length} proxies`;
-                
-                state.stats = { checked: state.totalCombos, hits: state.hits.length, errors: 0 };
-                updateStats();
-                
-                const lastUpdate = data.lastUpdate ? new Date(data.lastUpdate).toLocaleString('es-ES') : 'desconocida';
-                log(`💾 ${t('session_restored')} (${lastUpdate})`, 'info');
-                log(`📊 ${state.totalCombos} combos | 🌐 ${state.proxies.length} proxies | ⭐ ${state.hits.length} hits`, 'info');
-                
-                return true;
-            } catch(e) { return false; }
-        }
-
-        // También guardar al cerrar/recargar
-        window.addEventListener('beforeunload', () => { if (isLoggedIn) saveState(); });
-        
-        // Auto-guardar cada 30 segundos
-        setInterval(() => { if (isLoggedIn && !state.isRunning) saveState(); }, 30000);
 
         const USER_AGENTS = [
             "VLC/3.0.20", "ExoPlayerDemo/2.19.1", "Kodi/20.2", "Dalvik/2.1.0",
@@ -1026,13 +1240,18 @@
 
         function closeM3uModal(e) { if (e && e.target === document.getElementById('m3uModal')) document.getElementById('m3uModal').style.display = 'none'; }
         function closeM3uModalDirect() { document.getElementById('m3uModal').style.display = 'none'; }
-        function copyM3uFromModal() { const l = document.getElementById('m3uModalLink'); if (l) copyToClipboard(l.textContent); showToast(t('toast_copied')); }
+        function copyM3uFromModal() { const l = document.getElementById('m3uModalLink'); if (l) copyToClipboard(l.textContent);
+            showToast(t('toast_copied')); }
 
         function copyAllDetails() {
             const h = state.currentModalHit;
             if (!h) return;
-            let txt = `☢️ ALEXTEAMVENENO · HIT REPORT\n━━━━━━━━━━━━━━━━━━━━\n👤 ${h.user}\n🔑 ${h.pass}\n🌐 ${h.portal}\n🟢 ${h.status||'Active'}\n📅 ${h.exp||'N/A'}\n🛡️ ${h.proxy||'Direct'}\n━━━━━━━━━━━━━━━━━━━━\n📺 ${h.canales||0} | 🇪🇸 ${h.espana||0} | 🎬 ${h.pelis||0} | 🍿 ${h.series||0}\n`;
-            if (h.categories && h.categories.length > 0) txt += `━━━━━━━━━━━━━━━━━━━━\n📂 Categories (${h.categories.length}):\n${h.categories.slice(0,30).map(c=>'  🧪 '+c).join('\n')}${h.categories.length>30?'\n  ... +'+(h.categories.length-30)+' more':''}\n`;
+            let txt = `☢️ ALEXTEAMVENENO · HIT REPORT\n━━━━━━━━━━━━━━━━━━━━\n`;
+            txt += `👤 ${h.user}\n🔑 ${h.pass}\n🌐 ${h.portal}\n🟢 ${h.status||'Active'}\n📅 ${h.exp||'N/A'}\n🛡️ ${h.proxy||'Direct'}\n`;
+            txt += `━━━━━━━━━━━━━━━━━━━━\n📺 ${h.canales||0} | 🇪🇸 ${h.espana||0} | 🎬 ${h.pelis||0} | 🍿 ${h.series||0}\n`;
+            if (h.categories && h.categories.length > 0) {
+                txt += `━━━━━━━━━━━━━━━━━━━━\n📂 Categories (${h.categories.length}):\n${h.categories.slice(0,30).map(c=>'  🧪 '+c).join('\n')}${h.categories.length>30?'\n  ... +'+(h.categories.length-30)+' more':''}\n`;
+            }
             txt += `━━━━━━━━━━━━━━━━━━━━\n🔗 M3U:\n${h.m3u}\n━━━━━━━━━━━━━━━━━━━━\n[ ALEXTEAMVENENO ]`;
             copyToClipboard(txt);
             showToast(t('toast_copied'));
@@ -1082,13 +1301,14 @@
             const tb = document.getElementById('hitsBody');
             if (tb) tb.innerHTML = '';
             updateStats();
-            saveState();
             log('🗑️ ' + t('toast_cleared'), 'warn');
             showToast(t('toast_cleared'));
         }
 
-        function addHitToTableSilent(hitData) {
+        function addHitToTable(hitData) {
             state.hits.push(hitData);
+            state.totalChannels += (hitData.canales || 0);
+            state.totalSpain += (hitData.espana || 0);
             const tbody = document.getElementById('hitsBody');
             if (!tbody) return;
             const row = tbody.insertRow(0);
@@ -1108,16 +1328,14 @@
             `;
             row.onclick = () => showModal(hitData);
             const cb = row.querySelector('.btn-copy-m3u');
-            if (cb) cb.onclick = (e) => { e.stopPropagation(); copyToClipboard(hitData.m3u || ''); };
+            if (cb) cb.onclick = (e) => { e.stopPropagation();
+                copyToClipboard(hitData.m3u || ''); };
             const ml = row.querySelector('.m3u-link-text');
-            if (ml) ml.onclick = (e) => { e.stopPropagation(); copyToClipboard(hitData.m3u || ''); };
+            if (ml) ml.onclick = (e) => { e.stopPropagation();
+                copyToClipboard(hitData.m3u || ''); };
             const catB = row.querySelector('.cat-badge');
-            if (catB) catB.onclick = (e) => { e.stopPropagation(); showModal(hitData); };
-        }
-
-        function addHitToTable(hitData) {
-            addHitToTableSilent(hitData);
-            saveState();
+            if (catB) catB.onclick = (e) => { e.stopPropagation();
+                showModal(hitData); };
         }
 
         // ==================== FILE HANDLERS ====================
@@ -1137,7 +1355,6 @@
                 log(`✅ ${state.totalCombos} ${t('combos_loaded')}`, 'info');
                 updateStats();
                 document.getElementById('progressFill').style.width = '0%';
-                saveState();
             };
             reader.readAsText(file);
         }
@@ -1166,7 +1383,6 @@
                 }
                 document.getElementById('proxyStatus').textContent = `> ${state.proxies.length} proxies`;
                 log(`🌐 ${state.proxies.length} ${t('proxies_loaded')}`, 'info');
-                saveState();
             };
             reader.readAsText(file);
         }
@@ -1200,7 +1416,6 @@
             log(`✅ ${working.length} ${t('proxies_ready')}`, 'hit');
             btn.disabled = false;
             btn.textContent = '🌐 SCRAPE';
-            saveState();
         }
 
         // ==================== ESCANEO ====================
@@ -1284,7 +1499,6 @@
             document.getElementById('btnStart').disabled = false;
             document.getElementById('btnStop').disabled = true;
             updateStats();
-            saveState();
             const elapsed = ((Date.now() - state.startTime) / 1000).toFixed(1);
             log(`${t('attack_finished')} in ${elapsed}s | Hits: ${state.stats.hits} | 📺 ${state.totalChannels} | 🇪🇸 ${state.totalSpain} [ALEXTEAMVENENO]`, 'warn');
             showToast(`✅ ${state.stats.hits} hits!`);
@@ -1294,18 +1508,21 @@
             state.isRunning = false;
             log(t('abort_log'), 'warn');
             document.getElementById('btnStop').disabled = true;
-            saveState();
         }
 
         // ==================== INIT ====================
         function init() {
-            console.log('ALEXTEAMVENENO v14.1 - DRAGÓN CYBERPUNK AUTO-SAVE');
+            console.log('ALEXTEAMVENENO v14.0 - DRAGÓN CYBERPUNK');
             document.getElementById('dashboard').style.display = 'none';
             document.getElementById('welcomeScreen').style.display = 'none';
             document.getElementById('loginScreen').style.display = 'flex';
             document.getElementById('loginUser').focus();
+
+            // Inicializar indicador de idioma
             const flags = { es: '🇪🇸', ro: '🇷🇴', en: '🇬🇧' };
             document.getElementById('langIndicator').textContent = flags[currentLang] || '🇪🇸';
+
+            // Preseleccionar idioma guardado
             const langBtns = document.querySelectorAll('.lang-btn');
             langBtns.forEach((btn, i) => {
                 btn.classList.remove('selected');
